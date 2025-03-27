@@ -1,20 +1,19 @@
 package com.angelldca.siga.application.port.in.command.plato;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.math.BigDecimal;
 
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CrearPlatoCommand {
+public class CreatePlatoCommand {
     private String nombre;
     private BigDecimal precio;
-    private boolean disponible;
+    private Boolean disponible;
     private String medida;
 
 }
