@@ -9,6 +9,9 @@ import com.angelldca.siga.common.PersistenceAdapter;
 import com.angelldca.siga.domain.model.Plato;
 import com.angelldca.siga.infrastructure.adapter.out.repository.command.PlatoWriteDataJPARepository;
 import com.angelldca.siga.infrastructure.adapter.out.repository.query.PlatoReadDataJPARepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.util.Collections;
 import java.util.List;
@@ -42,14 +45,16 @@ public class PlatoPersistenceAdapter implements DeletePlatoPort, GetPlatoPort, L
         return entity;
     }
 
-    @Override
-    public List<Plato> listar() {
-        return Collections.emptyList();
-    }
+
 
     @Override
     public Plato save(Plato plato) {
         PlatoEntity entity = this.command.save(PlatoMapper.domainToEntity(plato));
        return PlatoMapper.entityToDomain(entity);
+    }
+
+    @Override
+    public Page<PlatoEntity> list(Specification specifications, Pageable pageable) {
+        return this.query.findAll(specifications,pageable);
     }
 }
