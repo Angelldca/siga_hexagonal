@@ -2,8 +2,8 @@ package com.angelldca.siga.application.port.out;
 
 import com.angelldca.siga.domain.model.Plato;
 
-import java.util.List;
+import java.util.Optional;
 
-public interface ListarPlatosPort {
-    List<Plato> listar();
+public interface GetPlatoPort {
+    Plato obtenerPorId(Long id);
 }
