@@ -1,8 +1,9 @@
-package com.angelldca.siga.common.exception;
+package com.angelldca.siga.domain.rule;
 
-import com.angelldca.siga.domain.rule.DomainErrorMessage;
+import com.angelldca.siga.common.exception.ErrorField;
 
-public class BrokenRule {
+
+public abstract class BrokenRule {
 
     private final ErrorField errorField;
     private final DomainErrorMessage error;
@@ -11,6 +12,8 @@ public class BrokenRule {
         this.errorField = errorField;
         this.error = error;
     }
+
+    public abstract boolean isBroken();
     public DomainErrorMessage getError() {
         return error;
     }

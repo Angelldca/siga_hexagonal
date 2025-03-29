@@ -1,7 +1,8 @@
 package com.angelldca.siga.domain.rule;
 
 public enum DomainErrorMessage {
-    OBJECT_NOT_FOUND(1, Series.DOMAIN_ERROR, "Pacientes no encontrados."),
+    OBJECT_NOT_FOUND(1, Series.DOMAIN_ERROR, "Objeto no encontrado."),
+    OBJECT_NOT_NULL(2, Series.DOMAIN_ERROR, "Objeto no nulo."),
     QUALIFICATION_NOT_FOUND(2, Series.DOMAIN_ERROR, "Calificación no encontrada.");
 
     private final int code;
