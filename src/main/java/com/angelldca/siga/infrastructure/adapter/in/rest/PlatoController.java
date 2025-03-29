@@ -9,6 +9,9 @@ import com.angelldca.siga.common.anotations.WebAdapter;
 import com.angelldca.siga.common.criteria.PageableUtil;
 import com.angelldca.siga.common.response.PaginatedResponse;
 import com.angelldca.siga.common.criteria.SearchRequest;
+import com.angelldca.siga.common.response.PlatoMessage;
+import com.angelldca.siga.common.response.PlatoResponse;
+import com.angelldca.siga.domain.model.Plato;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +28,7 @@ public class PlatoController {
     private final GetPlatoUseCase getPlatoUseCase;
     private final ListPlatoUseCase listPlatoUseCase;
 
+
     public PlatoController(CreatePlatoUseCase createPlatoUseCase, UpdatePlatoUseCase updatePlatoUseCase, DeletePlatoUseCase deletePlatoUseCase, GetPlatoUseCase getPlatoUseCase, ListPlatoUseCase listPlatoUseCase) {
         this.createPlatoUseCase = createPlatoUseCase;
         this.updatePlatoUseCase = updatePlatoUseCase;
@@ -34,17 +38,23 @@ public class PlatoController {
     }
 
     @PostMapping
-    public void create(@RequestBody CreatePlatoCommand command){
-        createPlatoUseCase.create(command);
+    public ResponseEntity<?> create(@RequestBody CreatePlatoCommand command){
+       Plato plato =  createPlatoUseCase.create(command);
+        IResponse response = new PlatoMessage<>(plato.getId(), "CREATE_PLATO");
+        return ResponseEntity.ok(response);
     }
-    @PatchMapping
-    public void update(@RequestBody UpdatePlatoCommand command){
-        updatePlatoUseCase.update(command);
+    @PatchMapping(path = "/{id}")
+    public ResponseEntity<?>  update(@PathVariable Long id, @RequestBody UpdatePlatoCommand command){
+        Plato plato =  updatePlatoUseCase.update(command, id);
+        IResponse response = new PlatoMessage<>(plato.getId(), "UPDATE_PLATO");
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping(path = "/{id}")
-    public void delete(@PathVariable Long id){
-        deletePlatoUseCase.delete(id);
+    public ResponseEntity<?> delete(@PathVariable Long id){
+        Plato plato = deletePlatoUseCase.delete(id);
+        IResponse response = new PlatoMessage<>(plato.getId(), "DELETE_PLATO");
+        return ResponseEntity.ok(response);
     }
     @GetMapping(path = "/{id}")
     public ResponseEntity<?> getById(@PathVariable Long id) {
