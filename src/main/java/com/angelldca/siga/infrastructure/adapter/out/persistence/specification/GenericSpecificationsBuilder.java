@@ -1,5 +1,7 @@
-package com.angelldca.siga.domain.utils.response;
+package com.angelldca.siga.infrastructure.adapter.out.persistence.specification;
 
+import com.angelldca.siga.common.criteria.FilterCriteria;
+import com.angelldca.siga.common.criteria.LogicalOperation;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Predicate;

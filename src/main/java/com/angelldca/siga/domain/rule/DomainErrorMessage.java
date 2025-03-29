@@ -1,4 +1,4 @@
-package com.angelldca.siga.domain.exception;
+package com.angelldca.siga.domain.rule;
 
 public enum DomainErrorMessage {
     OBJECT_NOT_FOUND(1, Series.DOMAIN_ERROR, "Pacientes no encontrados."),

@@ -1,6 +1,6 @@
-package com.angelldca.siga.domain.utils.response;
+package com.angelldca.siga.infrastructure.adapter.out.persistence.specification;
 
-import com.angelldca.siga.domain.utils.response.FilterCriteria;
+import com.angelldca.siga.common.criteria.FilterCriteria;
 import jakarta.persistence.criteria.*;
 import org.springframework.data.jpa.domain.Specification;
 

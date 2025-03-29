@@ -1,6 +1,5 @@
-package com.angelldca.siga.domain.utils.response;
+package com.angelldca.siga.common.response;
 
-import com.angelldca.siga.application.port.in.query.response.IResponse;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

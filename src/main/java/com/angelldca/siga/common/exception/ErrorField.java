@@ -1,4 +1,4 @@
-package com.angelldca.siga.domain.exception;
+package com.angelldca.siga.common.exception;
 
 
 import lombok.AllArgsConstructor;

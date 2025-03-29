@@ -1,4 +1,4 @@
-package com.angelldca.siga.domain.utils.response;
+package com.angelldca.siga.common.criteria;
 
 import lombok.Getter;
 import lombok.Setter;

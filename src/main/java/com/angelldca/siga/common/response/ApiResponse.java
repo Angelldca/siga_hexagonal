@@ -1,6 +1,7 @@
-package com.angelldca.siga.domain.exception;
+package com.angelldca.siga.common.response;
 
 
+import com.angelldca.siga.common.exception.ApiError;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

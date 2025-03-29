@@ -1,6 +1,6 @@
 package com.angelldca.siga.application.port.in.query.plato;
 
-import com.angelldca.siga.domain.utils.response.FilterCriteria;
+import com.angelldca.siga.common.criteria.FilterCriteria;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
