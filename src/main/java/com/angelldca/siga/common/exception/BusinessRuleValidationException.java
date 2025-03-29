@@ -1,6 +1,7 @@
 package com.angelldca.siga.common.exception;
 
 
+import com.angelldca.siga.domain.rule.BrokenRule;
 import lombok.Getter;
 
 @Getter

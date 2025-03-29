@@ -6,7 +6,9 @@ import com.angelldca.siga.application.port.out.GetPlatoPort;
 import com.angelldca.siga.application.port.out.ListPlatosPort;
 import com.angelldca.siga.application.port.out.SavePlatoPort;
 import com.angelldca.siga.common.anotations.PersistenceAdapter;
+import com.angelldca.siga.common.exception.*;
 import com.angelldca.siga.domain.model.Plato;
+import com.angelldca.siga.domain.rule.DomainErrorMessage;
 import com.angelldca.siga.infrastructure.adapter.out.repository.command.PlatoWriteDataJPARepository;
 import com.angelldca.siga.infrastructure.adapter.out.repository.query.PlatoReadDataJPARepository;
 import org.springframework.data.domain.Page;
@@ -29,18 +31,18 @@ public class PlatoPersistenceAdapter implements DeletePlatoPort, GetPlatoPort, L
 
 
     @Override
-    public Plato delete(Long id) { //TODO: Excepciones
-        Optional<PlatoEntity> entity = query.findById(id);
-       this.command.delete(entity.get());
-        return PlatoMapper.entityToDomain(entity.get());
-
+    public Plato delete(Long id) {
+        Plato plato = obtenerPorId(id);
+        PlatoEntity entity = PlatoMapper.domainToEntity(plato);
+        this.command.delete(entity);
+        return plato;
     }
 
     @Override
     public Plato obtenerPorId(Long id) {
         Plato entity = this.query.findById(id)
                 .map(PlatoMapper::entityToDomain)
-                .orElseThrow(RuntimeException::new);
+                .orElseThrow(() -> BusinessExceptionFactory.objectNotFound("id","Plato"));
         return entity;
     }
 

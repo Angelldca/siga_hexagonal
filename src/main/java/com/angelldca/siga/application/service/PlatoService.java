@@ -5,6 +5,8 @@ import com.angelldca.siga.application.port.in.command.plato.*;
 import com.angelldca.siga.application.port.in.query.plato.GetPlatoUseCase;
 import com.angelldca.siga.application.port.in.query.plato.ListPlatoUseCase;
 import com.angelldca.siga.common.response.PlatoResponse;
+import com.angelldca.siga.domain.rule.Plato.PlatoNameNotNullRule;
+import com.angelldca.siga.domain.rule.RulesChecker;
 import com.angelldca.siga.infrastructure.adapter.out.persistence.specification.GenericSpecificationsBuilder;
 import com.angelldca.siga.common.response.PaginatedResponse;
 import com.angelldca.siga.application.port.out.DeletePlatoPort;
@@ -39,6 +41,7 @@ public class PlatoService implements CreatePlatoUseCase, UpdatePlatoUseCase, Del
 
     @Override
     public Plato create(CreatePlatoCommand command) {
+        RulesChecker.checkRule(new PlatoNameNotNullRule(command.getNombre()));
         Plato entity = new Plato(
                 null,
                 command.getNombre(),
