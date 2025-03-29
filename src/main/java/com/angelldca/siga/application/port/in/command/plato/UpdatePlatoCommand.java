@@ -12,9 +12,9 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdatePlatoCommand {
-    private Long id;
+
     private String nombre;
     private BigDecimal precio;
-    private boolean disponible;
+    private Boolean disponible;
     private String medida;
 }

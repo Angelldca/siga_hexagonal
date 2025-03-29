@@ -29,9 +29,10 @@ public class PlatoPersistenceAdapter implements DeletePlatoPort, GetPlatoPort, L
 
 
     @Override
-    public void delete(Long id) { //TODO: Excepciones
+    public Plato delete(Long id) { //TODO: Excepciones
         Optional<PlatoEntity> entity = query.findById(id);
-        this.command.delete(entity.get());
+       this.command.delete(entity.get());
+        return PlatoMapper.entityToDomain(entity.get());
 
     }
 

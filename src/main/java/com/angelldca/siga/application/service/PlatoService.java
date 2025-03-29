@@ -51,13 +51,17 @@ public class PlatoService implements CreatePlatoUseCase, UpdatePlatoUseCase, Del
     }
 
     @Override
-    public void delete(Long id) {
-        this.deletePlatoPort.delete(id);
+    public Plato delete(Long id) {
+       return this.deletePlatoPort.delete(id);
     }
 
     @Override
-    public Plato update(UpdatePlatoCommand command) {
-       Plato entity =  this.getPlatoPort.obtenerPorId(command.getId());
+    public Plato update(UpdatePlatoCommand command, Long id) {
+       Plato entity =  this.getPlatoPort.obtenerPorId(id);
+       entity.setMedida(command.getMedida());
+       entity.setNombre(command.getNombre());
+       entity.setPrecio(command.getPrecio());
+       entity.setDisponible(command.getDisponible());
        return this.savePlatoPort.save(entity);
     }
 

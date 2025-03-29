@@ -1,5 +1,7 @@
 package com.angelldca.siga.application.port.out;
 
+import com.angelldca.siga.domain.model.Plato;
+
 public interface DeletePlatoPort {
-    void delete(Long id);
+    Plato delete(Long id);
 }
