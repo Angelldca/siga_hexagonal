@@ -1,6 +1,7 @@
-package com.angelldca.siga.application.port.in.query.response;
+package com.angelldca.siga.common.response;
 
 
+import com.angelldca.siga.common.response.IResponse;
 import com.angelldca.siga.domain.model.Plato;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +12,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @Getter
 @Setter
-public class PlatoResponse implements  IResponse{
+public class PlatoResponse implements IResponse {
     private Long id;
     private String nombre;
     private BigDecimal precio;

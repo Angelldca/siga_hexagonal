@@ -5,7 +5,7 @@ import com.angelldca.siga.application.port.out.DeletePlatoPort;
 import com.angelldca.siga.application.port.out.GetPlatoPort;
 import com.angelldca.siga.application.port.out.ListPlatosPort;
 import com.angelldca.siga.application.port.out.SavePlatoPort;
-import com.angelldca.siga.common.PersistenceAdapter;
+import com.angelldca.siga.common.anotations.PersistenceAdapter;
 import com.angelldca.siga.domain.model.Plato;
 import com.angelldca.siga.infrastructure.adapter.out.repository.command.PlatoWriteDataJPARepository;
 import com.angelldca.siga.infrastructure.adapter.out.repository.query.PlatoReadDataJPARepository;
@@ -13,8 +13,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Optional;
 
 

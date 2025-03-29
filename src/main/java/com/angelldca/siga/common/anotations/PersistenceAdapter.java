@@ -1,4 +1,4 @@
-package com.angelldca.siga.common;
+package com.angelldca.siga.common.anotations;
 
 
 import org.springframework.core.annotation.AliasFor;

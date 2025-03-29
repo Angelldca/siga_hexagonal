@@ -1,4 +1,4 @@
-package com.angelldca.siga.domain.utils.response;
+package com.angelldca.siga.common.criteria;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

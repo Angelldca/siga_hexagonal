@@ -1,4 +1,6 @@
-package com.angelldca.siga.domain.exception;
+package com.angelldca.siga.common.exception;
+
+import com.angelldca.siga.domain.rule.DomainErrorMessage;
 
 public class BrokenRule {
 
