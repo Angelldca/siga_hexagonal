@@ -1,18 +1,21 @@
 package com.angelldca.siga.application.service;
 
 
+import com.angelldca.siga.application.port.in.command.CreateUseCase;
+import com.angelldca.siga.application.port.in.command.DeleteUseCase;
+import com.angelldca.siga.application.port.in.command.UpdateUseCase;
 import com.angelldca.siga.application.port.in.command.plato.*;
-import com.angelldca.siga.application.port.in.query.plato.GetPlatoUseCase;
-import com.angelldca.siga.application.port.in.query.plato.ListPlatoUseCase;
+import com.angelldca.siga.application.port.in.query.GetUseCase;
+import com.angelldca.siga.application.port.in.query.ListUseCase;
+import com.angelldca.siga.application.port.out.GetPort;
 import com.angelldca.siga.common.response.PlatoResponse;
 import com.angelldca.siga.domain.rule.Plato.PlatoNameNotNullRule;
 import com.angelldca.siga.domain.rule.RulesChecker;
 import com.angelldca.siga.infrastructure.adapter.out.persistence.specification.GenericSpecificationsBuilder;
 import com.angelldca.siga.common.response.PaginatedResponse;
-import com.angelldca.siga.application.port.out.DeletePlatoPort;
-import com.angelldca.siga.application.port.out.GetPlatoPort;
-import com.angelldca.siga.application.port.out.ListPlatosPort;
-import com.angelldca.siga.application.port.out.SavePlatoPort;
+import com.angelldca.siga.application.port.out.DeletePort;
+import com.angelldca.siga.application.port.out.ListPort;
+import com.angelldca.siga.application.port.out.SavePort;
 import com.angelldca.siga.common.anotations.UseCase;
 import com.angelldca.siga.domain.model.Plato;
 import com.angelldca.siga.common.criteria.FilterCriteria;
@@ -25,14 +28,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 @UseCase
-public class PlatoService implements CreatePlatoUseCase, UpdatePlatoUseCase, DeletePlatoUseCase, GetPlatoUseCase, ListPlatoUseCase {
+public class PlatoService implements
+        CreateUseCase<Plato,CreatePlatoCommand>,
+        UpdateUseCase<Plato,UpdatePlatoCommand,Long>,
+        DeleteUseCase<Plato,Long>,
+        GetUseCase<Long>,
+        ListUseCase {
 
-    private final DeletePlatoPort deletePlatoPort;
-    private final GetPlatoPort getPlatoPort;
-    private final ListPlatosPort listPlatosPort;
-    private final SavePlatoPort savePlatoPort;
+    private final DeletePort<Plato> deletePlatoPort;
+    private final GetPort<Plato> getPlatoPort;
+    private final ListPort<PlatoEntity> listPlatosPort;
+    private final SavePort<Plato> savePlatoPort;
 
-    public PlatoService(DeletePlatoPort deletePlatoPort, GetPlatoPort getPlatoPort, ListPlatosPort listPlatosPort, SavePlatoPort savePlatoPort) {
+    public PlatoService(DeletePort deletePlatoPort, GetPort getPlatoPort, ListPort listPlatosPort, SavePort savePlatoPort) {
         this.deletePlatoPort = deletePlatoPort;
         this.getPlatoPort = getPlatoPort;
         this.listPlatosPort = listPlatosPort;

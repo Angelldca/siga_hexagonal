@@ -1,6 +1,7 @@
 package com.angelldca.siga.application.port.in.command.plato;
 
 
+import com.angelldca.siga.application.port.in.command.ICommand;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -10,7 +11,7 @@ import java.math.BigDecimal;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreatePlatoCommand {
+public class CreatePlatoCommand implements ICommand {
     private String nombre;
     private BigDecimal precio;
     private Boolean disponible;

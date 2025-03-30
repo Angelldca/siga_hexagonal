@@ -4,6 +4,6 @@ import com.angelldca.siga.domain.model.Plato;
 
 import java.util.Optional;
 
-public interface GetPlatoPort {
-    Plato obtenerPorId(Long id);
+public interface GetPort<T> {
+    T obtenerPorId(Long id);
 }
