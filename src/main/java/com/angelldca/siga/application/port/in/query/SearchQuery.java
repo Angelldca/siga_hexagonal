@@ -1,4 +1,4 @@
-package com.angelldca.siga.application.port.in.query.plato;
+package com.angelldca.siga.application.port.in.query;
 
 import com.angelldca.siga.common.criteria.FilterCriteria;
 import lombok.AllArgsConstructor;
@@ -13,7 +13,7 @@ import java.util.List;
 @Getter
 @Setter
 @AllArgsConstructor
-public class SearchPlatoQuery {
+public class SearchQuery {
     private Pageable pageable;
     private List<FilterCriteria> filter;
     private String query;

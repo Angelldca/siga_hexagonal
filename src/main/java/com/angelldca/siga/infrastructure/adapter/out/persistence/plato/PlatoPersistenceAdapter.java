@@ -10,6 +10,7 @@ import com.angelldca.siga.common.exception.*;
 import com.angelldca.siga.domain.model.Plato;
 import com.angelldca.siga.infrastructure.adapter.out.repository.command.PlatoWriteDataJPARepository;
 import com.angelldca.siga.infrastructure.adapter.out.repository.query.PlatoReadDataJPARepository;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -18,7 +19,10 @@ import org.springframework.data.jpa.domain.Specification;
 
 
 @PersistenceAdapter
-public class PlatoPersistenceAdapter implements DeletePort, GetPort, ListPort, SavePort {
+@Qualifier("platoPersistenceAdapter")
+public class PlatoPersistenceAdapter implements
+        DeletePort<Plato>, GetPort<Plato>,
+        ListPort<PlatoEntity>, SavePort<Plato> {
 
    private final PlatoReadDataJPARepository query;
    private final PlatoWriteDataJPARepository command;
@@ -47,14 +51,16 @@ public class PlatoPersistenceAdapter implements DeletePort, GetPort, ListPort, S
 
 
 
-    @Override
-    public Plato save(Plato plato) {
-        PlatoEntity entity = this.command.save(PlatoMapper.domainToEntity(plato));
-       return PlatoMapper.entityToDomain(entity);
-    }
+
 
     @Override
     public Page<PlatoEntity> list(Specification specifications, Pageable pageable) {
         return this.query.findAll(specifications,pageable);
+    }
+
+    @Override
+    public Plato save(Plato plato) {
+        PlatoEntity entity = this.command.save(PlatoMapper.domainToEntity(plato));
+        return PlatoMapper.entityToDomain(entity);
     }
 }

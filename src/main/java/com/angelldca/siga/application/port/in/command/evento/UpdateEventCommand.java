@@ -1,4 +1,4 @@
-package com.angelldca.siga.domain.model;
+package com.angelldca.siga.application.port.in.command.evento;
 
 
 import lombok.AllArgsConstructor;
@@ -10,8 +10,7 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class Evento {
-    private Long id;
+public class UpdateEventCommand {
     private String nombre;
     private LocalDateTime fechaInicio;
     private LocalDateTime fechaFin;

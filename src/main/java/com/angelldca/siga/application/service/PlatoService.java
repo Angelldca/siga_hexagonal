@@ -21,6 +21,7 @@ import com.angelldca.siga.domain.model.Plato;
 import com.angelldca.siga.common.criteria.FilterCriteria;
 import com.angelldca.siga.infrastructure.adapter.out.persistence.plato.PlatoEntity;
 import com.angelldca.siga.infrastructure.adapter.out.persistence.plato.PlatoMapper;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -28,6 +29,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @UseCase
+
 public class PlatoService implements
         CreateUseCase<Plato,CreatePlatoCommand>,
         UpdateUseCase<Plato,UpdatePlatoCommand,Long>,
@@ -40,7 +42,12 @@ public class PlatoService implements
     private final ListPort<PlatoEntity> listPlatosPort;
     private final SavePort<Plato> savePlatoPort;
 
-    public PlatoService(DeletePort deletePlatoPort, GetPort getPlatoPort, ListPort listPlatosPort, SavePort savePlatoPort) {
+    public PlatoService(
+            @Qualifier("platoPersistenceAdapter") DeletePort<Plato> deletePlatoPort,
+            @Qualifier("platoPersistenceAdapter") GetPort<Plato> getPlatoPort,
+            @Qualifier("platoPersistenceAdapter") ListPort<PlatoEntity> listPlatosPort,
+            @Qualifier("platoPersistenceAdapter") SavePort<Plato> savePlatoPort
+            ) {
         this.deletePlatoPort = deletePlatoPort;
         this.getPlatoPort = getPlatoPort;
         this.listPlatosPort = listPlatosPort;
@@ -77,7 +84,7 @@ public class PlatoService implements
     }
 
     @Override
-    public PlatoResponse getPlatoById(Long id) {
+    public PlatoResponse getById(Long id) {
         Plato entity =  this.getPlatoPort.obtenerPorId(id);
         return new PlatoResponse(entity);
     }

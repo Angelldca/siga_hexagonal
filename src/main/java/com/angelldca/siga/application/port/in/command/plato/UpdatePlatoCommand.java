@@ -12,7 +12,6 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdatePlatoCommand {
-
     private String nombre;
     private BigDecimal precio;
     private Boolean disponible;

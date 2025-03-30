@@ -1,17 +1,19 @@
-package com.angelldca.siga.domain.model;
+package com.angelldca.siga.application.port.in.command.evento;
 
 
+import com.angelldca.siga.application.port.in.command.ICommand;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Evento {
-    private Long id;
+public class CreateEventoCommand implements ICommand {
     private String nombre;
     private LocalDateTime fechaInicio;
     private LocalDateTime fechaFin;

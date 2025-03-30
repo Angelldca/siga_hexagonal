@@ -7,6 +7,7 @@ import com.angelldca.siga.application.port.in.command.UpdateUseCase;
 import com.angelldca.siga.application.port.in.command.plato.*;
 import com.angelldca.siga.application.port.in.query.GetUseCase;
 import com.angelldca.siga.application.port.in.query.ListUseCase;
+import com.angelldca.siga.application.service.PlatoService;
 import com.angelldca.siga.common.response.IResponse;
 import com.angelldca.siga.common.anotations.WebAdapter;
 import com.angelldca.siga.common.criteria.PageableUtil;
@@ -31,12 +32,12 @@ public class PlatoController {
     private final ListUseCase listPlatoUseCase;
 
 
-    public PlatoController(CreateUseCase createPlatoUseCase, UpdateUseCase updatePlatoUseCase, DeleteUseCase deletePlatoUseCase, GetUseCase getPlatoUseCase, ListUseCase listPlatoUseCase) {
-        this.createPlatoUseCase = createPlatoUseCase;
-        this.updatePlatoUseCase = updatePlatoUseCase;
-        this.deletePlatoUseCase = deletePlatoUseCase;
-        this.getPlatoUseCase = getPlatoUseCase;
-        this.listPlatoUseCase = listPlatoUseCase;
+    public PlatoController(PlatoService platoService) {
+        this.createPlatoUseCase = platoService;
+        this.updatePlatoUseCase = platoService;
+        this.deletePlatoUseCase = platoService;
+        this.getPlatoUseCase = platoService;
+        this.listPlatoUseCase = platoService;
     }
 
     @PostMapping
@@ -60,7 +61,7 @@ public class PlatoController {
     }
     @GetMapping(path = "/{id}")
     public ResponseEntity<?> getById(@PathVariable Long id) {
-        IResponse response = getPlatoUseCase.getPlatoById(id);
+        IResponse response = getPlatoUseCase.getById(id);
         return ResponseEntity.ok(response);
     }
     @PostMapping("/search")
