@@ -1,25 +1,24 @@
 package com.angelldca.siga.infrastructure.adapter.out.persistence.plato;
 
 
-import com.angelldca.siga.application.port.out.DeletePlatoPort;
-import com.angelldca.siga.application.port.out.GetPlatoPort;
-import com.angelldca.siga.application.port.out.ListPlatosPort;
-import com.angelldca.siga.application.port.out.SavePlatoPort;
+import com.angelldca.siga.application.port.out.DeletePort;
+import com.angelldca.siga.application.port.out.GetPort;
+import com.angelldca.siga.application.port.out.ListPort;
+import com.angelldca.siga.application.port.out.SavePort;
 import com.angelldca.siga.common.anotations.PersistenceAdapter;
 import com.angelldca.siga.common.exception.*;
 import com.angelldca.siga.domain.model.Plato;
-import com.angelldca.siga.domain.rule.DomainErrorMessage;
 import com.angelldca.siga.infrastructure.adapter.out.repository.command.PlatoWriteDataJPARepository;
 import com.angelldca.siga.infrastructure.adapter.out.repository.query.PlatoReadDataJPARepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
-import java.util.Optional;
+
 
 
 @PersistenceAdapter
-public class PlatoPersistenceAdapter implements DeletePlatoPort, GetPlatoPort, ListPlatosPort, SavePlatoPort {
+public class PlatoPersistenceAdapter implements DeletePort, GetPort, ListPort, SavePort {
 
    private final PlatoReadDataJPARepository query;
    private final PlatoWriteDataJPARepository command;

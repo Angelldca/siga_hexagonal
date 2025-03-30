@@ -6,11 +6,11 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class PlatoMessage<T> implements IResponse{
+public class Message<T> implements IResponse{
     private T id;
     private String message;
 
-    public PlatoMessage(T id, String message) {
+    public Message(T id, String message) {
         this.id = id;
         this.message = message;
     }
