@@ -12,6 +12,7 @@ import com.angelldca.siga.application.port.out.DeletePort;
 import com.angelldca.siga.application.port.out.GetPort;
 import com.angelldca.siga.application.port.out.ListPort;
 import com.angelldca.siga.application.port.out.SavePort;
+import com.angelldca.siga.application.port.out.evento.CheckEventUniquePort;
 import com.angelldca.siga.common.anotations.UseCase;
 import com.angelldca.siga.common.criteria.FilterCriteria;
 import com.angelldca.siga.common.response.EventoResponse;
@@ -20,8 +21,10 @@ import com.angelldca.siga.common.response.PaginatedResponse;
 
 import com.angelldca.siga.domain.model.Evento;
 
-import com.angelldca.siga.domain.rule.Plato.PlatoNameNotNullRule;
 import com.angelldca.siga.domain.rule.RulesChecker;
+import com.angelldca.siga.domain.rule.evento.EventNameMustBeUnique;
+import com.angelldca.siga.domain.rule.evento.EventNameNotNullRule;
+import com.angelldca.siga.domain.rule.evento.EventRangeDateValid;
 import com.angelldca.siga.infrastructure.adapter.out.persistence.Evento.EventoEntity;
 import com.angelldca.siga.infrastructure.adapter.out.persistence.Evento.EventoMapper;
 
@@ -46,22 +49,33 @@ public class EventService implements
     private final GetPort<Evento> getPort;
     private final ListPort<EventoEntity> listPort;
     private final SavePort<Evento> savePort;
+    private final CheckEventUniquePort checkEventUniquePort;
 
     public EventService(
             @Qualifier("eventPersistenceAdapter") DeletePort<Evento> deletePort,
             @Qualifier("eventPersistenceAdapter") GetPort<Evento> getPort,
             @Qualifier("eventPersistenceAdapter") ListPort<EventoEntity> listPort,
-            @Qualifier("eventPersistenceAdapter") SavePort<Evento> savePort) {
+            @Qualifier("eventPersistenceAdapter") SavePort<Evento> savePort, CheckEventUniquePort checkEventUniquePort) {
         this.deletePort = deletePort;
         this.getPort = getPort;
         this.listPort = listPort;
         this.savePort = savePort;
+        this.checkEventUniquePort = checkEventUniquePort;
     }
 
     @Override
     public Evento create(CreateEventoCommand command) {
-        RulesChecker.checkRule(new PlatoNameNotNullRule(command.getNombre()));
-        RulesChecker.checkRule(new PlatoNameNotNullRule(command.getNombre()));//TODO: el nombre del evento debe ser unico
+        RulesChecker.checkRule(new EventNameNotNullRule(command.getNombre()));
+        RulesChecker.checkRule(new EventNameMustBeUnique<Long>(
+                command.getNombre(),
+                command.getFechaInicio(),
+                command.getFechaFin(),
+                0L,
+                checkEventUniquePort
+        ));
+        RulesChecker.checkRule(new EventRangeDateValid(command.getFechaInicio(),command.getFechaFin()));
+
+
         Evento entity = new Evento(
                 null,
                 command.getNombre(),
@@ -81,6 +95,17 @@ public class EventService implements
 
     @Override
     public Evento update(UpdateEventCommand command, Long id) {
+        RulesChecker.checkRule(new EventNameNotNullRule(command.getNombre()));
+        RulesChecker.checkRule(new EventNameMustBeUnique<>(
+                command.getNombre(),
+                command.getFechaInicio(),
+                command.getFechaFin(),
+                id,
+                checkEventUniquePort
+        ));
+        RulesChecker.checkRule(new EventRangeDateValid(command.getFechaInicio(),command.getFechaFin()));
+
+
         Evento entity =  this.getPort.obtenerPorId(id);
         entity.setNombre(command.getNombre());
         entity.setFechaInicio(command.getFechaInicio());

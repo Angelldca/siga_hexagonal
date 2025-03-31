@@ -8,10 +8,18 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
+
 
 @Repository
 public interface EventReadDataJPARepository extends JpaRepository<EventoEntity,Long>,
         JpaSpecificationExecutor<EventoEntity> {
     Page<EventoEntity> findAll(Specification specification, Pageable pageable);
 
+    boolean existsByNombreAndFechaInicioAndFechaFinAndIdNot(
+            String nombre,
+            LocalDateTime fechaInicio,
+            LocalDateTime fechaFin,
+            Long id
+    );
 }

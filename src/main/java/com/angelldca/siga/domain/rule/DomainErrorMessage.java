@@ -3,7 +3,8 @@ package com.angelldca.siga.domain.rule;
 public enum DomainErrorMessage {
     OBJECT_NOT_FOUND(1, Series.DOMAIN_ERROR, "Objeto no encontrado."),
     OBJECT_NOT_NULL(2, Series.DOMAIN_ERROR, "Objeto no nulo."),
-    QUALIFICATION_NOT_FOUND(2, Series.DOMAIN_ERROR, "Calificación no encontrada.");
+    OBJECT_MUST_BY_UNIQUE(3, Series.DOMAIN_ERROR, "Objeto debe ser único."),
+    OBJECT_INVALID(4, Series.DOMAIN_ERROR, "Objeto inválido.");
 
     private final int code;
     private final Series series;
