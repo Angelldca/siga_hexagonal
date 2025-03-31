@@ -1,11 +1,6 @@
 package com.angelldca.siga.infrastructure.adapter.out.persistence.Evento;
 
 import com.angelldca.siga.domain.model.Evento;
-import com.angelldca.siga.domain.model.Menu;
-import com.angelldca.siga.domain.model.Plato;
-import com.angelldca.siga.infrastructure.adapter.out.persistence.menu.MenuEntity;
-import com.angelldca.siga.infrastructure.adapter.out.persistence.plato.PlatoEntity;
-import com.angelldca.siga.infrastructure.adapter.out.persistence.plato.PlatoMapper;
 
 public class EventoMapper {
     public static Evento entityToDomain(EventoEntity entity) {

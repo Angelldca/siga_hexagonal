@@ -14,7 +14,7 @@ import java.util.List;
 
 public class Menu {
     private Long id;
-    private BigDecimal totalPrecio;
+    private double totalPrecio;
     private Boolean disponible;
     private Evento evento;
     private List<Plato> platos;

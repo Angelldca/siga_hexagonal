@@ -13,7 +13,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class UpdatePlatoCommand {
     private String nombre;
-    private BigDecimal precio;
+    private Double precio;
     private Boolean disponible;
     private String medida;
 }

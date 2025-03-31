@@ -15,7 +15,7 @@ import java.math.BigDecimal;
 public class PlatoResponse implements IResponse {
     private Long id;
     private String nombre;
-    private BigDecimal precio;
+    private Double precio;
     private String medida;
     private Boolean disponible;
 
