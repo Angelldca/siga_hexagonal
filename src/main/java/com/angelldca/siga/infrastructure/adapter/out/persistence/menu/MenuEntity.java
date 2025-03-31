@@ -25,7 +25,7 @@ public class MenuEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private BigDecimal totalPrecio;
+    private Double totalPrecio;
     private Boolean disponible;
 
     @ManyToOne(fetch = FetchType.LAZY)

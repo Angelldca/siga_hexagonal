@@ -5,6 +5,7 @@ import com.angelldca.siga.application.port.out.DeletePort;
 import com.angelldca.siga.application.port.out.GetPort;
 import com.angelldca.siga.application.port.out.ListPort;
 import com.angelldca.siga.application.port.out.SavePort;
+import com.angelldca.siga.application.port.out.evento.CheckEventUniquePort;
 import com.angelldca.siga.common.anotations.PersistenceAdapter;
 import com.angelldca.siga.common.exception.BusinessExceptionFactory;
 import com.angelldca.siga.domain.model.Evento;
@@ -16,11 +17,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.time.LocalDateTime;
+
 @PersistenceAdapter
 @Qualifier("eventPersistenceAdapter")
 public class EventPersistenceAdapter implements
         DeletePort<Evento>, GetPort<Evento>,
-        ListPort<EventoEntity>, SavePort<Evento> {
+        ListPort<EventoEntity>, SavePort<Evento>, CheckEventUniquePort {
 
     private final EventReadDataJPARepository query;
     private final EventWriteDataJPARepository command;
@@ -55,5 +58,12 @@ public class EventPersistenceAdapter implements
     public Evento save(Evento evento) {
         EventoEntity entity = this.command.save(EventoMapper.domainToEntity(evento));
         return EventoMapper.entityToDomain(entity);
+    }
+
+    @Override
+    public boolean existsByNameAndDateRange(String name, LocalDateTime fechaInicio, LocalDateTime fechaFin, Object excludeId) {
+        Long id = (excludeId instanceof Long) ? (Long) excludeId : null;
+        return query.existsByNombreAndFechaInicioAndFechaFinAndIdNot(name, fechaInicio, fechaFin, id);
+
     }
 }

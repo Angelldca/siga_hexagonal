@@ -16,7 +16,7 @@ import java.util.List;
 @Setter
 public class MenuResponse implements IResponse{
     private Long id;
-    private BigDecimal totalPrecio;
+    private Double totalPrecio;
     private Boolean disponible;
     private EventoResponse evento;
     private List<PlatoResponse> platos;

@@ -1,9 +1,7 @@
 package com.angelldca.siga.infrastructure.adapter.out.persistence.menu;
 
 import com.angelldca.siga.domain.model.Menu;
-import com.angelldca.siga.domain.model.Plato;
 import com.angelldca.siga.infrastructure.adapter.out.persistence.Evento.EventoMapper;
-import com.angelldca.siga.infrastructure.adapter.out.persistence.plato.PlatoEntity;
 import com.angelldca.siga.infrastructure.adapter.out.persistence.plato.PlatoMapper;
 
 

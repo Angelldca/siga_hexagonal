@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 public class Plato {
     private Long id;
     private String nombre;
-    private BigDecimal precio;
+    private double precio;
     private String medida;
     private Boolean disponible;
 }
