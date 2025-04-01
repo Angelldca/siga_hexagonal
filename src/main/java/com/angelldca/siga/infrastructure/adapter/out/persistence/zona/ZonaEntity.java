@@ -1,5 +1,4 @@
-package com.angelldca.siga.infrastructure.adapter.out.persistence.Evento;
-
+package com.angelldca.siga.infrastructure.adapter.out.persistence.zona;
 
 import com.angelldca.siga.infrastructure.adapter.out.persistence.empresa.EmpresaEntity;
 import jakarta.persistence.*;
@@ -11,20 +10,19 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
+
+@Entity
+@Table(name = "zona")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Entity
-@Table(name = "evento")
-public class EventoEntity {
-
+public class ZonaEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
+
     private String nombre;
-    private LocalDateTime fechaInicio;
-    private LocalDateTime fechaFin;
-    private Boolean activo;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "empresa_id", nullable = false)

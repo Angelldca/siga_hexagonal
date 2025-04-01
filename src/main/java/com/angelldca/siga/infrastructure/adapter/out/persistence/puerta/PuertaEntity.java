@@ -1,7 +1,8 @@
-package com.angelldca.siga.infrastructure.adapter.out.persistence.Evento;
+package com.angelldca.siga.infrastructure.adapter.out.persistence.puerta;
 
 
-import com.angelldca.siga.infrastructure.adapter.out.persistence.empresa.EmpresaEntity;
+import com.angelldca.siga.infrastructure.adapter.out.persistence.dpersona.DpersonaEntity;
+import com.angelldca.siga.infrastructure.adapter.out.persistence.zona.ZonaEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,25 +11,28 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
+@Entity
+@Table(name = "puerta")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@Entity
-@Table(name = "evento")
-public class EventoEntity {
-
+public class PuertaEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
     private String nombre;
-    private LocalDateTime fechaInicio;
-    private LocalDateTime fechaFin;
-    private Boolean activo;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "empresa_id", nullable = false)
-    private EmpresaEntity empresa;
+    @JoinColumn(name = "zona_id")
+    private ZonaEntity zona;
+
+
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)
+    @JoinColumn(name = "puerta_id")
+    private List<DpersonaEntity> personas;
 
     @CreationTimestamp
     @Column(updatable = false)
