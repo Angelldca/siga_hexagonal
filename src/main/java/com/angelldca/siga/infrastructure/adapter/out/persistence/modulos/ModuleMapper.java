@@ -1,6 +1,7 @@
 package com.angelldca.siga.infrastructure.adapter.out.persistence.modulos;
 
 
+import com.angelldca.siga.domain.model.Module;
 import org.mapstruct.Mapper;
 
 @Mapper(componentModel = "spring")
