@@ -37,14 +37,14 @@ public class PlatoService implements
         GetUseCase<Long>,
         ListUseCase {
 
-    private final DeletePort<Plato> deletePlatoPort;
-    private final GetPort<Plato> getPlatoPort;
+    private final DeletePort<Plato,Long> deletePlatoPort;
+    private final GetPort<Plato,Long> getPlatoPort;
     private final ListPort<PlatoEntity> listPlatosPort;
     private final SavePort<Plato> savePlatoPort;
 
     public PlatoService(
-            @Qualifier("platoPersistenceAdapter") DeletePort<Plato> deletePlatoPort,
-            @Qualifier("platoPersistenceAdapter") GetPort<Plato> getPlatoPort,
+            @Qualifier("platoPersistenceAdapter") DeletePort<Plato,Long> deletePlatoPort,
+            @Qualifier("platoPersistenceAdapter") GetPort<Plato,Long> getPlatoPort,
             @Qualifier("platoPersistenceAdapter") ListPort<PlatoEntity> listPlatosPort,
             @Qualifier("platoPersistenceAdapter") SavePort<Plato> savePlatoPort
             ) {

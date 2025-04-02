@@ -9,6 +9,6 @@ import com.angelldca.siga.infrastructure.adapter.out.persistence.menu.MenuEntity
 
 
 
-public interface MenuCRUDPort extends DeletePort<Menu>, GetPort<Menu>,
+public interface MenuCRUDPort extends DeletePort<Menu,Long>, GetPort<Menu,Long>,
         ListPort<MenuEntity>, SavePort<Menu> {
 }

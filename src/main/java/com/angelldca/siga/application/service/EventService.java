@@ -45,15 +45,15 @@ public class EventService implements
         GetUseCase<Long>,
         ListUseCase {
 
-    private final DeletePort<Evento> deletePort;
-    private final GetPort<Evento> getPort;
+    private final DeletePort<Evento,Long> deletePort;
+    private final GetPort<Evento,Long> getPort;
     private final ListPort<EventoEntity> listPort;
     private final SavePort<Evento> savePort;
     private final CheckEventUniquePort checkEventUniquePort;
 
     public EventService(
-            @Qualifier("eventPersistenceAdapter") DeletePort<Evento> deletePort,
-            @Qualifier("eventPersistenceAdapter") GetPort<Evento> getPort,
+            @Qualifier("eventPersistenceAdapter") DeletePort<Evento,Long> deletePort,
+            @Qualifier("eventPersistenceAdapter") GetPort<Evento,Long> getPort,
             @Qualifier("eventPersistenceAdapter") ListPort<EventoEntity> listPort,
             @Qualifier("eventPersistenceAdapter") SavePort<Evento> savePort, CheckEventUniquePort checkEventUniquePort) {
         this.deletePort = deletePort;

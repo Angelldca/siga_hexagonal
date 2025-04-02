@@ -7,6 +7,6 @@ import com.angelldca.siga.application.port.out.SavePort;
 import com.angelldca.siga.domain.model.Evento;
 import com.angelldca.siga.infrastructure.adapter.out.persistence.Evento.EventoEntity;
 
-public interface EventoPort extends DeletePort<Evento>, GetPort<Evento>,
+public interface EventoPort extends DeletePort<Evento,Long>, GetPort<Evento,Long>,
         ListPort<EventoEntity>, SavePort<Evento> {
 }
