@@ -1,11 +1,8 @@
 package com.angelldca.siga.infrastructure.adapter.out.persistence.menu;
 
 
-import com.angelldca.siga.application.port.out.DeletePort;
-import com.angelldca.siga.application.port.out.GetPort;
-import com.angelldca.siga.application.port.out.ListPort;
 import com.angelldca.siga.application.port.out.Menu.MenuCRUDPort;
-import com.angelldca.siga.application.port.out.SavePort;
+
 import com.angelldca.siga.common.anotations.PersistenceAdapter;
 import com.angelldca.siga.common.exception.BusinessExceptionFactory;
 import com.angelldca.siga.domain.model.Menu;

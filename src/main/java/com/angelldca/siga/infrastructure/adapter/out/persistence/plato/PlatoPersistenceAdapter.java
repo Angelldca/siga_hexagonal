@@ -22,7 +22,7 @@ import java.util.List;
 @PersistenceAdapter
 @Qualifier("platoPersistenceAdapter")
 public class PlatoPersistenceAdapter implements
-        DeletePort<Plato>, GetPort<Plato>,
+        DeletePort<Plato,Long>, GetPort<Plato,Long>,
         ListPort<PlatoEntity>, SavePort<Plato>, LoadPlatosPort {
 
    private final PlatoReadDataJPARepository query;

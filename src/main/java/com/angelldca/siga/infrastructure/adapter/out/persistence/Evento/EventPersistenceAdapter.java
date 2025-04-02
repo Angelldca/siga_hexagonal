@@ -22,7 +22,7 @@ import java.time.LocalDateTime;
 @PersistenceAdapter
 @Qualifier("eventPersistenceAdapter")
 public class EventPersistenceAdapter implements
-        DeletePort<Evento>, GetPort<Evento>,
+        DeletePort<Evento,Long>, GetPort<Evento,Long>,
         ListPort<EventoEntity>, SavePort<Evento>, CheckEventUniquePort {
 
     private final EventReadDataJPARepository query;

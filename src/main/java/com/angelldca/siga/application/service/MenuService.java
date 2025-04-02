@@ -39,12 +39,12 @@ public class MenuService implements
         ListUseCase {
 
     private final MenuCRUDPort menuCRUDPort;
-    private final GetPort<Evento> eventoGetPort;
+    private final GetPort<Evento,Long> eventoGetPort;
     private final LoadPlatosPort loadPlatosPort;
 
     public MenuService(
             @Qualifier("menuPersistenceAdapter")MenuCRUDPort menuCRUDPort,
-            @Qualifier("eventPersistenceAdapter") GetPort<Evento> eventoGetPort, LoadPlatosPort loadPlatosPort) {
+            @Qualifier("eventPersistenceAdapter") GetPort<Evento,Long> eventoGetPort, LoadPlatosPort loadPlatosPort) {
         this.menuCRUDPort = menuCRUDPort;
         this.eventoGetPort = eventoGetPort;
         this.loadPlatosPort = loadPlatosPort;
