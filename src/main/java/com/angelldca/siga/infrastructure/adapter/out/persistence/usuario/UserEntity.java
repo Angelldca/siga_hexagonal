@@ -15,11 +15,12 @@ import java.util.Set;
 import java.util.UUID;
 
 @Entity
-@Table(name = "user")
+@Table(name = "user_system")
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 public class UserEntity {
+    @Id
     private UUID id;
     private String username;
     private String email;
