@@ -3,6 +3,7 @@ package com.angelldca.siga.infrastructure.adapter.out.persistence.permission;
 
 import com.angelldca.siga.infrastructure.adapter.out.persistence.empresa.EmpresaEntity;
 import com.angelldca.siga.infrastructure.adapter.out.persistence.modulos.ModuleEntity;
+import com.angelldca.siga.infrastructure.adapter.out.persistence.user_permission_business.UserPermissionBusinessEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,6 +12,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "permiso")
@@ -30,9 +33,8 @@ public class PermissionEntity {
     @JoinColumn(name = "module_id")
     private ModuleEntity module;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "empresa_id")
-    private EmpresaEntity empresa;
+    @OneToMany(mappedBy = "permission")
+    private Set<UserPermissionBusinessEntity> userPermissionBusinesses = new HashSet<>();;
 
     @CreationTimestamp
     @Column(updatable = false)

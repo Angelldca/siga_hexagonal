@@ -32,10 +32,6 @@ public class ModuleEntity {
     @OneToMany(mappedBy = "module", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     private Set<PermissionEntity> permissions = new HashSet<>();
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "empresa_id")
-    private EmpresaEntity empresa;
-
 
 
     @CreationTimestamp
