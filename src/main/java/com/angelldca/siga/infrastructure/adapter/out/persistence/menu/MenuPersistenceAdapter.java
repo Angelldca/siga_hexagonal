@@ -18,16 +18,18 @@ import org.springframework.data.jpa.domain.Specification;
 public class MenuPersistenceAdapter implements MenuCRUDPort {
     private final MenuReadDataJPARepository query;
     private final MenuWriteDataJPARepository command;
+    private final MenuMapper mapper;
 
-    public MenuPersistenceAdapter(MenuReadDataJPARepository query, MenuWriteDataJPARepository command) {
+    public MenuPersistenceAdapter(MenuReadDataJPARepository query, MenuWriteDataJPARepository command, MenuMapper mapper) {
         this.query = query;
         this.command = command;
+        this.mapper = mapper;
     }
 
     @Override
     public Menu delete(Long id) {
         Menu menu = obtenerPorId(id);
-        MenuEntity entity = MenuMapper.domainToEntity(menu);
+        MenuEntity entity = mapper.domainToEntity(menu);
         this.command.delete(entity);
         return menu;
     }
@@ -35,7 +37,7 @@ public class MenuPersistenceAdapter implements MenuCRUDPort {
     @Override
     public Menu obtenerPorId(Long id) {
         Menu entity = this.query.findById(id)
-                .map(MenuMapper::entityToDomain)
+                .map(mapper::entityToDomain)
                 .orElseThrow(() -> BusinessExceptionFactory.objectNotFound("id","Menu"));
         return entity;
     }
@@ -47,7 +49,7 @@ public class MenuPersistenceAdapter implements MenuCRUDPort {
 
     @Override
     public Menu save(Menu menu) {
-        MenuEntity entity = this.command.save(MenuMapper.domainToEntity(menu));
-        return MenuMapper.entityToDomain(entity);
+        MenuEntity entity = this.command.save(mapper.domainToEntity(menu));
+        return mapper.entityToDomain(entity);
     }
 }

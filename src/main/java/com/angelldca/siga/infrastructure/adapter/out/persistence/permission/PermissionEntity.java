@@ -34,7 +34,7 @@ public class PermissionEntity {
     private ModuleEntity module;
 
     @OneToMany(mappedBy = "permission")
-    private Set<UserPermissionBusinessEntity> userPermissionBusinesses = new HashSet<>();;
+    private Set<UserPermissionBusinessEntity> userPermissionBusinesses = new HashSet<>();
 
     @CreationTimestamp
     @Column(updatable = false)

@@ -1,25 +1,14 @@
 package com.angelldca.siga.infrastructure.adapter.out.persistence.Evento;
 
 import com.angelldca.siga.domain.model.Evento;
+import com.angelldca.siga.infrastructure.adapter.out.persistence.empresa.EmpresaMapper;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
-public class EventoMapper {
-    public static Evento entityToDomain(EventoEntity entity) {
-        Evento evento = new Evento();
-        evento.setId(entity.getId());
-        evento.setActivo(entity.getActivo());
-        evento.setFechaInicio(entity.getFechaInicio());
-        evento.setFechaFin(entity.getFechaFin());
-        evento.setNombre(entity.getNombre());
-        return evento;
-    }
+@Mapper(componentModel = "spring", uses = {EmpresaMapper.class})
+public interface EventoMapper {
+    @Mapping(target = "id", source = "id")
+    EventoEntity domainToEntity(Evento domain);
 
-    public static EventoEntity domainToEntity(Evento evento) {
-        EventoEntity entity = new EventoEntity();
-        entity.setId(evento.getId());
-        entity.setActivo(evento.getActivo());
-        entity.setFechaInicio(evento.getFechaInicio());
-        entity.setFechaFin(evento.getFechaFin());
-        entity.setNombre(evento.getNombre());
-        return entity;
-    }
+    Evento entityToDomain(EventoEntity entity);
 }

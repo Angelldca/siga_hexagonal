@@ -17,6 +17,7 @@ public class User {
         private String username;
         private String email;
         private String password;
+        private String image;
         private EUserType type;
         private List<UserPermissionBusiness> userPermissionBusinesses;
 }

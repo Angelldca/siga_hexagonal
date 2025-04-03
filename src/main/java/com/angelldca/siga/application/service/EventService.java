@@ -19,6 +19,7 @@ import com.angelldca.siga.common.response.EventoResponse;
 import com.angelldca.siga.common.response.IResponse;
 import com.angelldca.siga.common.response.PaginatedResponse;
 
+import com.angelldca.siga.domain.model.Empresa;
 import com.angelldca.siga.domain.model.Evento;
 
 import com.angelldca.siga.domain.rule.RulesChecker;
@@ -35,6 +36,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @UseCase
 @Qualifier("eventService")
@@ -47,26 +49,30 @@ public class EventService implements
 
     private final DeletePort<Evento,Long> deletePort;
     private final GetPort<Evento,Long> getPort;
+    private final GetPort<Empresa, UUID> getPortEmpresa;
     private final ListPort<EventoEntity> listPort;
     private final SavePort<Evento> savePort;
     private final CheckEventUniquePort checkEventUniquePort;
+    private final EventoMapper mapper;
 
     public EventService(
             @Qualifier("eventPersistenceAdapter") DeletePort<Evento,Long> deletePort,
             @Qualifier("eventPersistenceAdapter") GetPort<Evento,Long> getPort,
-            @Qualifier("eventPersistenceAdapter") ListPort<EventoEntity> listPort,
-            @Qualifier("eventPersistenceAdapter") SavePort<Evento> savePort, CheckEventUniquePort checkEventUniquePort) {
+            GetPort<Empresa, UUID> getPortEmpresa, @Qualifier("eventPersistenceAdapter") ListPort<EventoEntity> listPort,
+            @Qualifier("eventPersistenceAdapter") SavePort<Evento> savePort, CheckEventUniquePort checkEventUniquePort, EventoMapper mapper) {
         this.deletePort = deletePort;
         this.getPort = getPort;
+        this.getPortEmpresa = getPortEmpresa;
         this.listPort = listPort;
         this.savePort = savePort;
         this.checkEventUniquePort = checkEventUniquePort;
+        this.mapper = mapper;
     }
 
     @Override
     public Evento create(CreateEventoCommand command) {
         RulesChecker.checkRule(new EventNameNotNullRule(command.getNombre()));
-        RulesChecker.checkRule(new EventNameMustBeUnique<Long>(
+        RulesChecker.checkRule(new EventNameMustBeUnique<>(
                 command.getNombre(),
                 command.getFechaInicio(),
                 command.getFechaFin(),
@@ -75,13 +81,13 @@ public class EventService implements
         ));
         RulesChecker.checkRule(new EventRangeDateValid(command.getFechaInicio(),command.getFechaFin()));
 
-
+       Empresa empresa = this.getPortEmpresa.obtenerPorId(command.getEmpresa());
         Evento entity = new Evento(
                 null,
                 command.getNombre(),
                 command.getFechaInicio(),
                 command.getFechaFin(),
-                command.getActivo()
+                command.getActivo(),empresa
         );
 
         return this.savePort.save(entity);
@@ -131,7 +137,7 @@ public class EventService implements
     private PaginatedResponse getPaginatedResponse(Page<EventoEntity> data) {
         List<EventoResponse> eventoResponse = new ArrayList<>();
         for (EventoEntity p : data.getContent()) {
-            eventoResponse.add(new EventoResponse(EventoMapper.entityToDomain(p)));
+            eventoResponse.add(new EventoResponse(mapper.entityToDomain(p)));
         }
         return new PaginatedResponse(eventoResponse, data.getTotalPages(), data.getNumberOfElements(),
                 data.getTotalElements(), data.getSize(), data.getNumber());

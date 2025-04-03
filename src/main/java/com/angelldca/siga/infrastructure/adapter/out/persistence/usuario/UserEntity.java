@@ -6,7 +6,6 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
@@ -25,10 +24,11 @@ public class UserEntity {
     private String username;
     private String email;
     private String password;
+    private String image;
     @Enumerated(EnumType.STRING)
     private EUserType type;
 
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user",orphanRemoval = true,cascade = CascadeType.ALL)
     private Set<UserPermissionBusinessEntity> userPermissionBusinesses = new HashSet<>();
     private LocalDateTime createdAt;
 

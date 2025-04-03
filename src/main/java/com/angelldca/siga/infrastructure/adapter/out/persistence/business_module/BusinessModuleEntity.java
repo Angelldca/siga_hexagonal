@@ -4,6 +4,7 @@ package com.angelldca.siga.infrastructure.adapter.out.persistence.business_modul
 import com.angelldca.siga.infrastructure.adapter.out.persistence.empresa.EmpresaEntity;
 import com.angelldca.siga.infrastructure.adapter.out.persistence.modulos.ModuleEntity;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,7 +19,8 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
-public class BusinessModule {
+@AllArgsConstructor
+public class BusinessModuleEntity {
     @Id
     private UUID id;
 

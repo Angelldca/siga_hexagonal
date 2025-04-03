@@ -27,16 +27,18 @@ public class EventPersistenceAdapter implements
 
     private final EventReadDataJPARepository query;
     private final EventWriteDataJPARepository command;
+    private final EventoMapper mapper;
 
-    public EventPersistenceAdapter(EventReadDataJPARepository query, EventWriteDataJPARepository command) {
+    public EventPersistenceAdapter(EventReadDataJPARepository query, EventWriteDataJPARepository command, EventoMapper mapper) {
         this.query = query;
         this.command = command;
+        this.mapper = mapper;
     }
 
     @Override
     public Evento delete(Long id) {
         Evento evento = obtenerPorId(id);
-        EventoEntity entity = EventoMapper.domainToEntity(evento);
+        EventoEntity entity = mapper.domainToEntity(evento);
         this.command.delete(entity);
         return evento;
     }
@@ -44,7 +46,7 @@ public class EventPersistenceAdapter implements
     @Override
     public Evento obtenerPorId(Long id) {
         Evento entity = this.query.findById(id)
-                .map(EventoMapper::entityToDomain)
+                .map(mapper::entityToDomain)
                 .orElseThrow(() -> BusinessExceptionFactory.objectNotFound("id","Evento"));
         return entity;
     }
@@ -56,8 +58,8 @@ public class EventPersistenceAdapter implements
 
     @Override
     public Evento save(Evento evento) {
-        EventoEntity entity = this.command.save(EventoMapper.domainToEntity(evento));
-        return EventoMapper.entityToDomain(entity);
+        EventoEntity entity = this.command.save(mapper.domainToEntity(evento));
+        return mapper.entityToDomain(entity);
     }
 
     @Override
