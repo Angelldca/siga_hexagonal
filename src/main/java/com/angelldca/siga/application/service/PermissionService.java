@@ -38,13 +38,13 @@ public class PermissionService implements
     private final PermissionCRUDPort crudPort;
     private final LoadPermissionPort loadPermissionPort;
     private final GetPort<Module,Long> getPortModule;
-    private final PermissionMapper mapper;
 
-    public PermissionService(@Qualifier("permissionPersistenceAdapter") PermissionCRUDPort crudPort, LoadPermissionPort loadPermissionPort, GetPort<Module, Long> getPortModule, PermissionMapper mapper) {
+
+    public PermissionService(@Qualifier("permissionPersistenceAdapter") PermissionCRUDPort crudPort, LoadPermissionPort loadPermissionPort, GetPort<Module, Long> getPortModule) {
         this.crudPort = crudPort;
         this.loadPermissionPort = loadPermissionPort;
         this.getPortModule = getPortModule;
-        this.mapper = mapper;
+
     }
 
     @Override
@@ -94,7 +94,7 @@ public class PermissionService implements
     private PaginatedResponse getPaginatedResponse(Page<PermissionEntity> data) {
         List<PermissionResponse> response = new ArrayList<>();
         for (PermissionEntity p : data.getContent()) {
-            response.add(new PermissionResponse(mapper.entityToDomain(p)));
+            response.add(new PermissionResponse(PermissionMapper.entityToDomain(p)));
         }
         return new PaginatedResponse(response, data.getTotalPages(), data.getNumberOfElements(),
                 data.getTotalElements(), data.getSize(), data.getNumber());

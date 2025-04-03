@@ -24,18 +24,16 @@ public class UserPersistenceAdapter implements UserCrudPort, GetByEmailPort {
 
     private final UserReadDataJPARepository query;
     private final UserWriteDataJPARepository command;
-    private final UsuarioMapper mapper;
 
-    public UserPersistenceAdapter(UserReadDataJPARepository query, UserWriteDataJPARepository command, UsuarioMapper mapper) {
+    public UserPersistenceAdapter(UserReadDataJPARepository query, UserWriteDataJPARepository command) {
         this.query = query;
         this.command = command;
-        this.mapper = mapper;
     }
 
     @Override
     public User delete(UUID id) {
         User user = obtenerPorId(id);
-        UserEntity entity = mapper.domainToEntity(user);
+        UserEntity entity = UsuarioMapper.domainToEntity(user);
         this.command.delete(entity);
         return user;
     }
@@ -43,7 +41,7 @@ public class UserPersistenceAdapter implements UserCrudPort, GetByEmailPort {
     @Override
     public User obtenerPorId(UUID id) {
         User user = this.query.findById(id)
-                .map(mapper::entityToDomain)
+                .map(UsuarioMapper::entityToDomain)
                 .orElseThrow(() -> BusinessExceptionFactory.objectNotFound("id","Usuario"));
         return user;
     }
@@ -55,14 +53,14 @@ public class UserPersistenceAdapter implements UserCrudPort, GetByEmailPort {
 
     @Override
     public User save(User entity) {
-        UserEntity user = this.command.save(mapper.domainToEntity(entity));
-        return mapper.entityToDomain(user);
+        UserEntity user = this.command.save(UsuarioMapper.domainToEntity(entity));
+        return UsuarioMapper.entityToDomain(user);
     }
 
     @Override
     public User findByEmail(String email) {
         return query.findByEmail(email)
-                .map(mapper::entityToDomain)
+                .map(UsuarioMapper::entityToDomain)
                 .orElseThrow(() -> BusinessExceptionFactory.objectNotFound("email","Usuario"));
     }
 

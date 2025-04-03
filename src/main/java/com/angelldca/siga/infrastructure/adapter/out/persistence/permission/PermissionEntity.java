@@ -33,7 +33,7 @@ public class PermissionEntity {
     @JoinColumn(name = "module_id")
     private ModuleEntity module;
 
-    @OneToMany(mappedBy = "permission")
+    @OneToMany(mappedBy = "permission",fetch = FetchType.LAZY)
     private Set<UserPermissionBusinessEntity> userPermissionBusinesses = new HashSet<>();
 
     @CreationTimestamp

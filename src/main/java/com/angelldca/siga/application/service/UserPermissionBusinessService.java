@@ -42,19 +42,17 @@ public class UserPermissionBusinessService implements
     private final GetPort<Permission,Long> getPortPermission;
     private final GetPort<User,UUID> getPortUser;
     private final GetPort<Empresa,UUID> getPortBusiness;
-    private final UserPermissionBusinessMapper mapper;
-    private final UsuarioMapper userMapper;
+
 
     public UserPermissionBusinessService(@Qualifier("UserPermissionBusinessPersistenceAdapter") UserPermissionBusinessCRUDPort crudPort,
                                          LoadPermissionPort loadPermissionPort, GetPort<Permission, Long> getPortPermission,
-                                         GetPort<User, UUID> getPortUser, GetPort<Empresa, UUID> getPortBusiness, UserPermissionBusinessMapper mapper, UsuarioMapper userMapper) {
+                                         GetPort<User, UUID> getPortUser, GetPort<Empresa, UUID> getPortBusiness) {
         this.crudPort = crudPort;
         this.loadPermissionPort = loadPermissionPort;
         this.getPortPermission = getPortPermission;
         this.getPortUser = getPortUser;
         this.getPortBusiness = getPortBusiness;
-        this.mapper = mapper;
-        this.userMapper = userMapper;
+
 
     }
 
@@ -105,8 +103,8 @@ public class UserPermissionBusinessService implements
     private PaginatedResponse getPaginatedResponse(Page<UserPermissionBusinessEntity> data) {
         List<UserPermissionBusinessResponse> response = new ArrayList<>();
         for (UserPermissionBusinessEntity p : data.getContent()) {
-            UserPermissionBusiness domain = mapper.entityToDomain(p);
-            domain.setUser(userMapper.entityToDomain(p.getUser()));
+            UserPermissionBusiness domain = UserPermissionBusinessMapper.entityToDomain(p);
+
             response.add(new UserPermissionBusinessResponse(domain));
         }
         return new PaginatedResponse(response, data.getTotalPages(), data.getNumberOfElements(),

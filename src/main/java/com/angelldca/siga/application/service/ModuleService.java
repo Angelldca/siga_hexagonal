@@ -17,6 +17,7 @@ import com.angelldca.siga.domain.model.Module;
 import com.angelldca.siga.domain.model.Permission;
 import com.angelldca.siga.domain.model.User;
 import com.angelldca.siga.domain.model.UserPermissionBusiness;
+import com.angelldca.siga.infrastructure.adapter.out.persistence.menu.MenuMapper;
 import com.angelldca.siga.infrastructure.adapter.out.persistence.modulos.ModuleEntity;
 import com.angelldca.siga.infrastructure.adapter.out.persistence.modulos.ModuleMapper;
 import com.angelldca.siga.infrastructure.adapter.out.persistence.specification.GenericSpecificationsBuilder;
@@ -38,12 +39,12 @@ public class ModuleService implements
         GetUseCase<Long>,
         ListUseCase {
     private final ModuleCRUDPort crudPort;
-    private final ModuleMapper mapper;
+
     private final LoadPermissionPort loadPermissionPort;
 
-    public ModuleService(@Qualifier("modulePersistenceAdapter") ModuleCRUDPort crudPort, ModuleMapper mapper, LoadPermissionPort loadPermissionPort) {
+    public ModuleService(@Qualifier("modulePersistenceAdapter") ModuleCRUDPort crudPort, LoadPermissionPort loadPermissionPort) {
         this.crudPort = crudPort;
-        this.mapper = mapper;
+
         this.loadPermissionPort = loadPermissionPort;
     }
 
@@ -88,7 +89,7 @@ public class ModuleService implements
     private PaginatedResponse getPaginatedResponse(Page<ModuleEntity> data) {
         List<ModuleResponse> response = new ArrayList<>();
         for (ModuleEntity p : data.getContent()) {
-            response.add(new ModuleResponse(mapper.entityToDomain(p)));
+            response.add(new ModuleResponse(ModuleMapper.entityToDomain(p)));
         }
         return new PaginatedResponse(response, data.getTotalPages(), data.getNumberOfElements(),
                 data.getTotalElements(), data.getSize(), data.getNumber());

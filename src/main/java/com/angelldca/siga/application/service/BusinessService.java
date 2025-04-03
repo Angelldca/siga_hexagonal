@@ -34,11 +34,11 @@ public class BusinessService implements
         ListUseCase {
 
     private final BusinessCRUDPort crudPort;
-    private final EmpresaMapper mapper;
 
-    public BusinessService(@Qualifier("empresaPersistenceAdapter")BusinessCRUDPort crudPort, EmpresaMapper mapper) {
+
+    public BusinessService(@Qualifier("empresaPersistenceAdapter")BusinessCRUDPort crudPort) {
         this.crudPort = crudPort;
-        this.mapper = mapper;
+
     }
 
     @Override
@@ -82,7 +82,7 @@ public class BusinessService implements
     private PaginatedResponse getPaginatedResponse(Page<EmpresaEntity> data) {
         List<BusinessResponse> response = new ArrayList<>();
         for (EmpresaEntity p : data.getContent()) {
-            response.add(new BusinessResponse(mapper.entityToDomain(p)));
+            response.add(new BusinessResponse(EmpresaMapper.entityToDomain(p)));
         }
         return new PaginatedResponse(response, data.getTotalPages(), data.getNumberOfElements(),
                 data.getTotalElements(), data.getSize(), data.getNumber());

@@ -10,13 +10,25 @@ import com.angelldca.siga.infrastructure.adapter.out.persistence.user_permission
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring", uses = {
-        ModuleMapper.class,
-        EmpresaMapper.class
-})
-public interface BusinessModuleMapper {
-    @Mapping(target = "id", source = "id")
-    BusinessModule entityToDomain(BusinessModuleEntity entity);
+public class BusinessModuleMapper {
 
-    BusinessModuleEntity domainToEntity(BusinessModule domain);
+    public static BusinessModule entityToDomain(BusinessModuleEntity entity) {
+        if (entity == null) return null;
+
+        BusinessModule domain = new BusinessModule();
+        domain.setId(entity.getId());
+        domain.setBusiness(EmpresaMapper.entityToDomain(entity.getBusiness()));
+        domain.setModule(ModuleMapper.entityToDomain(entity.getModule()));
+        return domain;
+    }
+
+    public static BusinessModuleEntity domainToEntity(BusinessModule domain) {
+        if (domain == null) return null;
+
+        BusinessModuleEntity entity = new BusinessModuleEntity();
+        entity.setId(domain.getId());
+        entity.setBusiness(EmpresaMapper.domainToEntity(domain.getBusiness()));
+        entity.setModule(ModuleMapper.domainToEntity(domain.getModule()));
+        return entity;
+    }
 }

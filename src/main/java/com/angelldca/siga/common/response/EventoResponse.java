@@ -18,6 +18,7 @@ public class EventoResponse implements IResponse{
     private LocalDateTime fechaFin;
     //private Menu menu;
     private Boolean activo;
+    private Boolean ilimitado;
 
     public EventoResponse(Evento evento) {
         this.id = evento.getId();
@@ -25,5 +26,6 @@ public class EventoResponse implements IResponse{
         this.fechaInicio = evento.getFechaInicio();
         this.fechaFin = evento.getFechaFin();
         this.activo = evento.getActivo();
+        this.ilimitado = evento.getIlimitado();
     }
 }

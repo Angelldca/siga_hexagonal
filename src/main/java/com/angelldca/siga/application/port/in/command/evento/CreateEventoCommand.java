@@ -21,5 +21,6 @@ public class CreateEventoCommand implements ICommand {
     private LocalDateTime fechaInicio;
     private LocalDateTime fechaFin;
     private Boolean activo;
+    private Boolean ilimitado;
     private UUID empresa;
 }

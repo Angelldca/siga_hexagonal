@@ -8,19 +8,27 @@ import com.angelldca.siga.infrastructure.adapter.out.persistence.usuario.Usuario
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring", uses = {
-        //UsuarioMapper.class,
-        //PermissionMapper.class,
-        EmpresaMapper.class
-})
-public interface UserPermissionBusinessMapper {
-    @Mapping(target = "id", source = "id")
-    @Mapping(target = "user", ignore = true)
-    @Mapping(target = "permission", ignore = true)
-    UserPermissionBusiness entityToDomain(UserPermissionBusinessEntity entity);
+public class UserPermissionBusinessMapper {
 
+    public static UserPermissionBusiness entityToDomain(UserPermissionBusinessEntity entity) {
+        if (entity == null) return null;
 
-    @Mapping(target = "user", ignore = true)
-    @Mapping(target = "permission", ignore = true)
-    UserPermissionBusinessEntity domainToEntity(UserPermissionBusiness domain);
+        UserPermissionBusiness domain = new UserPermissionBusiness();
+        domain.setId(entity.getId());
+        domain.setUser(UsuarioMapper.entityToDomain(entity.getUser()));
+        domain.setPermission(PermissionMapper.entityToDomain(entity.getPermission()));
+        domain.setEmpresa(EmpresaMapper.entityToDomain(entity.getBusiness()));
+        return domain;
+    }
+
+    public static UserPermissionBusinessEntity domainToEntity(UserPermissionBusiness domain) {
+        if (domain == null) return null;
+
+        UserPermissionBusinessEntity entity = new UserPermissionBusinessEntity();
+        entity.setId(domain.getId());
+        entity.setUser(UsuarioMapper.domainToEntity(domain.getUser()));
+        entity.setPermission(PermissionMapper.domainToEntity(domain.getPermission()));
+        entity.setBusiness(EmpresaMapper.domainToEntity(domain.getEmpresa()));
+        return entity;
+    }
 }

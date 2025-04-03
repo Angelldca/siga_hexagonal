@@ -2,6 +2,7 @@ package com.angelldca.siga.common.response;
 
 import com.angelldca.siga.domain.model.Empresa;
 import com.angelldca.siga.domain.model.Permission;
+import com.angelldca.siga.domain.model.User;
 import com.angelldca.siga.domain.model.UserPermissionBusiness;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,11 +17,13 @@ import java.util.UUID;
 public class UserPermissionBusinessResponse implements IResponse{
     private UUID id;
     private Permission permission;
+    private User user;
     private Empresa empresa;
 
     public UserPermissionBusinessResponse(UserPermissionBusiness userPermissionBusiness) {
         this.id = userPermissionBusiness.getId();
         this.permission = userPermissionBusiness.getPermission();
+        this.user = userPermissionBusiness.getUser();
         this.empresa = userPermissionBusiness.getEmpresa();
     }
 }
