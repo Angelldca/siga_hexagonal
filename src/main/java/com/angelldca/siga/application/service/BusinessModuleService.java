@@ -38,13 +38,13 @@ public class BusinessModuleService implements
     private final BusinessModuleCRUDPort crudPort;
     private final GetPort<Empresa,UUID> getPortBusiness;
     private final GetPort<Module,Long> getPortModule;
-    private final BusinessModuleMapper mapper;
 
-    public BusinessModuleService(BusinessModuleCRUDPort crudPort, GetPort<Empresa, UUID> getPortBusiness, GetPort<Module, Long> getPortModule, BusinessModuleMapper mapper) {
+
+    public BusinessModuleService(BusinessModuleCRUDPort crudPort, GetPort<Empresa, UUID> getPortBusiness, GetPort<Module, Long> getPortModule) {
         this.crudPort = crudPort;
         this.getPortBusiness = getPortBusiness;
         this.getPortModule = getPortModule;
-        this.mapper = mapper;
+
     }
 
 
@@ -90,7 +90,7 @@ public class BusinessModuleService implements
     private PaginatedResponse getPaginatedResponse(Page<BusinessModuleEntity> data) {
         List<BusinessModuleResponse> response = new ArrayList<>();
         for (BusinessModuleEntity p : data.getContent()) {
-            response.add(new BusinessModuleResponse(mapper.entityToDomain(p)));
+            response.add(new BusinessModuleResponse(BusinessModuleMapper.entityToDomain(p)));
         }
         return new PaginatedResponse(response, data.getTotalPages(), data.getNumberOfElements(),
                 data.getTotalElements(), data.getSize(), data.getNumber());

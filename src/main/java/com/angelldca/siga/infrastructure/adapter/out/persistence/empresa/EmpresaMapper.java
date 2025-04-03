@@ -5,10 +5,27 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
 
-@Mapper(componentModel = "spring")
-public interface EmpresaMapper {
-    @Mapping(target = "id", source = "id")
-    Empresa entityToDomain(EmpresaEntity entity);
+public class EmpresaMapper {
 
-    EmpresaEntity domainToEntity(Empresa domain);
+    public static Empresa entityToDomain(EmpresaEntity entity) {
+        if (entity == null) return null;
+
+        Empresa domain = new Empresa();
+        domain.setId(entity.getId());
+        domain.setNombre(entity.getNombre());
+        domain.setLogo(entity.getLogo());
+        domain.setAddress(entity.getAddress());
+        return domain;
+    }
+
+    public static EmpresaEntity domainToEntity(Empresa domain) {
+        if (domain == null) return null;
+
+        EmpresaEntity entity = new EmpresaEntity();
+        entity.setId(domain.getId());
+        entity.setNombre(domain.getNombre());
+        entity.setLogo(domain.getLogo());
+        entity.setAddress(domain.getAddress());
+        return entity;
+    }
 }

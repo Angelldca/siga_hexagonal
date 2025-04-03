@@ -25,20 +25,18 @@ public class UserPermissionBusinessPersistenceAdapter implements
 
     private final UserBusinessPermissionReadDataJPARepository query;
     private final UserBusinessPermissionWriteDataJPARepository command;
-    private final UserPermissionBusinessMapper mapper;
-    private final UsuarioMapper usuarioMapper;
 
-    public UserPermissionBusinessPersistenceAdapter(UserBusinessPermissionReadDataJPARepository query, UserBusinessPermissionWriteDataJPARepository command, UserPermissionBusinessMapper mapper, UsuarioMapper usuarioMapper) {
+
+    public UserPermissionBusinessPersistenceAdapter(UserBusinessPermissionReadDataJPARepository query, UserBusinessPermissionWriteDataJPARepository command ) {
         this.query = query;
         this.command = command;
-        this.mapper = mapper;
-        this.usuarioMapper = usuarioMapper;
+
     }
 
     @Override
     public UserPermissionBusiness delete(UUID id) {
         UserPermissionBusiness domain = obtenerPorId(id);
-        UserPermissionBusinessEntity entity = mapper.domainToEntity(domain);
+        UserPermissionBusinessEntity entity = UserPermissionBusinessMapper.domainToEntity(domain);
         this.command.delete(entity);
         return domain;
     }
@@ -48,8 +46,7 @@ public class UserPermissionBusinessPersistenceAdapter implements
         UserPermissionBusinessEntity entity = this.query.findById(id)
                 .orElseThrow(() -> BusinessExceptionFactory.objectNotFound("id", "Permisos de Usuario por Empresa"));
 
-        UserPermissionBusiness domain = mapper.entityToDomain(entity);
-        domain.setUser(usuarioMapper.entityToDomain(entity.getUser()));
+        UserPermissionBusiness domain = UserPermissionBusinessMapper.entityToDomain(entity);
 
         return domain;
     }
@@ -61,11 +58,9 @@ public class UserPermissionBusinessPersistenceAdapter implements
 
     @Override
     public UserPermissionBusiness save(UserPermissionBusiness domain) {
-        UserPermissionBusinessEntity entityToSave = mapper.domainToEntity(domain);
-        entityToSave.setUser(usuarioMapper.domainToEntity(domain.getUser()));
+        UserPermissionBusinessEntity entityToSave = UserPermissionBusinessMapper.domainToEntity(domain);
         UserPermissionBusinessEntity savedEntity = this.command.save(entityToSave);
-        UserPermissionBusiness result = mapper.entityToDomain(savedEntity);
-        result.setUser(usuarioMapper.entityToDomain(savedEntity.getUser()));
+        UserPermissionBusiness result = UserPermissionBusinessMapper.entityToDomain(savedEntity);
         return result;
     }
 
@@ -75,8 +70,7 @@ public class UserPermissionBusinessPersistenceAdapter implements
 
         return entities.stream()
                 .map(entity -> {
-                    UserPermissionBusiness domain = mapper.entityToDomain(entity);
-                    domain.setUser(usuarioMapper.entityToDomain(entity.getUser()));
+                    UserPermissionBusiness domain = UserPermissionBusinessMapper.entityToDomain(entity);
                     return domain;
                 })
                 .toList();

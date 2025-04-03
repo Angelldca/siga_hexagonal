@@ -16,5 +16,6 @@ public class Evento {
     private LocalDateTime fechaInicio;
     private LocalDateTime fechaFin;
     private Boolean activo;
+    private Boolean ilimitado;
     private Empresa empresa;
 }

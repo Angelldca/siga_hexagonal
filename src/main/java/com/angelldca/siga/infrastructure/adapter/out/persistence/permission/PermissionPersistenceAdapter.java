@@ -22,18 +22,18 @@ public class PermissionPersistenceAdapter implements PermissionCRUDPort, LoadPer
 
     private final PermissionReadDataJPARepository query;
     private final PermissionWriteDataJPARepository command;
-    private final PermissionMapper mapper;
 
-    public PermissionPersistenceAdapter(PermissionReadDataJPARepository query, PermissionWriteDataJPARepository command, PermissionMapper mapper) {
+
+    public PermissionPersistenceAdapter(PermissionReadDataJPARepository query, PermissionWriteDataJPARepository command) {
         this.query = query;
         this.command = command;
-        this.mapper = mapper;
+
     }
 
     @Override
     public Permission delete(Long id) {
         Permission domain = obtenerPorId(id);
-        PermissionEntity entity = mapper.domainToEntity(domain);
+        PermissionEntity entity = PermissionMapper.domainToEntity(domain);
         this.command.delete(entity);
         return domain;
     }
@@ -41,7 +41,7 @@ public class PermissionPersistenceAdapter implements PermissionCRUDPort, LoadPer
     @Override
     public Permission obtenerPorId(Long id) {
         Permission entity = this.query.findById(id)
-                .map(mapper::entityToDomain)
+                .map(PermissionMapper::entityToDomain)
                 .orElseThrow(() -> BusinessExceptionFactory.objectNotFound("id","Permisos"));
         return entity;
     }
@@ -53,15 +53,15 @@ public class PermissionPersistenceAdapter implements PermissionCRUDPort, LoadPer
 
     @Override
     public Permission save(Permission domain) {
-        PermissionEntity entity = this.command.save(mapper.domainToEntity(domain));
-        return mapper.entityToDomain(entity);
+        PermissionEntity entity = this.command.save(PermissionMapper.domainToEntity(domain));
+        return PermissionMapper.entityToDomain(entity);
     }
 
     @Override
     public List<Permission> loadAllByIds(List<Long> ids) {
         List<PermissionEntity> entities = query.findAllById(ids);
         return entities.stream()
-                .map(mapper::entityToDomain)
+                .map(PermissionMapper::entityToDomain)
                 .toList();
     }
 }

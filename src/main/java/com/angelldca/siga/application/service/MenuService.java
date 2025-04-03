@@ -41,15 +41,15 @@ public class MenuService implements
     private final MenuCRUDPort menuCRUDPort;
     private final GetPort<Evento,Long> eventoGetPort;
     private final LoadPlatosPort loadPlatosPort;
-    private final MenuMapper mapper;
+
 
     public MenuService(
             @Qualifier("menuPersistenceAdapter")MenuCRUDPort menuCRUDPort,
-            @Qualifier("eventPersistenceAdapter") GetPort<Evento,Long> eventoGetPort, LoadPlatosPort loadPlatosPort, MenuMapper mapper) {
+            @Qualifier("eventPersistenceAdapter") GetPort<Evento,Long> eventoGetPort, LoadPlatosPort loadPlatosPort) {
         this.menuCRUDPort = menuCRUDPort;
         this.eventoGetPort = eventoGetPort;
         this.loadPlatosPort = loadPlatosPort;
-        this.mapper = mapper;
+
     }
 
     @Override
@@ -104,7 +104,7 @@ public class MenuService implements
     private PaginatedResponse getPaginatedResponse(Page<MenuEntity> data) {
         List<MenuResponse> menuResponse = new ArrayList<>();
         for (MenuEntity p : data.getContent()) {
-            menuResponse.add(new MenuResponse(mapper.entityToDomain(p)));
+            menuResponse.add(new MenuResponse(MenuMapper.entityToDomain(p)));
         }
         return new PaginatedResponse(menuResponse, data.getTotalPages(), data.getNumberOfElements(),
                 data.getTotalElements(), data.getSize(), data.getNumber());

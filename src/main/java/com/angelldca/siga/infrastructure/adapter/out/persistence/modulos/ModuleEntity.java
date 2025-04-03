@@ -29,7 +29,7 @@ public class ModuleEntity {
     private String description;
 
 
-    @OneToMany(mappedBy = "module", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "module", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<PermissionEntity> permissions = new HashSet<>();
 
 

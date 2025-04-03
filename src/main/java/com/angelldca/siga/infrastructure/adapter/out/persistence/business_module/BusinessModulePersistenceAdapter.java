@@ -20,26 +20,24 @@ public class BusinessModulePersistenceAdapter implements BusinessModuleCRUDPort 
 
     private final BusinessModuleWriteDataJPARepository command;
     private final BusinessModuleReadDataJPARepository query;
-    private final BusinessModuleMapper mapper;
 
-    public BusinessModulePersistenceAdapter(BusinessModuleWriteDataJPARepository command, BusinessModuleReadDataJPARepository query, BusinessModuleMapper mapper) {
+    public BusinessModulePersistenceAdapter(BusinessModuleWriteDataJPARepository command, BusinessModuleReadDataJPARepository query ) {
         this.command = command;
         this.query = query;
-        this.mapper = mapper;
+
     }
 
     @Override
     public BusinessModule delete(UUID id) {
         BusinessModule domain = obtenerPorId(id);
-        BusinessModuleEntity entity = mapper.domainToEntity(domain);
-        this.command.delete(entity);
+        this.command.delete(BusinessModuleMapper.domainToEntity(domain));
         return domain;
     }
 
     @Override
     public BusinessModule obtenerPorId(UUID id) {
         BusinessModule entity = this.query.findById(id)
-                .map(mapper::entityToDomain)
+                .map(BusinessModuleMapper::entityToDomain)
                 .orElseThrow(() -> BusinessExceptionFactory.objectNotFound("id","BusinessModule"));
         return entity;
     }
@@ -51,8 +49,8 @@ public class BusinessModulePersistenceAdapter implements BusinessModuleCRUDPort 
 
     @Override
     public BusinessModule save(BusinessModule domain) {
-        BusinessModuleEntity entity = this.command.save(mapper.domainToEntity(domain));
-        return mapper.entityToDomain(entity);
+        BusinessModuleEntity entity = this.command.save(BusinessModuleMapper.domainToEntity(domain));
+        return BusinessModuleMapper.entityToDomain(entity);
     }
 
 }

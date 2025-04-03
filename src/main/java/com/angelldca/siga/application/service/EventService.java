@@ -53,20 +53,20 @@ public class EventService implements
     private final ListPort<EventoEntity> listPort;
     private final SavePort<Evento> savePort;
     private final CheckEventUniquePort checkEventUniquePort;
-    private final EventoMapper mapper;
+
 
     public EventService(
             @Qualifier("eventPersistenceAdapter") DeletePort<Evento,Long> deletePort,
             @Qualifier("eventPersistenceAdapter") GetPort<Evento,Long> getPort,
             GetPort<Empresa, UUID> getPortEmpresa, @Qualifier("eventPersistenceAdapter") ListPort<EventoEntity> listPort,
-            @Qualifier("eventPersistenceAdapter") SavePort<Evento> savePort, CheckEventUniquePort checkEventUniquePort, EventoMapper mapper) {
+            @Qualifier("eventPersistenceAdapter") SavePort<Evento> savePort, CheckEventUniquePort checkEventUniquePort) {
         this.deletePort = deletePort;
         this.getPort = getPort;
         this.getPortEmpresa = getPortEmpresa;
         this.listPort = listPort;
         this.savePort = savePort;
         this.checkEventUniquePort = checkEventUniquePort;
-        this.mapper = mapper;
+
     }
 
     @Override
@@ -87,7 +87,7 @@ public class EventService implements
                 command.getNombre(),
                 command.getFechaInicio(),
                 command.getFechaFin(),
-                command.getActivo(),empresa
+                command.getActivo(),command.getIlimitado(),empresa
         );
 
         return this.savePort.save(entity);
@@ -117,6 +117,7 @@ public class EventService implements
         entity.setFechaInicio(command.getFechaInicio());
         entity.setFechaFin(command.getFechaFin());
         entity.setActivo(command.getActivo());
+        entity.setIlimitado(command.getIlimitado());
         return this.savePort.save(entity);
     }
 
@@ -137,7 +138,7 @@ public class EventService implements
     private PaginatedResponse getPaginatedResponse(Page<EventoEntity> data) {
         List<EventoResponse> eventoResponse = new ArrayList<>();
         for (EventoEntity p : data.getContent()) {
-            eventoResponse.add(new EventoResponse(mapper.entityToDomain(p)));
+            eventoResponse.add(new EventoResponse(EventoMapper.entityToDomain(p)));
         }
         return new PaginatedResponse(eventoResponse, data.getTotalPages(), data.getNumberOfElements(),
                 data.getTotalElements(), data.getSize(), data.getNumber());

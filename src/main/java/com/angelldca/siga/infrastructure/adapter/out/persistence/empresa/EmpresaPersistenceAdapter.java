@@ -22,18 +22,18 @@ public class EmpresaPersistenceAdapter implements BusinessCRUDPort {
 
     private final BusinessReadDataJPARepository query;
     private final BusinessWriteDataJPARepository command;
-    private final EmpresaMapper mapper;
 
-    public EmpresaPersistenceAdapter(BusinessReadDataJPARepository query, BusinessWriteDataJPARepository command, EmpresaMapper mapper) {
+
+    public EmpresaPersistenceAdapter(BusinessReadDataJPARepository query, BusinessWriteDataJPARepository command) {
         this.query = query;
         this.command = command;
-        this.mapper = mapper;
+
     }
 
     @Override
     public Empresa delete(UUID id) {
         Empresa domain = obtenerPorId(id);
-        EmpresaEntity entity = mapper.domainToEntity(domain);
+        EmpresaEntity entity = EmpresaMapper.domainToEntity(domain);
         this.command.delete(entity);
         return domain;
     }
@@ -41,7 +41,7 @@ public class EmpresaPersistenceAdapter implements BusinessCRUDPort {
     @Override
     public Empresa obtenerPorId(UUID id) {
         Empresa entity = this.query.findById(id)
-                .map(mapper::entityToDomain)
+                .map(EmpresaMapper::entityToDomain)
                 .orElseThrow(() -> BusinessExceptionFactory.objectNotFound("id","Empresa"));
         return entity;
     }
@@ -54,7 +54,7 @@ public class EmpresaPersistenceAdapter implements BusinessCRUDPort {
 
     @Override
     public Empresa save(Empresa domain) {
-        EmpresaEntity entity = this.command.save(mapper.domainToEntity(domain));
-        return mapper.entityToDomain(entity);
+        EmpresaEntity entity = this.command.save(EmpresaMapper.domainToEntity(domain));
+        return EmpresaMapper.entityToDomain(entity);
     }
 }
