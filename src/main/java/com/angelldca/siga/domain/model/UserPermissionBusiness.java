@@ -1,6 +1,7 @@
 package com.angelldca.siga.domain.model;
 
 
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,6 +13,7 @@ import java.util.UUID;
 @NoArgsConstructor
 public class UserPermissionBusiness {
     private UUID id;
+    private User user;
     private Permission permission;
     private Empresa empresa;
 
