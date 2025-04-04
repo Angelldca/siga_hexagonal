@@ -1,6 +1,7 @@
 package com.angelldca.siga.infrastructure.adapter.out.persistence.user_permission_business;
 
 
+import com.angelldca.siga.application.port.out.user_permission_business.GetAllByUserIdPort;
 import com.angelldca.siga.application.port.out.user_permission_business.LoadUserPermissionBusinessPort;
 import com.angelldca.siga.application.port.out.user_permission_business.UserPermissionBusinessCRUDPort;
 import com.angelldca.siga.common.anotations.PersistenceAdapter;
@@ -21,7 +22,7 @@ import java.util.UUID;
 @Qualifier("UserPermissionBusinessPersistenceAdapter")
 @PersistenceAdapter
 public class UserPermissionBusinessPersistenceAdapter implements
-        UserPermissionBusinessCRUDPort, LoadUserPermissionBusinessPort {
+        UserPermissionBusinessCRUDPort, LoadUserPermissionBusinessPort, GetAllByUserIdPort {
 
     private final UserBusinessPermissionReadDataJPARepository query;
     private final UserBusinessPermissionWriteDataJPARepository command;
@@ -73,6 +74,14 @@ public class UserPermissionBusinessPersistenceAdapter implements
                     UserPermissionBusiness domain = UserPermissionBusinessMapper.entityToDomain(entity);
                     return domain;
                 })
+                .toList();
+    }
+
+    @Override
+    public List<UserPermissionBusiness> getAllByUserId(UUID userId) {
+        return query.findByUserId(userId)
+                .stream()
+                .map(UserPermissionBusinessMapper::entityToDomain)
                 .toList();
     }
 }
