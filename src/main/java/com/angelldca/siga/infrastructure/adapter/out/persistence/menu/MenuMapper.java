@@ -19,7 +19,6 @@ public class MenuMapper {
         menu.setId(entity.getId());
         menu.setTotalPrecio(entity.getTotalPrecio());
         menu.setDisponible(entity.getDisponible());
-        menu.setEvento(EventoMapper.entityToDomain(entity.getEvento()));
 
         if (entity.getPlatos() != null) {
             List<Plato> platos = entity.getPlatos().stream()
@@ -38,8 +37,6 @@ public class MenuMapper {
         entity.setId(domain.getId());
         entity.setTotalPrecio(domain.getTotalPrecio());
         entity.setDisponible(domain.getDisponible());
-        entity.setEvento(EventoMapper.domainToEntity(domain.getEvento()));
-
         if (domain.getPlatos() != null) {
             List<PlatoEntity> platos = domain.getPlatos().stream()
                     .map(PlatoMapper::domainToEntity)

@@ -27,11 +27,6 @@ public class MenuEntity {
     private Long id;
     private Double totalPrecio;
     private Boolean disponible;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "evento_id")
-    private EventoEntity evento;
-
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "menu_plato",
