@@ -9,6 +9,7 @@ import com.angelldca.siga.application.port.in.query.GetUseCase;
 import com.angelldca.siga.application.port.in.query.ListUseCase;
 import com.angelldca.siga.application.port.out.GetPort;
 import com.angelldca.siga.common.response.PlatoResponse;
+import com.angelldca.siga.domain.model.Empresa;
 import com.angelldca.siga.domain.rule.Plato.PlatoNameNotNullRule;
 import com.angelldca.siga.domain.rule.RulesChecker;
 import com.angelldca.siga.infrastructure.adapter.out.persistence.specification.GenericSpecificationsBuilder;
@@ -27,6 +28,7 @@ import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @UseCase
 
@@ -41,28 +43,32 @@ public class PlatoService implements
     private final GetPort<Plato,Long> getPlatoPort;
     private final ListPort<PlatoEntity> listPlatosPort;
     private final SavePort<Plato> savePlatoPort;
+    private final GetPort<Empresa, UUID> getPortEmpresa;
 
     public PlatoService(
             @Qualifier("platoPersistenceAdapter") DeletePort<Plato,Long> deletePlatoPort,
             @Qualifier("platoPersistenceAdapter") GetPort<Plato,Long> getPlatoPort,
             @Qualifier("platoPersistenceAdapter") ListPort<PlatoEntity> listPlatosPort,
-            @Qualifier("platoPersistenceAdapter") SavePort<Plato> savePlatoPort
-            ) {
+            @Qualifier("platoPersistenceAdapter") SavePort<Plato> savePlatoPort,
+            GetPort<Empresa, UUID> getPortEmpresa) {
         this.deletePlatoPort = deletePlatoPort;
         this.getPlatoPort = getPlatoPort;
         this.listPlatosPort = listPlatosPort;
         this.savePlatoPort = savePlatoPort;
+        this.getPortEmpresa = getPortEmpresa;
     }
 
     @Override
     public Plato create(CreatePlatoCommand command) {
         RulesChecker.checkRule(new PlatoNameNotNullRule(command.getNombre()));
+        Empresa empresa = this.getPortEmpresa.obtenerPorId(command.getBusinessId());
         Plato entity = new Plato(
                 null,
                 command.getNombre(),
                 command.getPrecio(),
                 command.getMedida(),
-                command.getDisponible()
+                command.getDisponible(),
+                empresa
         );
 
         return this.savePlatoPort.save(entity);

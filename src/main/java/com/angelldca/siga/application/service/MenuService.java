@@ -10,6 +10,7 @@ import com.angelldca.siga.application.port.in.query.GetUseCase;
 import com.angelldca.siga.application.port.in.query.ListUseCase;
 import com.angelldca.siga.application.port.out.GetPort;
 import com.angelldca.siga.application.port.out.Menu.MenuCRUDPort;
+import com.angelldca.siga.application.port.out.menuEvento.MenuEventoCRUDPort;
 import com.angelldca.siga.application.port.out.plato.LoadPlatosPort;
 import com.angelldca.siga.common.anotations.UseCase;
 import com.angelldca.siga.common.criteria.FilterCriteria;
@@ -18,6 +19,7 @@ import com.angelldca.siga.common.response.MenuResponse;
 import com.angelldca.siga.common.response.PaginatedResponse;
 import com.angelldca.siga.domain.model.Evento;
 import com.angelldca.siga.domain.model.Menu;
+import com.angelldca.siga.domain.model.MenuEvento;
 import com.angelldca.siga.domain.model.Plato;
 import com.angelldca.siga.infrastructure.adapter.out.persistence.menu.MenuEntity;
 import com.angelldca.siga.infrastructure.adapter.out.persistence.menu.MenuMapper;
@@ -25,60 +27,71 @@ import com.angelldca.siga.infrastructure.adapter.out.persistence.specification.G
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 
 import java.util.List;
+import java.util.UUID;
 
 @UseCase
 public class MenuService implements
-        CreateUseCase<Menu, CreateMenuCommand>,
+        CreateUseCase<MenuEvento, CreateMenuCommand>,
         UpdateUseCase<Menu, UpdateMenuCommand,Long>,
         DeleteUseCase<Menu,Long>,
         GetUseCase<Long>,
         ListUseCase {
 
     private final MenuCRUDPort menuCRUDPort;
+    private final MenuEventoCRUDPort menuEventoCRUDPort;
     private final GetPort<Evento,Long> eventoGetPort;
     private final LoadPlatosPort loadPlatosPort;
 
 
     public MenuService(
             @Qualifier("menuPersistenceAdapter")MenuCRUDPort menuCRUDPort,
+            @Qualifier("menuEventoPersistenceAdapter")MenuEventoCRUDPort menuEventoCRUDPort,
             @Qualifier("eventPersistenceAdapter") GetPort<Evento,Long> eventoGetPort, LoadPlatosPort loadPlatosPort) {
         this.menuCRUDPort = menuCRUDPort;
+        this.menuEventoCRUDPort = menuEventoCRUDPort;
         this.eventoGetPort = eventoGetPort;
         this.loadPlatosPort = loadPlatosPort;
 
     }
 
+
+
     @Override
-    public Menu create(CreateMenuCommand command) {
+    public MenuEvento create(CreateMenuCommand command) {
         List<Plato> platos = this.loadPlatosPort.loadAllByIds(command.getPlatosId());
-        double total = platos.stream()
+        Double total = platos.stream()
                 .mapToDouble(Plato::getPrecio)
                 .sum();
 
-        Menu entity = new Menu(
+        Menu entity = this.menuCRUDPort.save(new Menu(
                 null, total,
                 command.getDisponible(),
-                eventoGetPort.obtenerPorId(command.getEventoId()),
                 platos
-        );
+        ));
+        Evento evento = eventoGetPort.obtenerPorId(command.getEventoId());
 
-        return this.menuCRUDPort.save(entity);
+        return  this.menuEventoCRUDPort.save(new MenuEvento(
+                UUID.randomUUID(),
+                entity,evento
+        ));
     }
 
     @Override
     public Menu delete(Long id) {
-        return this.menuCRUDPort.delete(id);
+        Menu menu = menuCRUDPort.obtenerPorId(id);
+        menu.setDisponible(false);
+        return this.menuCRUDPort.save(menu);
     }
 
     @Override
     public Menu update(UpdateMenuCommand command, Long id) {
         List<Plato> platos = this.loadPlatosPort.loadAllByIds(command.getPlatosId());
         Menu entity =  this.menuCRUDPort.obtenerPorId(id);
-        entity.setEvento(eventoGetPort.obtenerPorId(command.getEventoId()));
         entity.setPlatos(platos);
         double total = platos.stream()
                 .mapToDouble(Plato::getPrecio)

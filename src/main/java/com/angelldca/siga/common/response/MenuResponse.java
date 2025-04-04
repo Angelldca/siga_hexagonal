@@ -18,14 +18,13 @@ public class MenuResponse implements IResponse{
     private Long id;
     private Double totalPrecio;
     private Boolean disponible;
-    private EventoResponse evento;
+
     private List<PlatoResponse> platos;
 
     public MenuResponse(Menu menu) {
         this.id = menu.getId();
         this.totalPrecio = menu.getTotalPrecio();
         this.disponible = menu.getDisponible();
-        this.evento = new EventoResponse(menu.getEvento());
         this.platos = menu.getPlatos().stream().map(PlatoResponse::new).toList();
     }
 }
