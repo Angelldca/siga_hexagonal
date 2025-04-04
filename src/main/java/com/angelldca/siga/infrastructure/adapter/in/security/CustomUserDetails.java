@@ -1,5 +1,6 @@
 package com.angelldca.siga.infrastructure.adapter.in.security;
 
+import com.angelldca.siga.application.port.out.GetPort;
 import com.angelldca.siga.domain.model.User;
 import com.angelldca.siga.domain.model.UserPermissionBusiness;
 import com.angelldca.siga.infrastructure.adapter.out.persistence.usuario.EUserType;

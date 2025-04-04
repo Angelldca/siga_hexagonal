@@ -1,4 +1,4 @@
-package com.angelldca.siga.infrastructure.adapter.in.security;
+package com.angelldca.siga.application.port.in.command.auth;
 
 
 import lombok.Data;
