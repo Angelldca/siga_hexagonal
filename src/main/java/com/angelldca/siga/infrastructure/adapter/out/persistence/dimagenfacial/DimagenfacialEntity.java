@@ -15,12 +15,12 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class Dimagenfacial {
+public class DimagenfacialEntity {
 
     @Id
     @OneToOne
     @JoinColumn(name = "idciudadano", referencedColumnName = "idciudadano")
-    private DpersonaEntity idciudadano;
+    private DpersonaEntity persona;
 
     @Lob
     @Column(name = "foto", columnDefinition = "BYTEA")

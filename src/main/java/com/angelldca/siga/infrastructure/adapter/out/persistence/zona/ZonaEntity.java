@@ -1,5 +1,6 @@
 package com.angelldca.siga.infrastructure.adapter.out.persistence.zona;
 
+import com.angelldca.siga.infrastructure.adapter.out.persistence.Evento.EventoEntity;
 import com.angelldca.siga.infrastructure.adapter.out.persistence.empresa.EmpresaEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -23,10 +24,6 @@ public class ZonaEntity {
     private Long id;
 
     private String nombre;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "empresa_id", nullable = false)
-    private EmpresaEntity empresa;
 
     @CreationTimestamp
     @Column(updatable = false)

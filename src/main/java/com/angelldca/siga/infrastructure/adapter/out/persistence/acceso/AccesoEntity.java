@@ -1,9 +1,14 @@
 package com.angelldca.siga.infrastructure.adapter.out.persistence.acceso;
 
 
+import com.angelldca.siga.infrastructure.adapter.out.persistence.Evento.EventoEntity;
 import com.angelldca.siga.infrastructure.adapter.out.persistence.dpersona.DpersonaEntity;
 import com.angelldca.siga.infrastructure.adapter.out.persistence.empresa.EmpresaEntity;
+import com.angelldca.siga.infrastructure.adapter.out.persistence.menu.MenuEntity;
+import com.angelldca.siga.infrastructure.adapter.out.persistence.menuEvento.MenuEventoEntity;
 import com.angelldca.siga.infrastructure.adapter.out.persistence.puerta.PuertaEntity;
+import com.angelldca.siga.infrastructure.adapter.out.persistence.puerta_persona.PuertaPersonaEntity;
+import com.angelldca.siga.infrastructure.adapter.out.persistence.zonaEvento.ZonaEventoEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -25,21 +30,17 @@ public class AccesoEntity {
     @Column(name = "id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "empresa_id", nullable = false)
-    private EmpresaEntity empresa;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "puerta_persona_id", nullable = false)
+    private PuertaPersonaEntity puertaPersona;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "acceso_persona",
-            joinColumns = @JoinColumn(name = "acceso_id"),
-            inverseJoinColumns = @JoinColumn(name = "persona_id")
-    )
-    private List<DpersonaEntity> personas;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "zona_evento_id", nullable = false)
+    private ZonaEventoEntity zonaEvento;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "puerta_id", nullable = false) //fk tabla puerta
-    private PuertaEntity puerta;
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "menu_evento_id")
+    private MenuEventoEntity menuEvento;
 
     @CreationTimestamp
     @Column(updatable = false)
