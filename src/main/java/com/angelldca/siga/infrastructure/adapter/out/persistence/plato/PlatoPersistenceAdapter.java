@@ -8,6 +8,7 @@ import com.angelldca.siga.application.port.out.SavePort;
 import com.angelldca.siga.application.port.out.plato.LoadPlatosPort;
 import com.angelldca.siga.common.anotations.PersistenceAdapter;
 import com.angelldca.siga.common.exception.*;
+import com.angelldca.siga.domain.model.Empresa;
 import com.angelldca.siga.domain.model.Plato;
 import com.angelldca.siga.infrastructure.adapter.out.repository.command.PlatoWriteDataJPARepository;
 import com.angelldca.siga.infrastructure.adapter.out.repository.query.PlatoReadDataJPARepository;
@@ -17,6 +18,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
+import java.util.UUID;
 
 
 @PersistenceAdapter
@@ -28,9 +30,11 @@ public class PlatoPersistenceAdapter implements
    private final PlatoReadDataJPARepository query;
    private final PlatoWriteDataJPARepository command;
 
+
     public PlatoPersistenceAdapter(PlatoReadDataJPARepository query, PlatoWriteDataJPARepository command) {
         this.query = query;
         this.command = command;
+
     }
 
 

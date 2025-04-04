@@ -20,12 +20,15 @@ public class MenuMapper {
         menu.setTotalPrecio(entity.getTotalPrecio());
         menu.setDisponible(entity.getDisponible());
 
-        if (entity.getPlatos() != null) {
+
+         if (entity.getPlatos() != null) {
             List<Plato> platos = entity.getPlatos().stream()
                     .map(PlatoMapper::entityToDomain)
                     .collect(Collectors.toList());
             menu.setPlatos(platos);
         }
+
+
 
         return menu;
     }
@@ -37,12 +40,15 @@ public class MenuMapper {
         entity.setId(domain.getId());
         entity.setTotalPrecio(domain.getTotalPrecio());
         entity.setDisponible(domain.getDisponible());
-        if (domain.getPlatos() != null) {
+
+         if (domain.getPlatos() != null) {
             List<PlatoEntity> platos = domain.getPlatos().stream()
                     .map(PlatoMapper::domainToEntity)
                     .collect(Collectors.toList());
             entity.setPlatos(platos);
         }
+
+
 
         return entity;
     }

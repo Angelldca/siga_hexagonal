@@ -1,5 +1,6 @@
 package com.angelldca.siga.infrastructure.adapter.out.persistence.plato;
 
+import com.angelldca.siga.infrastructure.adapter.out.persistence.empresa.EmpresaEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,7 +25,9 @@ public class PlatoEntity {
     private Double precio;
     private String medida;
     private Boolean disponible;
-
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "empresa_id", nullable = false)
+    private EmpresaEntity empresa;
 
     @CreationTimestamp
     @Column(updatable = false)

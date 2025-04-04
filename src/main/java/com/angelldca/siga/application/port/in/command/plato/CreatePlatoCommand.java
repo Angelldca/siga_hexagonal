@@ -5,6 +5,7 @@ import com.angelldca.siga.application.port.in.command.ICommand;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.UUID;
 
 
 @Getter
@@ -16,5 +17,6 @@ public class CreatePlatoCommand implements ICommand {
     private Double precio;
     private Boolean disponible;
     private String medida;
+    private UUID businessId;
 
 }

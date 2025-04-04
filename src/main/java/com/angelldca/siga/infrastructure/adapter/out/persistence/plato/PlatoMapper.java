@@ -1,6 +1,7 @@
 package com.angelldca.siga.infrastructure.adapter.out.persistence.plato;
 
 import com.angelldca.siga.domain.model.Plato;
+import com.angelldca.siga.infrastructure.adapter.out.persistence.empresa.EmpresaMapper;
 
 public class PlatoMapper {
     public static Plato entityToDomain(PlatoEntity platoEntity) {
@@ -10,6 +11,7 @@ public class PlatoMapper {
         plato.setNombre(platoEntity.getNombre());
         plato.setPrecio(platoEntity.getPrecio());
         plato.setMedida(platoEntity.getMedida());
+        plato.setEmpresa(EmpresaMapper.entityToDomain(platoEntity.getEmpresa()));
         return plato;
     }
 
@@ -20,6 +22,7 @@ public class PlatoMapper {
         platoEntity.setPrecio(plato.getPrecio());
         platoEntity.setMedida(plato.getMedida());
         platoEntity.setNombre(plato.getNombre());
+        platoEntity.setEmpresa(EmpresaMapper.domainToEntity(plato.getEmpresa()));
         return platoEntity;
     }
 }

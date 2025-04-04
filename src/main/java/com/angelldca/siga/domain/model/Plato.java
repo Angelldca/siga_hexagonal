@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.math.BigDecimal;
-
 
 
 @Data
@@ -17,4 +15,5 @@ public class Plato {
     private double precio;
     private String medida;
     private Boolean disponible;
+    private Empresa empresa;
 }
