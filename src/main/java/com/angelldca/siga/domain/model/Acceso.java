@@ -12,4 +12,5 @@ public class Acceso {
     private PuertaPersona puertaPersona;
     private ZonaEvento zonaEvento;
     private MenuEvento menuEvento;
+    private String nombreEvento;
 }
