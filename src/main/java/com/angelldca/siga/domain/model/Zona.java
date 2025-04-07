@@ -12,4 +12,6 @@ import lombok.NoArgsConstructor;
 public class Zona {
     private Long id;
     private String nombre;
+    private Empresa empresa;
+    private Boolean isDelete;
 }

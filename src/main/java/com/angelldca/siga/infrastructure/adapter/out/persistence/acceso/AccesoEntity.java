@@ -42,6 +42,10 @@ public class AccesoEntity {
     @JoinColumn(name = "menu_evento_id")
     private MenuEventoEntity menuEvento;
 
+
+    @Column(name = "nombre_evento")
+    private String nombreEvento;
+
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdAt;

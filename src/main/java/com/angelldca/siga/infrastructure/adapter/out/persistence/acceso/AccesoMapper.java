@@ -9,6 +9,7 @@ public class AccesoMapper {
     public static Acceso entityToDomain(AccesoEntity entity) {
         Acceso domain = new Acceso();
         domain.setId(entity.getId());
+        domain.setNombreEvento(entity.getNombreEvento());
         domain.setPuertaPersona(PuertaPersonaMapper.entityToDomain(entity.getPuertaPersona()));
         domain.setZonaEvento(ZonaEventoMapper.entityToDomain(entity.getZonaEvento()));
         domain.setMenuEvento(entity.getMenuEvento() != null ? MenuEventoMapper.entityToDomain(entity.getMenuEvento()) : null);
@@ -18,6 +19,7 @@ public class AccesoMapper {
     public static AccesoEntity domainToEntity(Acceso domain) {
         AccesoEntity entity = new AccesoEntity();
         entity.setId(domain.getId());
+        entity.setNombreEvento(domain.getNombreEvento());
         entity.setPuertaPersona(PuertaPersonaMapper.domainToEntity(domain.getPuertaPersona()));
         entity.setZonaEvento(ZonaEventoMapper.domainToEntity(domain.getZonaEvento()));
         entity.setMenuEvento(domain.getMenuEvento() != null ? MenuEventoMapper.domainToEntity(domain.getMenuEvento()) : null);
