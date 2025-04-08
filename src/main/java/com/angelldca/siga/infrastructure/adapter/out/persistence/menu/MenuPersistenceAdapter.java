@@ -28,10 +28,10 @@ public class MenuPersistenceAdapter implements MenuCRUDPort {
 
     @Override
     public Menu delete(Long id) {
-        Menu menu = obtenerPorId(id);
-        MenuEntity entity = MenuMapper.domainToEntity(menu);
+        Menu domain = obtenerPorId(id);
+        MenuEntity entity = MenuMapper.domainToEntity(domain);
         this.command.delete(entity);
-        return menu;
+        return domain;
     }
 
     @Override

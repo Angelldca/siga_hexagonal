@@ -5,7 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Data
 @AllArgsConstructor
@@ -13,8 +15,10 @@ import java.time.LocalDateTime;
 public class Evento {
     private Long id;
     private String nombre;
-    private LocalDateTime fechaInicio;
-    private LocalDateTime fechaFin;
+    private LocalDate fechaInicio;
+    private LocalDate fechaFin;
+    private LocalTime horaInicio;
+    private LocalTime horaFin;
     private Boolean activo;
     private Boolean ilimitado;
     private Empresa empresa;

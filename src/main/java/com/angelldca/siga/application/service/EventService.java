@@ -87,6 +87,8 @@ public class EventService implements
                 command.getNombre(),
                 command.getFechaInicio(),
                 command.getFechaFin(),
+                command.getHoraInicio(),
+                command.getHoraFin(),
                 command.getActivo(),command.getIlimitado(),empresa
         );
 
@@ -116,6 +118,8 @@ public class EventService implements
         entity.setNombre(command.getNombre());
         entity.setFechaInicio(command.getFechaInicio());
         entity.setFechaFin(command.getFechaFin());
+        entity.setHoraFin(command.getHoraInicio());
+        entity.setHoraFin(command.getHoraFin());
         entity.setActivo(command.getActivo());
         entity.setIlimitado(command.getIlimitado());
         return this.savePort.save(entity);

@@ -1,6 +1,7 @@
 package com.angelldca.siga.infrastructure.adapter.out.persistence.menuEvento;
 
 
+import com.angelldca.siga.application.port.out.menuEvento.GetOptionalMenuEventoPort;
 import com.angelldca.siga.application.port.out.menuEvento.MenuEventoCRUDPort;
 import com.angelldca.siga.common.anotations.PersistenceAdapter;
 import com.angelldca.siga.common.exception.BusinessExceptionFactory;
@@ -15,11 +16,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @PersistenceAdapter
 @Qualifier("menuEventoPersistenceAdapter")
-public class MenuEventoPersistenceAdapter implements MenuEventoCRUDPort {
+public class MenuEventoPersistenceAdapter implements MenuEventoCRUDPort, GetOptionalMenuEventoPort {
     private final MenuEventoDataReadJPARepository query;
     private final MenuEventoDataWriteJPARepository command;
 
@@ -53,5 +55,12 @@ public class MenuEventoPersistenceAdapter implements MenuEventoCRUDPort {
     public MenuEvento save(MenuEvento domain) {
         MenuEventoEntity entity = this.command.save(MenuEventoMapper.domainToEntity(domain));
         return MenuEventoMapper.entityToDomain(entity);
+    }
+
+    @Override
+    public MenuEvento loadMenuEvento(UUID id) {
+        return this.query.findById(id)
+                .map(MenuEventoMapper::entityToDomain)
+                .orElse(null);
     }
 }

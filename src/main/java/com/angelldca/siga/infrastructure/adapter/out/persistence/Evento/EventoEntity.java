@@ -9,7 +9,9 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -22,8 +24,12 @@ public class EventoEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nombre;
-    private LocalDateTime fechaInicio;
-    private LocalDateTime fechaFin;
+    //TODO: private LocalDate fechaEvento;
+    private LocalDate fechaInicio;
+    private LocalDate fechaFin;
+    private LocalTime horaInicio;
+    private LocalTime horaFin;
+    //LocalTime hora = localDateTime.toLocalTime();
     private Boolean activo;
     private Boolean ilimitado;
 

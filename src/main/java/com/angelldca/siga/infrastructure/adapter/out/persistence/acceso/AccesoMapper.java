@@ -13,6 +13,7 @@ public class AccesoMapper {
         domain.setPuertaPersona(PuertaPersonaMapper.entityToDomain(entity.getPuertaPersona()));
         domain.setZonaEvento(ZonaEventoMapper.entityToDomain(entity.getZonaEvento()));
         domain.setMenuEvento(entity.getMenuEvento() != null ? MenuEventoMapper.entityToDomain(entity.getMenuEvento()) : null);
+        domain.setFecha(entity.getCreatedAt());
         return domain;
     }
 

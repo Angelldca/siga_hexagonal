@@ -17,6 +17,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @PersistenceAdapter
@@ -63,7 +64,7 @@ public class EventPersistenceAdapter implements
     }
 
     @Override
-    public boolean existsByNameAndDateRange(String name, LocalDateTime fechaInicio, LocalDateTime fechaFin, Object excludeId) {
+    public boolean existsByNameAndDateRange(String name, LocalDate fechaInicio, LocalDate fechaFin, Object excludeId) {
         Long id = (excludeId instanceof Long) ? (Long) excludeId : null;
         return query.existsByNombreAndFechaInicioAndFechaFinAndIdNot(name, fechaInicio, fechaFin, id);
 
