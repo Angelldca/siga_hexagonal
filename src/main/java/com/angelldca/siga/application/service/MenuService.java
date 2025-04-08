@@ -27,7 +27,7 @@ import com.angelldca.siga.infrastructure.adapter.out.persistence.specification.G
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.transaction.annotation.Transactional;
+
 
 import java.util.ArrayList;
 

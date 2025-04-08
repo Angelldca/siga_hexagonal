@@ -9,7 +9,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.UUID;
 
 @Getter
@@ -18,8 +20,10 @@ import java.util.UUID;
 @NoArgsConstructor
 public class CreateEventoCommand implements ICommand {
     private String nombre;
-    private LocalDateTime fechaInicio;
-    private LocalDateTime fechaFin;
+    private LocalDate fechaInicio;
+    private LocalDate fechaFin;
+    private LocalTime horaInicio;
+    private LocalTime horaFin;
     private Boolean activo;
     private Boolean ilimitado;
     private UUID empresa;

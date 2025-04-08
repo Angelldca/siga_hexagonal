@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 
@@ -18,8 +19,8 @@ public interface EventReadDataJPARepository extends JpaRepository<EventoEntity,L
 
     boolean existsByNombreAndFechaInicioAndFechaFinAndIdNot(
             String nombre,
-            LocalDateTime fechaInicio,
-            LocalDateTime fechaFin,
+            LocalDate fechaInicio,
+            LocalDate fechaFin,
             Long id
     );
 }

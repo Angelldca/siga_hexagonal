@@ -6,7 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @NoArgsConstructor
 @Getter
@@ -14,8 +16,10 @@ import java.time.LocalDateTime;
 public class EventoResponse implements IResponse{
     private Long id;
     private String nombre;
-    private LocalDateTime fechaInicio;
-    private LocalDateTime fechaFin;
+    private LocalDate fechaInicio;
+    private LocalDate fechaFin;
+    private LocalTime horaInicio;
+    private LocalTime horaFin;
     //private Menu menu;
     private Boolean activo;
     private Boolean ilimitado;
@@ -25,6 +29,8 @@ public class EventoResponse implements IResponse{
         this.nombre = evento.getNombre();
         this.fechaInicio = evento.getFechaInicio();
         this.fechaFin = evento.getFechaFin();
+        this.horaInicio = evento.getHoraInicio();
+        this.horaFin = evento.getHoraFin();
         this.activo = evento.getActivo();
         this.ilimitado = evento.getIlimitado();
     }
