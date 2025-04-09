@@ -36,11 +36,11 @@ public class AccesoEntity {
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "zona_evento_id", nullable = false)
-    private ZonaEventoEntity zonaEvento;
+    private ZonaEventoEntity zonaEvento; //TODO: REVISAR CAMBIOS
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "menu_evento_id")
-    private MenuEventoEntity menuEvento;
+    private MenuEventoEntity menuEvento; //TODO: REVISAR CAMBIOS DE LA RELACION
 
 
     @Column(name = "nombre_evento")
