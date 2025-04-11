@@ -40,8 +40,8 @@ public class AuthService {
         return new AuthResponse(accessToken, refreshToken);
     }
 
-    public AuthResponse refresh(RefreshTokenRequestCommand request) {
-        String refreshToken = request.getRefreshToken();
+    public AuthResponse refresh(String request) {
+        String refreshToken = request;
         if (!jwtTokenProvider.validateToken(refreshToken)) {
             throw new RuntimeException("Refresh token inválido o expirado");
         }

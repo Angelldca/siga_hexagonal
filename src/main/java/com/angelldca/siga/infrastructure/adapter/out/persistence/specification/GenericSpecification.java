@@ -1,9 +1,11 @@
 package com.angelldca.siga.infrastructure.adapter.out.persistence.specification;
 
 import com.angelldca.siga.common.criteria.FilterCriteria;
+import com.angelldca.siga.common.criteria.SearchCriteria;
 import jakarta.persistence.criteria.*;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -12,9 +14,9 @@ import java.util.List;
 import java.util.UUID;
 
 public class GenericSpecification <T> implements Specification<T> {
-    private final FilterCriteria criteria;
+    private final SearchCriteria criteria;
 
-    public GenericSpecification(FilterCriteria criteria) {
+    public GenericSpecification(SearchCriteria criteria) {
         this.criteria = criteria;
     }
 
@@ -34,10 +36,41 @@ public class GenericSpecification <T> implements Specification<T> {
 
         // Verificar si el valor es un UUID y convertirlo a UUID si es necesario.
         Object value = criteria.getValue();
+        System.out.println("Tipo de dato: " + value.getClass().getName());
 
-        if (value instanceof String && isValidUUID((String) value)) {
-            value = UUID.fromString((String) value);
+        Class<?> fieldType = path.getJavaType();
+        System.out.println("Tipo de dato Path: " + fieldType);
+        if (value instanceof String) {
+            String val = (String) value;
+
+            if (fieldType.equals(UUID.class) && isValidUUID(val)) {
+                value = UUID.fromString(val);
+            } else if (fieldType.equals(Long.class)) {
+                value = Long.parseLong(val);
+            } else if (fieldType.equals(Integer.class)) {
+                value = Integer.parseInt(val);
+            } else if (fieldType.equals(Float.class)) {
+                value = Float.parseFloat(val);
+            } else if (fieldType.equals(Double.class)) {
+                value = Double.parseDouble(val);
+            } else if (fieldType.equals(BigDecimal.class)) {
+                value = new BigDecimal(val);
+            } else if (fieldType.equals(Boolean.class)) {
+                value = Boolean.parseBoolean(val.toLowerCase());
+            } else {
+                // Fechas
+                try {
+                    value = LocalDate.parse(val, DateTimeFormatter.ISO_LOCAL_DATE);
+                } catch (DateTimeParseException e1) {
+                    try {
+                        value = LocalDateTime.parse(val, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
+                    } catch (DateTimeParseException e2) {
+                        // no conversion
+                    }
+                }
+            }
         }
+
 
         DateTimeFormatter dateFormatter = DateTimeFormatter.ISO_LOCAL_DATE;
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
@@ -52,21 +85,28 @@ public class GenericSpecification <T> implements Specification<T> {
             }
         }
 
-        return switch (criteria.getOperator()) {
-            case LIKE -> builder.like(builder.lower(path.as(String.class)), "%" + value.toString().toLowerCase() + "%");
+        return switch (criteria.getOperation()) {
+            case LIKE ->  {
+                if (value instanceof UUID) {
+                    yield builder.equal(path.as(UUID.class), (UUID) value);
+                }else if (!(value instanceof String)) {
+                    yield builder.equal(path.as(fieldType),value);
+                } else {
+                    yield builder.like(
+                            builder.lower(path.as(String.class)),
+                            "%" + value.toString().toLowerCase() + "%"
+                    );
+                }
+            }
             case EQUALS -> {
                 if (value instanceof LocalDate) {
                     yield builder.equal(path.as(LocalDate.class), (LocalDate) value);
                 } else if (value instanceof LocalDateTime) {
                     yield builder.equal(path.as(LocalDateTime.class), (LocalDateTime) value);
-                } else {
-                    yield builder.equal(
-                            builder.lower(builder.function("replace", String.class, path.as(String.class), builder.literal(" "), builder.literal(""))),
-                            value.toString().toLowerCase().replace(" ", "")
-                    );
+                }else {
+                    yield builder.equal(path.as(fieldType),value);
                 }
             }
-
             case NOT_EQUALS -> {
                 if (value instanceof LocalDate) {
                     yield builder.notEqual(path.as(LocalDate.class), (LocalDate) value);
@@ -192,7 +232,7 @@ public class GenericSpecification <T> implements Specification<T> {
                         .where(builder.equal(subRoot.get(criteria.getKey()).get("id"), root.get("id")));
                 yield builder.not(builder.exists(subquery));
             }
-            default -> throw new IllegalArgumentException("Operación no soportada: " + criteria.getOperator());
+            default -> throw new IllegalArgumentException("Operación no soportada: " + criteria.getOperation());
         };
     }
 
@@ -200,6 +240,14 @@ public class GenericSpecification <T> implements Specification<T> {
     private boolean isValidUUID(String str) {
         try {
             UUID.fromString(str);
+            return true;
+        } catch (IllegalArgumentException e) {
+            return false;
+        }
+    }
+    private boolean isValidLong(String str) {
+        try {
+            Long.parseLong(str);
             return true;
         } catch (IllegalArgumentException e) {
             return false;
