@@ -36,7 +36,7 @@ public class AuthController {
         ResponseCookie refreshCookie = ResponseCookie.from("refresh_token", response.getRefreshToken())
                 .httpOnly(true)
                 .secure(false) // ⚠️ true en producción (requiere HTTPS)
-                .path("/api/auth/refresh")
+                .path("/auth/refresh")
                 .sameSite("Lax")
                 .maxAge(Duration.ofDays(7)) // duración de la cookie
                 .build();
@@ -49,5 +49,19 @@ public class AuthController {
     @PostMapping("/refresh")
     public ResponseEntity<AuthResponse> refreshToken(@CookieValue("refresh_token") String refreshToken) {
         return ResponseEntity.ok(authService.refresh(refreshToken));
+    }
+    @PostMapping("/logout")
+    public ResponseEntity<Void> logout() {
+        ResponseCookie deleteCookie = ResponseCookie.from("refresh_token", "")
+                .httpOnly(true)
+                .secure(true) // ⚠️ true si estás en HTTPS, false en local
+                .path("/auth/refresh")
+                .maxAge(0) // 🔥 Elimina la cookie
+                .sameSite("Lax")
+                .build();
+
+        return ResponseEntity.noContent()
+                .header(HttpHeaders.SET_COOKIE, deleteCookie.toString())
+                .build();
     }
 }

@@ -17,13 +17,13 @@ import java.util.UUID;
 public class UserPermissionBusinessResponse implements IResponse{
     private UUID id;
     private Permission permission;
-    private User user;
+    private UserResponse user;
     private Empresa empresa;
 
     public UserPermissionBusinessResponse(UserPermissionBusiness userPermissionBusiness) {
         this.id = userPermissionBusiness.getId();
         this.permission = userPermissionBusiness.getPermission();
-        this.user = userPermissionBusiness.getUser();
+        this.user = new UserResponse(userPermissionBusiness.getUser());
         this.empresa = userPermissionBusiness.getEmpresa();
     }
 }
