@@ -6,6 +6,7 @@ import com.angelldca.siga.application.port.out.GetPort;
 import com.angelldca.siga.application.port.out.ListPort;
 import com.angelldca.siga.application.port.out.SavePort;
 import com.angelldca.siga.application.port.out.evento.CheckEventUniquePort;
+import com.angelldca.siga.application.port.out.evento.DeleteEventListPort;
 import com.angelldca.siga.common.anotations.PersistenceAdapter;
 import com.angelldca.siga.common.exception.BusinessExceptionFactory;
 import com.angelldca.siga.domain.model.Evento;
@@ -19,12 +20,13 @@ import org.springframework.data.jpa.domain.Specification;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @PersistenceAdapter
 @Qualifier("eventPersistenceAdapter")
 public class EventPersistenceAdapter implements
         DeletePort<Evento,Long>, GetPort<Evento,Long>,
-        ListPort<EventoEntity>, SavePort<Evento>, CheckEventUniquePort {
+        ListPort<EventoEntity>, SavePort<Evento>, CheckEventUniquePort, DeleteEventListPort {
 
     private final EventReadDataJPARepository query;
     private final EventWriteDataJPARepository command;
@@ -68,5 +70,10 @@ public class EventPersistenceAdapter implements
         Long id = (excludeId instanceof Long) ? (Long) excludeId : null;
         return query.existsByNombreAndFechaInicioAndFechaFinAndIdNot(name, fechaInicio, fechaFin, id);
 
+    }
+
+    @Override
+    public void deleteListEvent(List<Long> ids) {
+        this.command.deleteAllById(ids);
     }
 }

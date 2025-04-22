@@ -24,12 +24,10 @@ public class EventoEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nombre;
-    //TODO: private LocalDate fechaEvento;
     private LocalDate fechaInicio;
     private LocalDate fechaFin;
     private LocalTime horaInicio;
     private LocalTime horaFin;
-    //LocalTime hora = localDateTime.toLocalTime();
     private Boolean activo;
     private Boolean ilimitado;
 

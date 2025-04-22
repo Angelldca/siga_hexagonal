@@ -5,6 +5,8 @@ import com.angelldca.siga.application.port.in.command.CreateUseCase;
 import com.angelldca.siga.application.port.in.command.DeleteUseCase;
 import com.angelldca.siga.application.port.in.command.UpdateUseCase;
 import com.angelldca.siga.application.port.in.command.evento.CreateEventoCommand;
+import com.angelldca.siga.application.port.in.command.evento.DeleteEventListUseCase;
+import com.angelldca.siga.application.port.in.command.evento.DeleteListEventCommand;
 import com.angelldca.siga.application.port.in.command.evento.UpdateEventCommand;
 import com.angelldca.siga.application.port.in.query.GetUseCase;
 import com.angelldca.siga.application.port.in.query.ListUseCase;
@@ -28,17 +30,18 @@ public class EventController {
     private final CreateUseCase<Evento, CreateEventoCommand> createUseCase;
     private final UpdateUseCase<Evento, UpdateEventCommand,Long> updateUseCase;
     private final DeleteUseCase<Evento,Long> deleteUseCase;
+    private final DeleteEventListUseCase deleteEventListUseCase;
     private final GetUseCase<Long> getUseCase;
     private final ListUseCase listUseCase;
 
     public EventController(
-            EventService eventService
-    ) {
+            EventService eventService) {
         this.createUseCase = eventService;
         this.updateUseCase = eventService;
         this.deleteUseCase = eventService;
         this.getUseCase = eventService;
         this.listUseCase = eventService;
+        this.deleteEventListUseCase = eventService;
     }
 
     @PostMapping
@@ -69,6 +72,13 @@ public class EventController {
     public ResponseEntity<?> search(@RequestBody SearchRequest request) {
         Pageable pageable = PageableUtil.createPageable(request);
         PaginatedResponse response = this.listUseCase.search(pageable, request.getFilter());
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping(path = "/delete-list")
+    public ResponseEntity<?> deleteAll(@RequestBody DeleteListEventCommand command){
+        deleteEventListUseCase.deleteListEvent(command);
+        IResponse response = new Message<>(null, "DELETE_EVENTO_LIST");
         return ResponseEntity.ok(response);
     }
 }
