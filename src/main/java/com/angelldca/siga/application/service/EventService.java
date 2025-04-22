@@ -5,6 +5,8 @@ import com.angelldca.siga.application.port.in.command.CreateUseCase;
 import com.angelldca.siga.application.port.in.command.DeleteUseCase;
 import com.angelldca.siga.application.port.in.command.UpdateUseCase;
 import com.angelldca.siga.application.port.in.command.evento.CreateEventoCommand;
+import com.angelldca.siga.application.port.in.command.evento.DeleteEventListUseCase;
+import com.angelldca.siga.application.port.in.command.evento.DeleteListEventCommand;
 import com.angelldca.siga.application.port.in.command.evento.UpdateEventCommand;
 import com.angelldca.siga.application.port.in.query.GetUseCase;
 import com.angelldca.siga.application.port.in.query.ListUseCase;
@@ -13,6 +15,7 @@ import com.angelldca.siga.application.port.out.GetPort;
 import com.angelldca.siga.application.port.out.ListPort;
 import com.angelldca.siga.application.port.out.SavePort;
 import com.angelldca.siga.application.port.out.evento.CheckEventUniquePort;
+import com.angelldca.siga.application.port.out.evento.DeleteEventListPort;
 import com.angelldca.siga.common.anotations.UseCase;
 import com.angelldca.siga.common.criteria.FilterCriteria;
 import com.angelldca.siga.common.response.EventoResponse;
@@ -45,6 +48,7 @@ public class EventService implements
         UpdateUseCase<Evento, UpdateEventCommand,Long>,
         DeleteUseCase<Evento,Long>,
         GetUseCase<Long>,
+        DeleteEventListUseCase,
         ListUseCase {
 
     private final DeletePort<Evento,Long> deletePort;
@@ -52,6 +56,7 @@ public class EventService implements
     private final GetPort<Empresa, UUID> getPortEmpresa;
     private final ListPort<EventoEntity> listPort;
     private final SavePort<Evento> savePort;
+    private final DeleteEventListPort deleteEventListPort;
     private final CheckEventUniquePort checkEventUniquePort;
 
 
@@ -59,12 +64,13 @@ public class EventService implements
             @Qualifier("eventPersistenceAdapter") DeletePort<Evento,Long> deletePort,
             @Qualifier("eventPersistenceAdapter") GetPort<Evento,Long> getPort,
             GetPort<Empresa, UUID> getPortEmpresa, @Qualifier("eventPersistenceAdapter") ListPort<EventoEntity> listPort,
-            @Qualifier("eventPersistenceAdapter") SavePort<Evento> savePort, CheckEventUniquePort checkEventUniquePort) {
+            @Qualifier("eventPersistenceAdapter") SavePort<Evento> savePort, DeleteEventListPort deleteEventListPort, CheckEventUniquePort checkEventUniquePort) {
         this.deletePort = deletePort;
         this.getPort = getPort;
         this.getPortEmpresa = getPortEmpresa;
         this.listPort = listPort;
         this.savePort = savePort;
+        this.deleteEventListPort = deleteEventListPort;
         this.checkEventUniquePort = checkEventUniquePort;
 
     }
@@ -146,5 +152,10 @@ public class EventService implements
         }
         return new PaginatedResponse(eventoResponse, data.getTotalPages(), data.getNumberOfElements(),
                 data.getTotalElements(), data.getSize(), data.getNumber());
+    }
+
+    @Override
+    public void deleteListEvent(DeleteListEventCommand command) {
+        this.deleteEventListPort.deleteListEvent(command.getIds());
     }
 }

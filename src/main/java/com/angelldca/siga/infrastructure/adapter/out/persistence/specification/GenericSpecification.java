@@ -6,8 +6,7 @@ import jakarta.persistence.criteria.*;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
+import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
@@ -57,33 +56,47 @@ public class GenericSpecification <T> implements Specification<T> {
                 value = new BigDecimal(val);
             } else if (fieldType.equals(Boolean.class)) {
                 value = Boolean.parseBoolean(val.toLowerCase());
+            }else if (fieldType.equals(LocalDate.class)) {
+                // Ejemplo: "2025-04-11"
+                DateTimeFormatter DateFormatter = DateTimeFormatter.ISO_LOCAL_DATE;
+                value = LocalDate.parse(val, DateFormatter);
+
+            } else if (fieldType.equals(LocalDateTime.class)) {
+                // Puede venir con offset: "2025-04-11T12:00:00-05:00"
+
+                DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+                value = LocalDateTime
+                        .parse(val, dateTimeFormatter);
+
+            } else if (fieldType.equals(LocalTime.class)) {
+                DateTimeFormatter TimeFormatter = DateTimeFormatter.ISO_LOCAL_TIME;
+                value = LocalTime
+                        .parse(val, TimeFormatter);
             } else {
+                value = val.toLowerCase();
+            }
+        }
+        /*else {
                 // Fechas
+                DateTimeFormatter dateFormatter = DateTimeFormatter.ISO_LOCAL_DATE;
+                DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
+                DateTimeFormatter TimeFormatter = DateTimeFormatter.ISO_LOCAL_TIME;
+                // Intentar convertir el valor a LocalDate o LocalDateTime si es necesario.
                 try {
-                    value = LocalDate.parse(val, DateTimeFormatter.ISO_LOCAL_DATE);
-                } catch (DateTimeParseException e1) {
+                    value = LocalDate.parse(value.toString(), dateFormatter);
+                    System.out.println("Se convirtio a fecha");
+                } catch (DateTimeParseException ignored) {
                     try {
-                        value = LocalDateTime.parse(val, DateTimeFormatter.ISO_LOCAL_DATE_TIME);
-                    } catch (DateTimeParseException e2) {
-                        // no conversion
+                        value = LocalDateTime.parse(value.toString(), dateTimeFormatter);
+                        System.out.println("Se convirtio a hora y fecha");
+                    } catch (DateTimeParseException ignored2) {
+                        value = LocalTime.parse(value.toString(), TimeFormatter);
+                        System.out.println("Se convirtio a hora");
                     }
                 }
-            }
-        }
+            }*/
 
 
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ISO_LOCAL_DATE;
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ISO_LOCAL_DATE_TIME;
-
-        // Intentar convertir el valor a LocalDate o LocalDateTime si es necesario.
-        try {
-            value = LocalDate.parse(value.toString(), dateFormatter);
-        } catch (DateTimeParseException ignored) {
-            try {
-                value = LocalDateTime.parse(value.toString(), dateTimeFormatter);
-            } catch (DateTimeParseException ignored2) {
-            }
-        }
 
         return switch (criteria.getOperation()) {
             case LIKE ->  {
@@ -99,12 +112,15 @@ public class GenericSpecification <T> implements Specification<T> {
                 }
             }
             case EQUALS -> {
-                if (value instanceof LocalDate) {
-                    yield builder.equal(path.as(LocalDate.class), (LocalDate) value);
-                } else if (value instanceof LocalDateTime) {
-                    yield builder.equal(path.as(LocalDateTime.class), (LocalDateTime) value);
-                }else {
+                if (value instanceof UUID) {
+                    yield builder.equal(path.as(UUID.class), (UUID) value);
+                }else if (!(value instanceof String)) {
                     yield builder.equal(path.as(fieldType),value);
+                } else {
+                    yield builder.equal(
+                            builder.lower(builder.function("replace", String.class, path.as(String.class), builder.literal(" "), builder.literal(""))),
+                            value.toString().toLowerCase().replace(" ", "")
+                    );
                 }
             }
             case NOT_EQUALS -> {
