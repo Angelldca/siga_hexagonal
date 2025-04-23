@@ -2,6 +2,7 @@ package com.angelldca.siga.common.response;
 
 
 import com.angelldca.siga.domain.model.Evento;
+import com.angelldca.siga.infrastructure.adapter.out.persistence.Evento.EventoType;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,6 +24,7 @@ public class EventoResponse implements IResponse{
     //private Menu menu;
     private Boolean activo;
     private Boolean ilimitado;
+    private EventoType type;
 
     public EventoResponse(Evento evento) {
         this.id = evento.getId();
@@ -33,5 +35,6 @@ public class EventoResponse implements IResponse{
         this.horaFin = evento.getHoraFin();
         this.activo = evento.getActivo();
         this.ilimitado = evento.getIlimitado();
+        this.type = evento.getType();
     }
 }

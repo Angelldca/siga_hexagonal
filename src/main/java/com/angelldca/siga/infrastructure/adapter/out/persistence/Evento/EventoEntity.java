@@ -31,6 +31,9 @@ public class EventoEntity {
     private Boolean activo;
     private Boolean ilimitado;
 
+    @Enumerated(EnumType.STRING)
+    private EventoType type = EventoType.ALIMENTACION;
+
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "empresa_id", nullable = false)
     private EmpresaEntity empresa;

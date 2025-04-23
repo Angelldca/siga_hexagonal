@@ -95,7 +95,7 @@ public class EventService implements
                 command.getFechaFin(),
                 command.getHoraInicio(),
                 command.getHoraFin(),
-                command.getActivo(),command.getIlimitado(),empresa
+                command.getActivo(),command.getIlimitado(),command.getType(),empresa
         );
 
         return this.savePort.save(entity);
@@ -128,6 +128,7 @@ public class EventService implements
         entity.setHoraFin(command.getHoraFin());
         entity.setActivo(command.getActivo());
         entity.setIlimitado(command.getIlimitado());
+        entity.setType(command.getType());
         return this.savePort.save(entity);
     }
 

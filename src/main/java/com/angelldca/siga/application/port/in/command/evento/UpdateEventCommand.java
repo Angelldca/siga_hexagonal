@@ -1,6 +1,7 @@
 package com.angelldca.siga.application.port.in.command.evento;
 
 
+import com.angelldca.siga.infrastructure.adapter.out.persistence.Evento.EventoType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,5 +20,6 @@ public class UpdateEventCommand {
     private LocalTime horaInicio;
     private LocalTime horaFin;
     private Boolean activo;
+    private EventoType type;
     private Boolean ilimitado;
 }
