@@ -17,6 +17,7 @@ public class EventoMapper {
         evento.setHoraFin(entity.getHoraFin());
         evento.setActivo(entity.getActivo());
         evento.setIlimitado(entity.getIlimitado());
+        evento.setType(entity.getType());
         evento.setEmpresa(EmpresaMapper.entityToDomain(entity.getEmpresa()));
 
         return evento;
@@ -34,6 +35,7 @@ public class EventoMapper {
         entity.setHoraFin(domain.getHoraFin());
         entity.setIlimitado(domain.getIlimitado());
         entity.setActivo(domain.getActivo());
+        entity.setType(domain.getType());
         entity.setEmpresa(EmpresaMapper.domainToEntity(domain.getEmpresa()));
 
         return entity;

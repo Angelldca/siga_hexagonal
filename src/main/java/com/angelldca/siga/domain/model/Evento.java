@@ -1,6 +1,7 @@
 package com.angelldca.siga.domain.model;
 
 
+import com.angelldca.siga.infrastructure.adapter.out.persistence.Evento.EventoType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,5 +22,6 @@ public class Evento {
     private LocalTime horaFin;
     private Boolean activo;
     private Boolean ilimitado;
+    private EventoType type;
     private Empresa empresa;
 }

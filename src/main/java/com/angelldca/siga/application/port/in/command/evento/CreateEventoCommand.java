@@ -3,6 +3,7 @@ package com.angelldca.siga.application.port.in.command.evento;
 
 import com.angelldca.siga.application.port.in.command.ICommand;
 import com.angelldca.siga.domain.model.Empresa;
+import com.angelldca.siga.infrastructure.adapter.out.persistence.Evento.EventoType;
 import com.angelldca.siga.infrastructure.adapter.out.persistence.empresa.EmpresaEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -26,5 +27,6 @@ public class CreateEventoCommand implements ICommand {
     private LocalTime horaFin;
     private Boolean activo;
     private Boolean ilimitado;
+    private EventoType type;
     private UUID empresa;
 }
