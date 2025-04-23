@@ -75,7 +75,7 @@ public class EventController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping(path = "/delete-list")
+    @DeleteMapping(path = "/delete-list")
     public ResponseEntity<?> deleteAll(@RequestBody DeleteListEventCommand command){
         deleteEventListUseCase.deleteListEvent(command);
         IResponse response = new Message<>(null, "DELETE_EVENTO_LIST");
