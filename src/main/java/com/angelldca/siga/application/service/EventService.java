@@ -124,7 +124,7 @@ public class EventService implements
         entity.setNombre(command.getNombre());
         entity.setFechaInicio(command.getFechaInicio());
         entity.setFechaFin(command.getFechaFin());
-        entity.setHoraFin(command.getHoraInicio());
+        entity.setHoraInicio(command.getHoraInicio());
         entity.setHoraFin(command.getHoraFin());
         entity.setActivo(command.getActivo());
         entity.setIlimitado(command.getIlimitado());
