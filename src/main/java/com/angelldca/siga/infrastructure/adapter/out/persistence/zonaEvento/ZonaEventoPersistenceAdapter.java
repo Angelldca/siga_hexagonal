@@ -1,6 +1,8 @@
 package com.angelldca.siga.infrastructure.adapter.out.persistence.zonaEvento;
 
 
+import com.angelldca.siga.application.port.out.zonaEvento.DeletePortByZonaId;
+import com.angelldca.siga.application.port.out.zonaEvento.SaveAllZonaEvento;
 import com.angelldca.siga.application.port.out.zonaEvento.ZonaEventoCrudPort;
 import com.angelldca.siga.common.anotations.PersistenceAdapter;
 import com.angelldca.siga.common.exception.BusinessExceptionFactory;
@@ -15,11 +17,15 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.util.List;
 import java.util.UUID;
 
 @PersistenceAdapter
 @Qualifier("zonaEventoPersistenceAdapter")
-public class ZonaEventoPersistenceAdapter implements ZonaEventoCrudPort {
+public class ZonaEventoPersistenceAdapter implements
+        ZonaEventoCrudPort,
+        SaveAllZonaEvento, DeletePortByZonaId
+{
 
     private final ZonaEventoReadDataJPARepository query;
     private final ZonaEventoWriteDataJPARepository command;
@@ -53,5 +59,21 @@ public class ZonaEventoPersistenceAdapter implements ZonaEventoCrudPort {
     public ZonaEvento save(ZonaEvento domain) {
         ZonaEventoEntity entity = this.command.save(ZonaEventoMapper.domainToEntity(domain));
         return ZonaEventoMapper.entityToDomain(entity);
+    }
+
+    @Override
+    public List<ZonaEvento> saveAllZonaEvento(List<ZonaEvento> domains) {
+        var entities = domains.stream()
+                .map(ZonaEventoMapper::domainToEntity)
+                .toList();
+        var saved = command.saveAll(entities);
+        return saved.stream()
+                .map(ZonaEventoMapper::entityToDomain)
+                .toList();
+    }
+
+    @Override
+    public void deleteByZonaId(Long zonaId) {
+          this.command.deleteAllByZonaId(zonaId);
     }
 }

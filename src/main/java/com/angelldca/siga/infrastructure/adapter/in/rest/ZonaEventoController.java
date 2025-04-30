@@ -6,7 +6,10 @@ import com.angelldca.siga.application.port.in.command.DeleteUseCase;
 import com.angelldca.siga.application.port.in.command.UpdateUseCase;
 import com.angelldca.siga.application.port.in.command.zona.CreateZonaCommand;
 import com.angelldca.siga.application.port.in.command.zona.UpdateZonaCommand;
+import com.angelldca.siga.application.port.in.command.zonaEvento.BulkCreateZonaEventoUseCase;
+import com.angelldca.siga.application.port.in.command.zonaEvento.BulkUpdateZonaEventoUseCase;
 import com.angelldca.siga.application.port.in.command.zonaEvento.CreateZonaEventoCommand;
+import com.angelldca.siga.application.port.in.command.zonaEvento.UpdateZonaEventoCommand;
 import com.angelldca.siga.application.port.in.query.GetUseCase;
 import com.angelldca.siga.application.port.in.query.ListUseCase;
 import com.angelldca.siga.application.service.ZonaEventoService;
@@ -23,14 +26,15 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @WebAdapter
 @RestController
 @RequestMapping("/api/zona-evento")
 public class ZonaEventoController {
-    private final CreateUseCase<ZonaEvento, CreateZonaEventoCommand> createUseCase;
-    private final UpdateUseCase<ZonaEvento, CreateZonaEventoCommand, UUID> updateUseCase;
+    private final BulkCreateZonaEventoUseCase createUseCase;
+    private final BulkUpdateZonaEventoUseCase updateUseCase;
     private final DeleteUseCase<ZonaEvento,UUID> deleteUseCase;
     private final GetUseCase<UUID> getUseCase;
     private final ListUseCase listUseCase;
@@ -44,14 +48,14 @@ public class ZonaEventoController {
     }
     @PostMapping
     public ResponseEntity<?> create(@RequestBody CreateZonaEventoCommand command){
-        ZonaEvento zona =  createUseCase.create(command);
-        IResponse response = new Message<>(zona.getId(), "CREATE_ZONA_EVENTO");
+        List<ZonaEvento> zonas =  createUseCase.create(command);
+        IResponse response = new Message<>(zonas.get(0).getZona().getId(), "CREATE_ZONA_EVENTO");
         return ResponseEntity.ok(response);
     }
-    @PatchMapping(path = "/{id}")
-    public ResponseEntity<?>  update(@PathVariable UUID id, @RequestBody CreateZonaEventoCommand command){
-        ZonaEvento zona =  updateUseCase.update(command, id);
-        IResponse response = new Message<>(zona.getId(), "UPDATE_ZONA_EVENTO");
+    @PatchMapping()
+    public ResponseEntity<?>  update(@RequestBody UpdateZonaEventoCommand command){
+        List<ZonaEvento> zonas =  updateUseCase.update(command);
+        IResponse response = new Message<>(zonas.get(0).getZona().getId(), "UPDATE_ZONA_EVENTO");
         return ResponseEntity.ok(response);
     }
 
