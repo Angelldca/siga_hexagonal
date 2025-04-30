@@ -15,12 +15,12 @@ import java.util.UUID;
 @Setter
 public class ZonaEventoResponse implements IResponse{
     private UUID id;
-    private Zona zona;
-    private Evento evento;
+    private ZonaResponse zona;
+    private EventoResponse evento;
 
     public ZonaEventoResponse(ZonaEvento zonaEvento) {
         this.id = zonaEvento.getId();
-        this.zona = zonaEvento.getZona();
-        this.evento = zonaEvento.getEvento();
+        this.zona = new ZonaResponse(zonaEvento.getZona());
+        this.evento = new EventoResponse(zonaEvento.getEvento());
     }
 }

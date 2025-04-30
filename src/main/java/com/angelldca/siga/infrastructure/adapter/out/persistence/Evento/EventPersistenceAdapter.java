@@ -7,6 +7,7 @@ import com.angelldca.siga.application.port.out.ListPort;
 import com.angelldca.siga.application.port.out.SavePort;
 import com.angelldca.siga.application.port.out.evento.CheckEventUniquePort;
 import com.angelldca.siga.application.port.out.evento.DeleteEventListPort;
+import com.angelldca.siga.application.port.out.evento.GetAllEventById;
 import com.angelldca.siga.common.anotations.PersistenceAdapter;
 import com.angelldca.siga.common.exception.BusinessExceptionFactory;
 import com.angelldca.siga.domain.model.Evento;
@@ -25,7 +26,7 @@ import java.util.List;
 @PersistenceAdapter
 @Qualifier("eventPersistenceAdapter")
 public class EventPersistenceAdapter implements
-        DeletePort<Evento,Long>, GetPort<Evento,Long>,
+        DeletePort<Evento,Long>, GetPort<Evento,Long>, GetAllEventById,
         ListPort<EventoEntity>, SavePort<Evento>, CheckEventUniquePort, DeleteEventListPort {
 
     private final EventReadDataJPARepository query;
@@ -75,5 +76,20 @@ public class EventPersistenceAdapter implements
     @Override
     public void deleteListEvent(List<Long> ids) {
         this.command.deleteAllById(ids);
+    }
+
+    @Override
+    public List<Evento> getAllById(List<Long> ids) {
+        List<EventoEntity> entities = query.findAllById(ids);
+
+        if (entities.size() != ids.size()) {
+            List<Long> foundIds = entities.stream().map(EventoEntity::getId).toList();
+            List<Long> missing = ids.stream().filter(id -> !foundIds.contains(id)).toList();
+            throw  BusinessExceptionFactory.objectNotFound("id","Evento"); //TODO mejorar excepcion
+        }
+
+        return entities.stream()
+                .map(EventoMapper::entityToDomain)
+                .toList();
     }
 }

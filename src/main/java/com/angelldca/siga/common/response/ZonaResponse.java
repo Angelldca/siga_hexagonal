@@ -13,11 +13,10 @@ import lombok.Setter;
 public class ZonaResponse implements IResponse{
     private Long id;
     private String nombre;
-    private Empresa empresa;
 
     public ZonaResponse(Zona domain) {
         this.id = domain.getId();
         this.nombre = domain.getNombre();
-        this.empresa = domain.getEmpresa();
+
     }
 }
