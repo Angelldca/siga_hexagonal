@@ -2,12 +2,15 @@ package com.angelldca.siga.application.service;
 
 
 import com.angelldca.siga.application.port.in.command.CreateUseCase;
+import com.angelldca.siga.application.port.in.command.DeleteListUseCase;
 import com.angelldca.siga.application.port.in.command.DeleteUseCase;
 import com.angelldca.siga.application.port.in.command.UpdateUseCase;
 import com.angelldca.siga.application.port.in.command.zona.CreateZonaCommand;
 import com.angelldca.siga.application.port.in.command.zona.UpdateZonaCommand;
 import com.angelldca.siga.application.port.in.query.GetUseCase;
 import com.angelldca.siga.application.port.in.query.ListUseCase;
+import com.angelldca.siga.application.port.out.DeleteListCommand;
+import com.angelldca.siga.application.port.out.DeleteListPort;
 import com.angelldca.siga.application.port.out.GetPort;
 import com.angelldca.siga.application.port.out.zona.ZonaCrudPort;
 import com.angelldca.siga.common.anotations.UseCase;
@@ -36,16 +39,20 @@ public class ZonaService implements
         UpdateUseCase<Zona, UpdateZonaCommand,Long>,
         DeleteUseCase<Zona,Long>,
         GetUseCase<Long>,
+        DeleteListUseCase<Long>,
         ListUseCase {
 
     private final ZonaCrudPort zonaCrudPort;
     private final GetPort<Empresa, UUID> getPortEmpresa;
+    private final DeleteListPort<Long> deleteListPort;
 
     public ZonaService(
             @Qualifier("zonaPersistenceAdapter")ZonaCrudPort zonaCrudPort,
-            @Qualifier("empresaPersistenceAdapter")GetPort<Empresa, UUID> getPortEmpresa) {
+            @Qualifier("empresaPersistenceAdapter")GetPort<Empresa, UUID> getPortEmpresa,
+            @Qualifier("zonaPersistenceAdapter")DeleteListPort<Long> deleteListPort) {
         this.zonaCrudPort = zonaCrudPort;
         this.getPortEmpresa = getPortEmpresa;
+        this.deleteListPort = deleteListPort;
     }
 
     @Override
@@ -90,5 +97,10 @@ public class ZonaService implements
         }
         return new PaginatedResponse(responses, data.getTotalPages(), data.getNumberOfElements(),
                 data.getTotalElements(), data.getSize(), data.getNumber());
+    }
+
+    @Override
+    public void deleteList(DeleteListCommand<Long> command) {
+        this.deleteListPort.deleteList(command.getIds());
     }
 }

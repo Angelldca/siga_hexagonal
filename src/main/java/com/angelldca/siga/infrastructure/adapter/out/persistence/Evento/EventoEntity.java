@@ -2,6 +2,7 @@ package com.angelldca.siga.infrastructure.adapter.out.persistence.Evento;
 
 
 import com.angelldca.siga.infrastructure.adapter.out.persistence.empresa.EmpresaEntity;
+import com.angelldca.siga.infrastructure.adapter.out.persistence.zonaEvento.ZonaEventoEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,6 +13,8 @@ import org.hibernate.annotations.UpdateTimestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.HashSet;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -37,6 +40,9 @@ public class EventoEntity {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "empresa_id", nullable = false)
     private EmpresaEntity empresa;
+
+    @OneToMany(mappedBy = "evento", cascade = CascadeType.REMOVE, orphanRemoval = true)
+    private Set<ZonaEventoEntity> zonaEventos = new HashSet<>();
 
     @CreationTimestamp
     @Column(updatable = false)
