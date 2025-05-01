@@ -1,6 +1,7 @@
 package com.angelldca.siga.infrastructure.adapter.out.persistence.zona;
 
 
+import com.angelldca.siga.application.port.out.DeleteListPort;
 import com.angelldca.siga.application.port.out.zona.ZonaCrudPort;
 import com.angelldca.siga.common.anotations.PersistenceAdapter;
 import com.angelldca.siga.common.exception.BusinessExceptionFactory;
@@ -13,9 +14,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.util.List;
+
 @PersistenceAdapter
 @Qualifier("zonaPersistenceAdapter")
-public class ZonaPersistenceAdapter implements ZonaCrudPort {
+public class ZonaPersistenceAdapter implements ZonaCrudPort, DeleteListPort<Long> {
 
     private final ZonaReadDataJPARepository query;
     private final ZonaWriteDataJPARepository command;
@@ -49,5 +52,10 @@ public class ZonaPersistenceAdapter implements ZonaCrudPort {
     public Zona save(Zona domain) {
         ZonaEntity zona = this.command.save(ZonaMapper.domainToEntity(domain));
         return ZonaMapper.entityToDomain(zona);
+    }
+
+    @Override
+    public void deleteList(List<Long> id) {
+        this.command.deleteAllById(id);
     }
 }

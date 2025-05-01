@@ -2,14 +2,17 @@ package com.angelldca.siga.infrastructure.adapter.in.rest;
 
 
 import com.angelldca.siga.application.port.in.command.CreateUseCase;
+import com.angelldca.siga.application.port.in.command.DeleteListUseCase;
 import com.angelldca.siga.application.port.in.command.DeleteUseCase;
 import com.angelldca.siga.application.port.in.command.UpdateUseCase;
 
+import com.angelldca.siga.application.port.in.command.evento.DeleteListEventCommand;
 import com.angelldca.siga.application.port.in.command.zona.CreateZonaCommand;
 import com.angelldca.siga.application.port.in.command.zona.UpdateZonaCommand;
 import com.angelldca.siga.application.port.in.query.GetUseCase;
 import com.angelldca.siga.application.port.in.query.ListUseCase;
 
+import com.angelldca.siga.application.port.out.DeleteListCommand;
 import com.angelldca.siga.application.service.ZonaService;
 import com.angelldca.siga.common.anotations.WebAdapter;
 import com.angelldca.siga.common.criteria.PageableUtil;
@@ -34,13 +37,15 @@ public class ZonaController {
     private final DeleteUseCase<Zona,Long> deleteUseCase;
     private final GetUseCase<Long> getUseCase;
     private final ListUseCase listUseCase;
+    private final DeleteListUseCase<Long> deleteListUseCase;
 
-    public ZonaController(ZonaService service) {
+    public ZonaController(ZonaService service, DeleteListUseCase<Long> deleteListUseCase) {
         this.createUseCase = service;
         this.updateUseCase = service;
         this.deleteUseCase = service;
         this.getUseCase = service;
         this.listUseCase = service;
+        this.deleteListUseCase = service;
     }
     @PostMapping
     public ResponseEntity<?> create(@RequestBody CreateZonaCommand command){
@@ -70,6 +75,13 @@ public class ZonaController {
     public ResponseEntity<?> search(@RequestBody SearchRequest request) {
         Pageable pageable = PageableUtil.createPageable(request);
         PaginatedResponse response = this.listUseCase.search(pageable, request.getFilter());
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping(path = "/delete-list")
+    public ResponseEntity<?> deleteAll(@RequestBody DeleteListCommand<Long> command){
+        deleteListUseCase.deleteList(command);
+        IResponse response = new Message<>(null, "DELETE_LIST");
         return ResponseEntity.ok(response);
     }
 }
