@@ -56,6 +56,14 @@ public class ZonaPersistenceAdapter implements ZonaCrudPort, DeleteListPort<Long
 
     @Override
     public void deleteList(List<Long> id) {
-        this.command.deleteAllById(id);
+        List<Zona> zonas = id.stream()
+                .map(this::obtenerPorId)
+                .toList();
+
+        zonas.forEach(zona -> {
+            zona.setIsDelete(true);
+            this.save(zona);
+        });
+
     }
 }

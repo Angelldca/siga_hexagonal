@@ -72,8 +72,8 @@ public class ZonaEventoService implements
     public List<ZonaEvento> create(CreateZonaEventoCommand command) {
         Zona createZona = new Zona(
                 null,
-                command.getZona().getNombre(),
-                getPortBusiness.obtenerPorId(command.getZona().getEmpresaId()),
+                command.getNombre(),
+                getPortBusiness.obtenerPorId(command.getEmpresa()),
                 false);
         Zona zona = savePortZona.save(createZona);
         List<Evento> eventos = getAllEventById.getAllById(command.getEventosId());
@@ -90,8 +90,8 @@ public class ZonaEventoService implements
 
     @Override
     @Transactional
-    public List<ZonaEvento> update(UpdateZonaEventoCommand command) {
-        Zona zona = this.getPortZona.obtenerPorId(command.getId());
+    public List<ZonaEvento> update(UpdateZonaEventoCommand command, Long id) {
+        Zona zona = this.getPortZona.obtenerPorId(id);
         zona.setNombre(command.getNombre());
         this.savePortZona.save(zona);
         deletePortByZonaId.deleteByZonaId(zona.getId());

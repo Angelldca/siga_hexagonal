@@ -6,5 +6,5 @@ import java.util.List;
 import java.util.UUID;
 
 public interface BulkUpdateZonaEventoUseCase {
-    List<ZonaEvento> update(UpdateZonaEventoCommand command);
+    List<ZonaEvento> update(UpdateZonaEventoCommand command,Long id);
 }

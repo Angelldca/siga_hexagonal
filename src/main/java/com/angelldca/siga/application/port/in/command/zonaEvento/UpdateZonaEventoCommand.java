@@ -15,7 +15,6 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UpdateZonaEventoCommand {
-    private Long id;
     private String nombre;
     private List<Long> eventosId;
 }

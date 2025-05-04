@@ -17,6 +17,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CreateZonaEventoCommand {
-    private CreateZonaCommand zona;
+    private String nombre;
+    private UUID empresa;
     private List<Long> eventosId;
 }
