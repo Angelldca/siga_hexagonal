@@ -34,13 +34,13 @@ public class AccesoEntity {
     @JoinColumn(name = "puerta_persona_id", nullable = false)
     private PuertaPersonaEntity puertaPersona;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "zona_evento_id", nullable = false)
-    private ZonaEventoEntity zonaEvento; //TODO: REVISAR CAMBIOS
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "zona_evento_id")
+    private ZonaEventoEntity zonaEvento;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "menu_evento_id")
-    private MenuEventoEntity menuEvento; //TODO: REVISAR CAMBIOS DE LA RELACION
+    private MenuEventoEntity menuEvento;
 
 
     @Column(name = "nombre_evento")

@@ -2,6 +2,7 @@ package com.angelldca.siga.infrastructure.adapter.out.persistence.zonaEvento;
 
 
 import com.angelldca.siga.infrastructure.adapter.out.persistence.Evento.EventoEntity;
+import com.angelldca.siga.infrastructure.adapter.out.persistence.acceso.AccesoEntity;
 import com.angelldca.siga.infrastructure.adapter.out.persistence.dpersona.DpersonaEntity;
 import com.angelldca.siga.infrastructure.adapter.out.persistence.puerta.PuertaEntity;
 import com.angelldca.siga.infrastructure.adapter.out.persistence.zona.ZonaEntity;
@@ -14,6 +15,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @NoArgsConstructor

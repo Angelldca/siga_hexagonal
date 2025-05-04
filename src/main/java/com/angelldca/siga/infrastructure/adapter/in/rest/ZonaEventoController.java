@@ -52,9 +52,9 @@ public class ZonaEventoController {
         IResponse response = new Message<>(zonas.get(0).getZona().getId(), "CREATE_ZONA_EVENTO");
         return ResponseEntity.ok(response);
     }
-    @PatchMapping()
-    public ResponseEntity<?>  update(@RequestBody UpdateZonaEventoCommand command){
-        List<ZonaEvento> zonas =  updateUseCase.update(command);
+    @PatchMapping(path = "/{id}")
+    public ResponseEntity<?>  update(@PathVariable Long id, @RequestBody UpdateZonaEventoCommand command){
+        List<ZonaEvento> zonas =  updateUseCase.update(command,id);
         IResponse response = new Message<>(zonas.get(0).getZona().getId(), "UPDATE_ZONA_EVENTO");
         return ResponseEntity.ok(response);
     }
