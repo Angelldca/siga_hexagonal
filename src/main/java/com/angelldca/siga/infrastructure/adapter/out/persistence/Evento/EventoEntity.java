@@ -41,8 +41,7 @@ public class EventoEntity {
     @JoinColumn(name = "empresa_id", nullable = false)
     private EmpresaEntity empresa;
 
-    @OneToMany(mappedBy = "evento", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private Set<ZonaEventoEntity> zonaEventos = new HashSet<>();
+   private Boolean isDelete = false;
 
     @CreationTimestamp
     @Column(updatable = false)

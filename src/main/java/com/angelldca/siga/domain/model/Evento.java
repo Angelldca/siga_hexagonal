@@ -22,6 +22,7 @@ public class Evento {
     private LocalTime horaFin;
     private Boolean activo;
     private Boolean ilimitado;
+    private Boolean isDelete = false;
     private EventoType type;
     private Empresa empresa;
 }

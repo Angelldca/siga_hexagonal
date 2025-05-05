@@ -77,7 +77,8 @@ public class EventService implements
 
     @Override
     public Evento create(CreateEventoCommand command) {
-        RulesChecker.checkRule(new EventNameNotNullRule(command.getNombre()));
+        /*
+          RulesChecker.checkRule(new EventNameNotNullRule(command.getNombre()));
         RulesChecker.checkRule(new EventNameMustBeUnique<>(
                 command.getNombre(),
                 command.getFechaInicio(),
@@ -87,6 +88,8 @@ public class EventService implements
         ));
         RulesChecker.checkRule(new EventRangeDateValid(command.getFechaInicio(),command.getFechaFin()));
 
+        * */
+
        Empresa empresa = this.getPortEmpresa.obtenerPorId(command.getEmpresa());
         Evento entity = new Evento(
                 null,
@@ -95,7 +98,11 @@ public class EventService implements
                 command.getFechaFin(),
                 command.getHoraInicio(),
                 command.getHoraFin(),
-                command.getActivo(),command.getIlimitado(),command.getType(),empresa
+                command.getActivo(),
+                command.getIlimitado(),
+                false,
+                command.getType(),
+                empresa
         );
 
         return this.savePort.save(entity);
@@ -109,6 +116,7 @@ public class EventService implements
 
     @Override
     public Evento update(UpdateEventCommand command, Long id) {
+        /*
         RulesChecker.checkRule(new EventNameNotNullRule(command.getNombre()));
         RulesChecker.checkRule(new EventNameMustBeUnique<>(
                 command.getNombre(),
@@ -119,6 +127,8 @@ public class EventService implements
         ));
         RulesChecker.checkRule(new EventRangeDateValid(command.getFechaInicio(),command.getFechaFin()));
 
+
+        * */
 
         Evento entity =  this.getPort.obtenerPorId(id);
         entity.setNombre(command.getNombre());
