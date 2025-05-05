@@ -9,6 +9,7 @@ public class PuertaMapper {
         domain.setId(entity.getId());
         domain.setNombre(entity.getNombre());
         domain.setZona(ZonaMapper.entityToDomain(entity.getZona()));
+        domain.setIsDelete(entity.getIsDelete());
         return domain;
     }
 
@@ -17,6 +18,7 @@ public class PuertaMapper {
         entity.setId(domain.getId());
         entity.setNombre(domain.getNombre());
         entity.setZona(ZonaMapper.domainToEntity(domain.getZona()));
+        entity.setIsDelete(domain.getIsDelete());
         return entity;
     }
 }

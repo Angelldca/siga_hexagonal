@@ -29,6 +29,8 @@ public class PuertaEntity {
     @JoinColumn(name = "zona_id")
     private ZonaEntity zona;
 
+    private Boolean isDelete = false;
+
 
     @CreationTimestamp
     @Column(updatable = false)
