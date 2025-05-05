@@ -39,7 +39,7 @@ public class ZonaController {
     private final ListUseCase listUseCase;
     private final DeleteListUseCase<Long> deleteListUseCase;
 
-    public ZonaController(ZonaService service, DeleteListUseCase<Long> deleteListUseCase) {
+    public ZonaController(ZonaService service) {
         this.createUseCase = service;
         this.updateUseCase = service;
         this.deleteUseCase = service;

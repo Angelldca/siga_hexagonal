@@ -12,4 +12,5 @@ public class Puerta {
     private Long id;
     private String nombre;
     private Zona zona;
+    private Boolean isDelete;
 }

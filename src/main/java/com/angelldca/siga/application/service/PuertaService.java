@@ -2,11 +2,14 @@ package com.angelldca.siga.application.service;
 
 
 import com.angelldca.siga.application.port.in.command.CreateUseCase;
+import com.angelldca.siga.application.port.in.command.DeleteListUseCase;
 import com.angelldca.siga.application.port.in.command.DeleteUseCase;
 import com.angelldca.siga.application.port.in.command.Puerta.CreatePuertaCommand;
 import com.angelldca.siga.application.port.in.command.UpdateUseCase;
 import com.angelldca.siga.application.port.in.query.GetUseCase;
 import com.angelldca.siga.application.port.in.query.ListUseCase;
+import com.angelldca.siga.application.port.out.DeleteListCommand;
+import com.angelldca.siga.application.port.out.DeleteListPort;
 import com.angelldca.siga.application.port.out.GetPort;
 import com.angelldca.siga.application.port.out.puerta.PuertaCrudPort;
 import com.angelldca.siga.common.anotations.UseCase;
@@ -33,24 +36,27 @@ public class PuertaService implements
         CreateUseCase<Puerta, CreatePuertaCommand>,
         UpdateUseCase<Puerta, CreatePuertaCommand,Long>,
         DeleteUseCase<Puerta,Long>,
-        GetUseCase<Long>,
+        GetUseCase<Long>, DeleteListUseCase<Long>,
         ListUseCase {
 
     private final PuertaCrudPort puertaCrudPort;
     private final GetPort<Zona,Long> zonaGetPort;
+    private final DeleteListPort<Long> deleteListPort;
 
     public PuertaService(
             @Qualifier("puertaPersistenceAdapter")PuertaCrudPort puertaCrudPort,
-            @Qualifier("zonaPersistenceAdapter")GetPort<Zona, Long> zonaGetPort) {
+            @Qualifier("zonaPersistenceAdapter")GetPort<Zona, Long> zonaGetPort,
+            @Qualifier("puertaPersistenceAdapter")DeleteListPort<Long> deleteListPort) {
         this.puertaCrudPort = puertaCrudPort;
         this.zonaGetPort = zonaGetPort;
 
+        this.deleteListPort = deleteListPort;
     }
 
     @Override
     public Puerta create(CreatePuertaCommand command) {
         Zona zona = this.zonaGetPort.obtenerPorId(command.getZonaId());
-        Puerta puerta = new Puerta(null, command.getNombre(),zona);
+        Puerta puerta = new Puerta(null, command.getNombre(),zona,false);
         return this.puertaCrudPort.save(puerta);
     }
 
@@ -87,5 +93,10 @@ public class PuertaService implements
         }
         return new PaginatedResponse(response, data.getTotalPages(), data.getNumberOfElements(),
                 data.getTotalElements(), data.getSize(), data.getNumber());
+    }
+
+    @Override
+    public void deleteList(DeleteListCommand<Long> command) {
+        this.deleteListPort.deleteList(command.getIds());
     }
 }

@@ -1,10 +1,12 @@
 package com.angelldca.siga.infrastructure.adapter.out.persistence.puerta;
 
 
+import com.angelldca.siga.application.port.out.DeleteListPort;
 import com.angelldca.siga.application.port.out.puerta.PuertaCrudPort;
 import com.angelldca.siga.common.anotations.PersistenceAdapter;
 import com.angelldca.siga.common.exception.BusinessExceptionFactory;
 import com.angelldca.siga.domain.model.Puerta;
+import com.angelldca.siga.domain.model.Zona;
 import com.angelldca.siga.infrastructure.adapter.out.repository.command.PuertaWriteDataJPARepository;
 import com.angelldca.siga.infrastructure.adapter.out.repository.query.PuertaReadDataJPARepository;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -12,9 +14,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.util.List;
+
 @PersistenceAdapter
 @Qualifier("puertaPersistenceAdapter")
-public class PuertaPersistenceAdapter implements PuertaCrudPort {
+public class PuertaPersistenceAdapter implements PuertaCrudPort, DeleteListPort<Long> {
 
     private final PuertaReadDataJPARepository query;
     private final PuertaWriteDataJPARepository command;
@@ -49,5 +53,17 @@ public class PuertaPersistenceAdapter implements PuertaCrudPort {
     public Puerta save(Puerta domain) {
         PuertaEntity entity = this.command.save(PuertaMapper.domainToEntity(domain));
         return PuertaMapper.entityToDomain(entity);
+    }
+
+    @Override
+    public void deleteList(List<Long> id) {
+        List<Puerta> puertas = id.stream()
+                .map(this::obtenerPorId)
+                .toList();
+
+        puertas.forEach(p -> {
+            p.setIsDelete(true);
+            this.save(p);
+        });
     }
 }
