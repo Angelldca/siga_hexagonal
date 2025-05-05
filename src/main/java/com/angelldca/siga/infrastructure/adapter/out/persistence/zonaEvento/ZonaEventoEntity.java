@@ -33,7 +33,7 @@ public class ZonaEventoEntity {
     @JoinColumn(name = "zona_id")
     private ZonaEntity zona;
 
-    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.REMOVE)
+    @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinColumn(name = "evento_id")
     private EventoEntity evento;
 

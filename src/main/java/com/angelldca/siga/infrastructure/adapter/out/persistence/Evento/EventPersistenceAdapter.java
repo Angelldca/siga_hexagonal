@@ -12,6 +12,7 @@ import com.angelldca.siga.common.anotations.PersistenceAdapter;
 import com.angelldca.siga.common.exception.BusinessExceptionFactory;
 import com.angelldca.siga.domain.model.Evento;
 
+import com.angelldca.siga.domain.model.Puerta;
 import com.angelldca.siga.infrastructure.adapter.out.repository.command.EventWriteDataJPARepository;
 import com.angelldca.siga.infrastructure.adapter.out.repository.query.EventReadDataJPARepository;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -75,7 +76,14 @@ public class EventPersistenceAdapter implements
 
     @Override
     public void deleteListEvent(List<Long> ids) {
-        this.command.deleteAllById(ids);
+        List<Evento> e = ids.stream()
+                .map(this::obtenerPorId)
+                .toList();
+
+        e.forEach(p -> {
+            p.setIsDelete(true);
+            this.save(p);
+        });
     }
 
     @Override
