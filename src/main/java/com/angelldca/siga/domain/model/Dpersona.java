@@ -14,13 +14,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Data
 public class Dpersona {
-    private Long idciudadano;
+    private Long id;
     private String area;
     private String rolinstitucional;
-    private String primernombre;
-    private String segundonombre;
-    private String primerapellido;
-    private String segundoapellido;
+    private String nombre;
     private String solapin;
     private String carnetidentidad;
     private String provincia;
@@ -31,5 +28,6 @@ public class Dpersona {
     private String idexpediente;
     private String codigobarra;
     private EStatus estado;
+    private Boolean isDelete = false;
     private Empresa empresa;
 }

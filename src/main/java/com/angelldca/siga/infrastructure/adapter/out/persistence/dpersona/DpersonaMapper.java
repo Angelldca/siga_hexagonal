@@ -6,13 +6,10 @@ import com.angelldca.siga.infrastructure.adapter.out.persistence.empresa.Empresa
 public class DpersonaMapper {
     public static Dpersona entityToDomain(DpersonaEntity entity) {
         Dpersona domain = new Dpersona();
-        domain.setIdciudadano(entity.getIdciudadano());
+        domain.setId(entity.getId());
         domain.setArea(entity.getArea());
         domain.setRolinstitucional(entity.getRolinstitucional());
-        domain.setPrimernombre(entity.getPrimernombre());
-        domain.setSegundonombre(entity.getSegundonombre());
-        domain.setPrimerapellido(entity.getPrimerapellido());
-        domain.setSegundoapellido(entity.getSegundoapellido());
+        domain.setNombre(entity.getNombre());
         domain.setSolapin(entity.getSolapin());
         domain.setCarnetidentidad(entity.getCarnetidentidad());
         domain.setProvincia(entity.getProvincia());
@@ -23,19 +20,17 @@ public class DpersonaMapper {
         domain.setIdexpediente(entity.getIdexpediente());
         domain.setCodigobarra(entity.getCodigobarra());
         domain.setEstado(entity.getEstado());
-        domain.setEmpresa(EmpresaMapper.entityToDomain(entity.getEmpresa())); // asegúrate de tener EmpresaMapper
+        domain.setIsDelete(entity.getIsDelete());
+        domain.setEmpresa(EmpresaMapper.entityToDomain(entity.getEmpresa()));
         return domain;
     }
 
     public static DpersonaEntity domainToEntity(Dpersona domain) {
         DpersonaEntity entity = new DpersonaEntity();
-        entity.setIdciudadano(domain.getIdciudadano());
+        entity.setId(domain.getId());
         entity.setArea(domain.getArea());
         entity.setRolinstitucional(domain.getRolinstitucional());
-        entity.setPrimernombre(domain.getPrimernombre());
-        entity.setSegundonombre(domain.getSegundonombre());
-        entity.setPrimerapellido(domain.getPrimerapellido());
-        entity.setSegundoapellido(domain.getSegundoapellido());
+        entity.setNombre(domain.getNombre());
         entity.setSolapin(domain.getSolapin());
         entity.setCarnetidentidad(domain.getCarnetidentidad());
         entity.setProvincia(domain.getProvincia());
@@ -46,7 +41,8 @@ public class DpersonaMapper {
         entity.setIdexpediente(domain.getIdexpediente());
         entity.setCodigobarra(domain.getCodigobarra());
         entity.setEstado(domain.getEstado());
-        entity.setEmpresa(EmpresaMapper.domainToEntity(domain.getEmpresa())); // asegúrate de tener EmpresaMapper
+        entity.setIsDelete(domain.getIsDelete());
+        entity.setEmpresa(EmpresaMapper.domainToEntity(domain.getEmpresa()));
         return entity;
     }
 }
