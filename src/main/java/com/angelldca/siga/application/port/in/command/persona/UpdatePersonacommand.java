@@ -17,10 +17,7 @@ import java.util.UUID;
 public class UpdatePersonacommand {
     private String area;
     private String rolinstitucional;
-    private String primernombre;
-    private String segundonombre;
-    private String primerapellido;
-    private String segundoapellido;
+    private String nombre;
     private String solapin;
     private String carnetidentidad;
     private String provincia;

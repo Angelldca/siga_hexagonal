@@ -2,12 +2,15 @@ package com.angelldca.siga.application.service;
 
 
 import com.angelldca.siga.application.port.in.command.CreateUseCase;
+import com.angelldca.siga.application.port.in.command.DeleteListUseCase;
 import com.angelldca.siga.application.port.in.command.DeleteUseCase;
 import com.angelldca.siga.application.port.in.command.UpdateUseCase;
 import com.angelldca.siga.application.port.in.command.persona.CreatePersonaCommand;
 import com.angelldca.siga.application.port.in.command.persona.UpdatePersonacommand;
 import com.angelldca.siga.application.port.in.query.GetUseCase;
 import com.angelldca.siga.application.port.in.query.ListUseCase;
+import com.angelldca.siga.application.port.out.DeleteListCommand;
+import com.angelldca.siga.application.port.out.DeleteListPort;
 import com.angelldca.siga.application.port.out.GetPort;
 import com.angelldca.siga.application.port.out.persona.PersonaCrudPort;
 import com.angelldca.siga.common.anotations.UseCase;
@@ -15,14 +18,11 @@ import com.angelldca.siga.common.criteria.FilterCriteria;
 import com.angelldca.siga.common.response.IResponse;
 import com.angelldca.siga.common.response.PaginatedResponse;
 import com.angelldca.siga.common.response.PersonaResponse;
-import com.angelldca.siga.common.response.PuertaResponse;
 import com.angelldca.siga.domain.model.Dpersona;
 import com.angelldca.siga.domain.model.Empresa;
 import com.angelldca.siga.infrastructure.adapter.out.persistence.dpersona.DpersonaEntity;
 import com.angelldca.siga.infrastructure.adapter.out.persistence.dpersona.DpersonaMapper;
 import com.angelldca.siga.infrastructure.adapter.out.persistence.dpersona.EStatus;
-import com.angelldca.siga.infrastructure.adapter.out.persistence.puerta.PuertaEntity;
-import com.angelldca.siga.infrastructure.adapter.out.persistence.puerta.PuertaMapper;
 import com.angelldca.siga.infrastructure.adapter.out.persistence.specification.GenericSpecificationsBuilder;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
@@ -38,17 +38,20 @@ public class PersonaService implements
         CreateUseCase<Dpersona, CreatePersonaCommand>,
         UpdateUseCase<Dpersona, UpdatePersonacommand,Long>,
         DeleteUseCase<Dpersona,Long>,
-        GetUseCase<Long>,
+        GetUseCase<Long>, DeleteListUseCase<Long>,
         ListUseCase {
 
     private final PersonaCrudPort personaCrudPort;
     private final GetPort<Empresa, UUID> empresaGetPort;
+    private final DeleteListPort<Long> deleteListPort;
 
     public PersonaService(
             @Qualifier("personaPersistenceAdapter")PersonaCrudPort personaCrudPort,
-            @Qualifier("empresaPersistenceAdapter") GetPort<Empresa, UUID> empresaGetPort) {
+            @Qualifier("empresaPersistenceAdapter") GetPort<Empresa, UUID> empresaGetPort,
+            @Qualifier("personaPersistenceAdapter")DeleteListPort<Long> deleteListPort) {
         this.personaCrudPort = personaCrudPort;
         this.empresaGetPort = empresaGetPort;
+        this.deleteListPort = deleteListPort;
     }
 
     @Override
@@ -57,11 +60,10 @@ public class PersonaService implements
         Dpersona persona = new Dpersona(
                 null,
                 command.getArea(), command.getRolinstitucional(),
-                command.getPrimernombre(), command.getSegundonombre(),
-                command.getPrimerapellido(), command.getSegundoapellido(), command.getSolapin(),
+                command.getNombre(), command.getSolapin(),
                 command.getCarnetidentidad(), command.getProvincia(), command.getMunicipio(), command.getSexo(),
                 command.getResidente(),command.getFechanacimiento(),command.getIdexpediente(),
-                command.getCodigobarra(),command.getEstado(),empresa
+                command.getCodigobarra(),command.getEstado(),false,empresa
         );
 
         return this.personaCrudPort.save(persona);
@@ -86,11 +88,7 @@ public class PersonaService implements
         persona.setSolapin(command.getSolapin());
         persona.setProvincia(command.getProvincia());
         persona.setMunicipio(command.getMunicipio());
-        persona.setPrimernombre(command.getPrimernombre());
-        persona.setSegundonombre(command.getSegundonombre());
-        persona.setPrimerapellido(command.getPrimerapellido());
-        persona.setSegundoapellido(command.getSegundoapellido());
-        persona.setFechanacimiento(command.getFechanacimiento());
+        persona.setNombre(command.getNombre());
         persona.setIdexpediente(command.getIdexpediente());
         persona.setResidente(command.getResidente());
         persona.setSexo(command.getSexo());
@@ -118,5 +116,10 @@ public class PersonaService implements
         }
         return new PaginatedResponse(response, data.getTotalPages(), data.getNumberOfElements(),
                 data.getTotalElements(), data.getSize(), data.getNumber());
+    }
+
+    @Override
+    public void deleteList(DeleteListCommand<Long> command) {
+        this.deleteListPort.deleteList(command.getIds());
     }
 }

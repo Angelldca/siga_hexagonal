@@ -13,13 +13,10 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class PersonaResponse implements IResponse{
-    private Long idciudadano;
+    private Long id;
     private String area;
     private String rolinstitucional;
-    private String primernombre;
-    private String segundonombre;
-    private String primerapellido;
-    private String segundoapellido;
+    private String nombre;
     private String solapin;
     private String carnetidentidad;
     private String provincia;
@@ -32,13 +29,10 @@ public class PersonaResponse implements IResponse{
     private EStatus estado;
 
     public PersonaResponse(Dpersona dpersona) {
-        this.idciudadano = dpersona.getIdciudadano();
+        this.id = dpersona.getId();
         this.area = dpersona.getArea();
         this.rolinstitucional = dpersona.getRolinstitucional();
-        this.primernombre = dpersona.getPrimernombre();
-        this.segundonombre = dpersona.getSegundonombre();
-        this.primerapellido = dpersona.getPrimerapellido();
-        this.segundoapellido = dpersona.getSegundoapellido();
+        this.nombre = dpersona.getNombre();
         this.solapin = dpersona.getSolapin();
         this.carnetidentidad = dpersona.getCarnetidentidad();
         this.provincia = dpersona.getProvincia();

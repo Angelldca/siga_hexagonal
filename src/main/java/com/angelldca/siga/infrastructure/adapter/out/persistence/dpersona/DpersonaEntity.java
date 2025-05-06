@@ -20,7 +20,7 @@ public class DpersonaEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idciudadano")
-    private Long idciudadano;
+    private Long id;
 
     @Column(name = "area", length = 150)
     private String area;
@@ -28,17 +28,9 @@ public class DpersonaEntity {
     @Column(name = "rol_institucional", length = 100)
     private String rolinstitucional;
 
-    @Column(name = "primernombre", length = 100, nullable = false)
-    private String primernombre;
+    @Column(name = "nombre")
+    private String nombre;
 
-    @Column(name = "segundonombre", length = 100)
-    private String segundonombre;
-
-    @Column(name = "primerapellido", length = 100, nullable = false)
-    private String primerapellido;
-
-    @Column(name = "segundoapellido", length = 100)
-    private String segundoapellido;
 
     @Column(name = "solapin", length = 10)
     private String solapin;
@@ -71,6 +63,8 @@ public class DpersonaEntity {
     @Enumerated(EnumType.STRING)
     @Column(name = "estado")
     private EStatus estado;
+
+    private Boolean isDelete = false;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "empresa_id", nullable = false)
