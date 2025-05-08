@@ -3,6 +3,7 @@ package com.angelldca.siga.infrastructure.adapter.out.persistence.dpersona;
 
 import com.angelldca.siga.application.port.out.DeleteListPort;
 import com.angelldca.siga.application.port.out.persona.PersonaCrudPort;
+import com.angelldca.siga.application.port.out.persona.PersonaOptionalPort;
 import com.angelldca.siga.common.anotations.PersistenceAdapter;
 import com.angelldca.siga.common.exception.BusinessExceptionFactory;
 import com.angelldca.siga.domain.model.Dpersona;
@@ -15,10 +16,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
 import java.util.List;
+import java.util.Optional;
 
 @PersistenceAdapter
 @Qualifier("personaPersistenceAdapter")
-public class PersonaPersistenceAdapter implements PersonaCrudPort, DeleteListPort<Long> {
+public class PersonaPersistenceAdapter implements PersonaOptionalPort, PersonaCrudPort, DeleteListPort<Long> {
 
     private final PersonaReadDataJPARepository query;
     private final PersonaWriteDataJPARepository command;
@@ -66,5 +68,11 @@ public class PersonaPersistenceAdapter implements PersonaCrudPort, DeleteListPor
             this.save(p);
         });
 
+    }
+
+    @Override
+    public Optional<Dpersona> getOptionalPort(Long id) {
+        Optional<DpersonaEntity> optional = this.query.findById(id);
+        return optional.map(DpersonaMapper::entityToDomain);
     }
 }

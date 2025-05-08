@@ -59,7 +59,7 @@ public class AccesoService implements
         MenuEvento menuEvento = this.menuEventoGetPort.loadMenuEvento(command.getMenuEventoId());
 
         return this.accesoCrudPort.save(new Acceso(
-                null,puertaPersona,
+                null,puertaPersona.getPuerta(),puertaPersona.getPersona(),
                 zonaEvento,menuEvento,
                 zonaEvento.getEvento().getNombre(),
                 null
@@ -80,7 +80,8 @@ public class AccesoService implements
         acceso.setNombreEvento(zonaEvento.getEvento().getNombre());
         acceso.setZonaEvento(zonaEvento);
         acceso.setMenuEvento(menuEvento);
-        acceso.setPuertaPersona(puertaPersona);
+        acceso.setPuerta(puertaPersona.getPuerta());
+        acceso.setPersona(puertaPersona.getPersona());
         return this.accesoCrudPort.save(acceso);
     }
 

@@ -1,6 +1,7 @@
 package com.angelldca.siga.infrastructure.adapter.out.persistence.acceso;
 
 
+import com.angelldca.siga.domain.model.Puerta;
 import com.angelldca.siga.infrastructure.adapter.out.persistence.Evento.EventoEntity;
 import com.angelldca.siga.infrastructure.adapter.out.persistence.dpersona.DpersonaEntity;
 import com.angelldca.siga.infrastructure.adapter.out.persistence.empresa.EmpresaEntity;
@@ -30,9 +31,13 @@ public class AccesoEntity {
     @Column(name = "id")
     private Long id;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "puerta_persona_id", nullable = false)
-    private PuertaPersonaEntity puertaPersona;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "puerta_id")
+    private PuertaEntity puerta;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "persona_id")
+    private DpersonaEntity persona;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "zona_evento_id")
