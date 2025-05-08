@@ -1,5 +1,6 @@
 package com.angelldca.siga.infrastructure.adapter.out.persistence.dpersona;
 
+import com.angelldca.siga.infrastructure.adapter.out.persistence.dimagenfacial.DimagenfacialEntity;
 import com.angelldca.siga.infrastructure.adapter.out.persistence.empresa.EmpresaEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -69,6 +70,8 @@ public class DpersonaEntity {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "empresa_id", nullable = false)
     private EmpresaEntity empresa;
+
+
 
 
     @CreationTimestamp
