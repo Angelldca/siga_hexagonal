@@ -2,6 +2,7 @@ package com.angelldca.siga.infrastructure.adapter.out.persistence.puerta;
 
 
 import com.angelldca.siga.application.port.out.DeleteListPort;
+import com.angelldca.siga.application.port.out.ListByIdsPort;
 import com.angelldca.siga.application.port.out.puerta.PuertaCrudPort;
 import com.angelldca.siga.common.anotations.PersistenceAdapter;
 import com.angelldca.siga.common.exception.BusinessExceptionFactory;
@@ -18,7 +19,8 @@ import java.util.List;
 
 @PersistenceAdapter
 @Qualifier("puertaPersistenceAdapter")
-public class PuertaPersistenceAdapter implements PuertaCrudPort, DeleteListPort<Long> {
+public class PuertaPersistenceAdapter implements PuertaCrudPort,
+        DeleteListPort<Long>, ListByIdsPort<Puerta,Long> {
 
     private final PuertaReadDataJPARepository query;
     private final PuertaWriteDataJPARepository command;
@@ -65,5 +67,12 @@ public class PuertaPersistenceAdapter implements PuertaCrudPort, DeleteListPort<
             p.setIsDelete(true);
             this.save(p);
         });
+    }
+
+    @Override
+    public List<Puerta> listByIds(List<Long> ids) {
+        return this.query.findAllById(ids).stream().map(
+                PuertaMapper::entityToDomain
+        ).toList();
     }
 }

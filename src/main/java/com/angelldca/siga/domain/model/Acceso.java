@@ -11,7 +11,8 @@ import java.time.LocalDateTime;
 @Data
 public class Acceso {
     private Long id;
-    private PuertaPersona puertaPersona;
+    private Puerta puerta;
+    private Dpersona persona;
     private ZonaEvento zonaEvento;
     private MenuEvento menuEvento;
     private String nombreEvento;

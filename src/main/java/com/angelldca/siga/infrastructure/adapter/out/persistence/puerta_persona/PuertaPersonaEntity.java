@@ -1,6 +1,7 @@
 package com.angelldca.siga.infrastructure.adapter.out.persistence.puerta_persona;
 
 
+import com.angelldca.siga.infrastructure.adapter.out.persistence.acceso.AccesoEntity;
 import com.angelldca.siga.infrastructure.adapter.out.persistence.dpersona.DpersonaEntity;
 import com.angelldca.siga.infrastructure.adapter.out.persistence.permission.PermissionEntity;
 import com.angelldca.siga.infrastructure.adapter.out.persistence.puerta.PuertaEntity;

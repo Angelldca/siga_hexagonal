@@ -1,6 +1,8 @@
 package com.angelldca.siga.infrastructure.adapter.out.persistence.puerta_persona;
 
 
+import com.angelldca.siga.application.port.out.SaveAllPort;
+import com.angelldca.siga.application.port.out.puerta_persona.DeletePortByPersonaId;
 import com.angelldca.siga.application.port.out.puerta_persona.PuertaPersonaCrudPort;
 import com.angelldca.siga.common.anotations.PersistenceAdapter;
 import com.angelldca.siga.common.exception.BusinessExceptionFactory;
@@ -12,11 +14,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 
+import java.util.List;
 import java.util.UUID;
 
 @PersistenceAdapter
 @Qualifier("puertaPersonaPersistenceAdapter")
-public class PuertaPersonaPersistenceAdapter implements PuertaPersonaCrudPort {
+public class PuertaPersonaPersistenceAdapter implements
+        PuertaPersonaCrudPort, SaveAllPort<PuertaPersona>, DeletePortByPersonaId {
 
     private final PuertaPersonaReadDataJPARepository query;
     private final PuertaPersonaWriteDataJPARepository command;
@@ -51,5 +55,18 @@ public class PuertaPersonaPersistenceAdapter implements PuertaPersonaCrudPort {
     public PuertaPersona save(PuertaPersona domain) {
         PuertaPersonaEntity entity = this.command.save(PuertaPersonaMapper.domainToEntity(domain));
         return PuertaPersonaMapper.entityToDomain(entity);
+    }
+
+    @Override
+    public void saveAllPort(List<PuertaPersona> elements) {
+        List<PuertaPersonaEntity> entities = elements.stream().map(
+                PuertaPersonaMapper::domainToEntity
+        ).toList();
+        this.command.saveAll(entities);
+    }
+
+    @Override
+    public void deleteByPersonaId(Long idPersona) {
+        this.command.deleteAllByPersonaId(idPersona);
     }
 }

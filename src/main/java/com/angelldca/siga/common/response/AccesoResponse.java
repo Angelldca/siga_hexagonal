@@ -2,6 +2,9 @@ package com.angelldca.siga.common.response;
 
 
 import com.angelldca.siga.domain.model.Acceso;
+import com.angelldca.siga.domain.model.Dpersona;
+import com.angelldca.siga.domain.model.Puerta;
+import com.angelldca.siga.domain.model.PuertaPersona;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,7 +16,8 @@ import java.time.LocalDateTime;
 @Setter
 public class AccesoResponse implements IResponse{
     private Long id;
-    private PuertaPersonaResponse puertaPersona;
+    private PuertaResponse puerta;
+    private PersonaResponse persona;
     private ZonaEventoResponse zonaEvento;
     private MenuEventoResponse menuEvento;
     private String nombreEvento;
@@ -21,7 +25,8 @@ public class AccesoResponse implements IResponse{
 
     public AccesoResponse(Acceso acceso) {
         this.id = acceso.getId();
-        this.puertaPersona = new PuertaPersonaResponse(acceso.getPuertaPersona());
+        this.puerta = new PuertaResponse(acceso.getPuerta());
+        this.persona = new PersonaResponse(acceso.getPersona());
         this.zonaEvento = new ZonaEventoResponse(acceso.getZonaEvento());
         this.menuEvento = new MenuEventoResponse(acceso.getMenuEvento());
         this.nombreEvento = acceso.getNombreEvento();

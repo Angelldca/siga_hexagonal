@@ -27,7 +27,7 @@ import java.util.UUID;
 @RequestMapping("/api/puerta-persona")
 public class PuertaPersonaController {
     private final CreateUseCase<PuertaPersona, CreatePuertaPersonaCommand> createUseCase;
-    private final UpdateUseCase<PuertaPersona, CreatePuertaPersonaCommand,UUID> updateUseCase;
+    private final UpdateUseCase<PuertaPersona, CreatePuertaPersonaCommand,Long> updateUseCase;
     private final DeleteUseCase<PuertaPersona,UUID> deleteUseCase;
     private final GetUseCase<UUID> getUseCase;
     private final ListUseCase listUseCase;
@@ -46,7 +46,7 @@ public class PuertaPersonaController {
         return ResponseEntity.ok(response);
     }
     @PatchMapping(path = "/{id}")
-    public ResponseEntity<?>  update(@PathVariable UUID id, @RequestBody CreatePuertaPersonaCommand command){
+    public ResponseEntity<?>  update(@PathVariable Long id, @RequestBody CreatePuertaPersonaCommand command){
         PuertaPersona puertaPersona =  updateUseCase.update(command, id);
         IResponse response = new Message<>(puertaPersona.getId(), "UPDATE_PUERTA_PERSONA");
         return ResponseEntity.ok(response);
