@@ -25,10 +25,7 @@ import com.angelldca.siga.common.response.PaginatedResponse;
 import com.angelldca.siga.domain.model.Empresa;
 import com.angelldca.siga.domain.model.Evento;
 
-import com.angelldca.siga.domain.rule.RulesChecker;
-import com.angelldca.siga.domain.rule.evento.EventNameMustBeUnique;
-import com.angelldca.siga.domain.rule.evento.EventNameNotNullRule;
-import com.angelldca.siga.domain.rule.evento.EventRangeDateValid;
+
 import com.angelldca.siga.infrastructure.adapter.out.persistence.Evento.EventoEntity;
 import com.angelldca.siga.infrastructure.adapter.out.persistence.Evento.EventoMapper;
 

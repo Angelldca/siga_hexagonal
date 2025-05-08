@@ -6,6 +6,7 @@ import com.angelldca.siga.infrastructure.adapter.out.persistence.dpersona.Dperso
 public class DimagenfacialMapper {
     public static Dimagenfacial entityToDomain(DimagenfacialEntity entity) {
         Dimagenfacial domain = new Dimagenfacial();
+        domain.setId(entity.getId());
         domain.setPersona(DpersonaMapper.entityToDomain(entity.getPersona()));
         domain.setFoto(entity.getFoto());
         domain.setValida(entity.getValida());
@@ -14,6 +15,7 @@ public class DimagenfacialMapper {
 
     public static DimagenfacialEntity domainToEntity(Dimagenfacial domain) {
         DimagenfacialEntity entity = new DimagenfacialEntity();
+        entity.setId(domain.getId());
         entity.setPersona(DpersonaMapper.domainToEntity(domain.getPersona()));
         entity.setFoto(domain.getFoto());
         entity.setValida(domain.getValida());

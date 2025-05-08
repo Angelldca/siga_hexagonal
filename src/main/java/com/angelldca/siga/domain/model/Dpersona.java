@@ -1,6 +1,7 @@
 package com.angelldca.siga.domain.model;
 
 
+import com.angelldca.siga.infrastructure.adapter.out.persistence.dimagenfacial.DimagenfacialEntity;
 import com.angelldca.siga.infrastructure.adapter.out.persistence.dpersona.EStatus;
 import com.angelldca.siga.infrastructure.adapter.out.persistence.empresa.EmpresaEntity;
 import jakarta.persistence.*;

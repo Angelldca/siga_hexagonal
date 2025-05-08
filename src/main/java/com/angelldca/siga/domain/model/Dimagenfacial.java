@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 public class Dimagenfacial {
+    private Long id;
     private Dpersona persona;
     private byte[] foto;
     private Boolean valida;
