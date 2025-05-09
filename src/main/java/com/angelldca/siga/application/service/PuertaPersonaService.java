@@ -34,8 +34,8 @@ import java.util.UUID;
 
 @UseCase
 public class PuertaPersonaService implements
-        CreateUseCase<PuertaPersona, CreatePuertaPersonaCommand>,
-        UpdateUseCase<PuertaPersona, CreatePuertaPersonaCommand,Long>,
+        CreateUseCase<Dpersona, CreatePuertaPersonaCommand>,
+        UpdateUseCase<Dpersona, CreatePuertaPersonaCommand,Long>,
         DeleteUseCase<PuertaPersona, UUID>,
         GetUseCase<UUID>,
         ListUseCase {
@@ -72,8 +72,9 @@ public class PuertaPersonaService implements
 
 
     @Override
-    public PuertaPersona create(CreatePuertaPersonaCommand command) {
+    public Dpersona create(CreatePuertaPersonaCommand command) {
         Dpersona dpersona = this.personaGetPort.obtenerPorId(command.getPersonaId());
+        if(command.getPuertaIds().isEmpty()) return dpersona;
         List<Puerta> puertas = this.listByIdsPort.listByIds(command.getPuertaIds());
         List<PuertaPersona> puertaPersonas = puertas
                 .stream().map(
@@ -82,7 +83,7 @@ public class PuertaPersonaService implements
                         )
                 ).toList();
         this.saveAllPort.saveAllPort(puertaPersonas);
-        return puertaPersonas.get(0);
+        return dpersona;
     }
 
     @Override
@@ -92,15 +93,17 @@ public class PuertaPersonaService implements
 
     @Override
     @Transactional
-    public PuertaPersona update(CreatePuertaPersonaCommand command, Long id) {
+    public Dpersona update(CreatePuertaPersonaCommand command, Long id) {
         Dpersona dpersona = this.personaGetPort.obtenerPorId(id);
         deletePortByPersonaId.deleteByPersonaId(id);
+        if(command.getPuertaIds().isEmpty()) return dpersona;
         List<Puerta> puertas = listByIdsPort.listByIds(command.getPuertaIds());
+
         List<PuertaPersona> nuevos = puertas.stream()
                 .map(p -> new PuertaPersona(UUID.randomUUID(), dpersona, p))
                 .toList();
         this.saveAllPort.saveAllPort(nuevos);
-        return nuevos.get(0);
+        return dpersona;
     }
 
     @Override

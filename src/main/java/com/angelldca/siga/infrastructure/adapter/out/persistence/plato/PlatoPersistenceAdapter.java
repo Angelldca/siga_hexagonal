@@ -1,13 +1,11 @@
 package com.angelldca.siga.infrastructure.adapter.out.persistence.plato;
 
 
-import com.angelldca.siga.application.port.out.DeletePort;
-import com.angelldca.siga.application.port.out.GetPort;
-import com.angelldca.siga.application.port.out.ListPort;
-import com.angelldca.siga.application.port.out.SavePort;
+import com.angelldca.siga.application.port.out.*;
 import com.angelldca.siga.application.port.out.plato.LoadPlatosPort;
 import com.angelldca.siga.common.anotations.PersistenceAdapter;
 import com.angelldca.siga.common.exception.*;
+import com.angelldca.siga.domain.model.Dpersona;
 import com.angelldca.siga.domain.model.Empresa;
 import com.angelldca.siga.domain.model.Plato;
 import com.angelldca.siga.infrastructure.adapter.out.repository.command.PlatoWriteDataJPARepository;
@@ -25,7 +23,7 @@ import java.util.UUID;
 @Qualifier("platoPersistenceAdapter")
 public class PlatoPersistenceAdapter implements
         DeletePort<Plato,Long>, GetPort<Plato,Long>,
-        ListPort<PlatoEntity>, SavePort<Plato>, LoadPlatosPort {
+        ListPort<PlatoEntity>, SavePort<Plato>, LoadPlatosPort, DeleteListPort<Long> {
 
    private final PlatoReadDataJPARepository query;
    private final PlatoWriteDataJPARepository command;
@@ -76,5 +74,17 @@ public class PlatoPersistenceAdapter implements
                 .map(PlatoMapper::entityToDomain)
                 .toList();
 
+    }
+
+    @Override
+    public void deleteList(List<Long> id) {
+        List<Plato> platos = id.stream()
+                .map(this::obtenerPorId)
+                .toList();
+
+        platos.forEach(p -> {
+            p.setIsDelete(true);
+            this.save(p);
+        });
     }
 }

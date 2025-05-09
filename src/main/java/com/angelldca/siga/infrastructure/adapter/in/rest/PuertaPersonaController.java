@@ -15,6 +15,7 @@ import com.angelldca.siga.common.response.IResponse;
 import com.angelldca.siga.common.response.Message;
 import com.angelldca.siga.common.response.PaginatedResponse;
 
+import com.angelldca.siga.domain.model.Dpersona;
 import com.angelldca.siga.domain.model.PuertaPersona;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
@@ -26,8 +27,8 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api/puerta-persona")
 public class PuertaPersonaController {
-    private final CreateUseCase<PuertaPersona, CreatePuertaPersonaCommand> createUseCase;
-    private final UpdateUseCase<PuertaPersona, CreatePuertaPersonaCommand,Long> updateUseCase;
+    private final CreateUseCase<Dpersona, CreatePuertaPersonaCommand> createUseCase;
+    private final UpdateUseCase<Dpersona, CreatePuertaPersonaCommand,Long> updateUseCase;
     private final DeleteUseCase<PuertaPersona,UUID> deleteUseCase;
     private final GetUseCase<UUID> getUseCase;
     private final ListUseCase listUseCase;
@@ -41,14 +42,14 @@ public class PuertaPersonaController {
     }
     @PostMapping
     public ResponseEntity<?> create(@RequestBody CreatePuertaPersonaCommand command){
-        PuertaPersona puertaPersona =  createUseCase.create(command);
+        Dpersona puertaPersona =  createUseCase.create(command);
         IResponse response = new Message<>(puertaPersona.getId(), "CREATE_PUERTA_PERSONA");
         return ResponseEntity.ok(response);
     }
     @PatchMapping(path = "/{id}")
     public ResponseEntity<?>  update(@PathVariable Long id, @RequestBody CreatePuertaPersonaCommand command){
-        PuertaPersona puertaPersona =  updateUseCase.update(command, id);
-        IResponse response = new Message<>(puertaPersona.getId(), "UPDATE_PUERTA_PERSONA");
+        Dpersona persona =  updateUseCase.update(command, id);
+        IResponse response = new Message<>(persona.getId(), "UPDATE_PUERTA_PERSONA");
         return ResponseEntity.ok(response);
     }
 

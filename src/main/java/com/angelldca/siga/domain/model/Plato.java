@@ -15,5 +15,6 @@ public class Plato {
     private double precio;
     private String medida;
     private Boolean disponible;
+    private Boolean isDelete;
     private Empresa empresa;
 }

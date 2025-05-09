@@ -2,12 +2,15 @@ package com.angelldca.siga.application.service;
 
 
 import com.angelldca.siga.application.port.in.command.CreateUseCase;
+import com.angelldca.siga.application.port.in.command.DeleteListUseCase;
 import com.angelldca.siga.application.port.in.command.DeleteUseCase;
 import com.angelldca.siga.application.port.in.command.UpdateUseCase;
 import com.angelldca.siga.application.port.in.command.menu.CreateMenuCommand;
 import com.angelldca.siga.application.port.in.command.menu.UpdateMenuCommand;
 import com.angelldca.siga.application.port.in.query.GetUseCase;
 import com.angelldca.siga.application.port.in.query.ListUseCase;
+import com.angelldca.siga.application.port.out.DeleteListCommand;
+import com.angelldca.siga.application.port.out.DeleteListPort;
 import com.angelldca.siga.application.port.out.GetPort;
 import com.angelldca.siga.application.port.out.Menu.MenuCRUDPort;
 import com.angelldca.siga.application.port.out.menuEvento.MenuEventoCRUDPort;
@@ -38,7 +41,7 @@ import java.util.UUID;
 public class MenuService implements
         CreateUseCase<MenuEvento, CreateMenuCommand>,
         UpdateUseCase<Menu, UpdateMenuCommand,Long>,
-        DeleteUseCase<Menu,Long>,
+        DeleteUseCase<Menu,Long>, DeleteListUseCase<Long>,
         GetUseCase<Long>,
         ListUseCase {
 
@@ -46,17 +49,19 @@ public class MenuService implements
     private final MenuEventoCRUDPort menuEventoCRUDPort;
     private final GetPort<Evento,Long> eventoGetPort;
     private final LoadPlatosPort loadPlatosPort;
-
+    private final DeleteListPort<Long> deleteListPort;
 
     public MenuService(
             @Qualifier("menuPersistenceAdapter")MenuCRUDPort menuCRUDPort,
             @Qualifier("menuEventoPersistenceAdapter")MenuEventoCRUDPort menuEventoCRUDPort,
-            @Qualifier("eventPersistenceAdapter") GetPort<Evento,Long> eventoGetPort, LoadPlatosPort loadPlatosPort) {
+            @Qualifier("eventPersistenceAdapter") GetPort<Evento,Long> eventoGetPort, LoadPlatosPort loadPlatosPort,
+            @Qualifier("menuPersistenceAdapter")DeleteListPort<Long> deleteListPort) {
         this.menuCRUDPort = menuCRUDPort;
         this.menuEventoCRUDPort = menuEventoCRUDPort;
         this.eventoGetPort = eventoGetPort;
         this.loadPlatosPort = loadPlatosPort;
 
+        this.deleteListPort = deleteListPort;
     }
 
 
@@ -70,7 +75,7 @@ public class MenuService implements
 
         Menu entity = this.menuCRUDPort.save(new Menu(
                 null, total,
-                command.getDisponible(),
+                command.getDisponible(),false,
                 platos
         ));
         Evento evento = eventoGetPort.obtenerPorId(command.getEventoId());
@@ -121,5 +126,10 @@ public class MenuService implements
         }
         return new PaginatedResponse(menuResponse, data.getTotalPages(), data.getNumberOfElements(),
                 data.getTotalElements(), data.getSize(), data.getNumber());
+    }
+
+    @Override
+    public void deleteList(DeleteListCommand<Long> command) {
+        this.deleteListPort.deleteList(command.getIds());
     }
 }
