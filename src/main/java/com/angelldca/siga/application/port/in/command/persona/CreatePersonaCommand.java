@@ -30,5 +30,5 @@ public class CreatePersonaCommand {
     private String idexpediente;
     private String codigobarra;
     private EStatus estado;
-    private UUID empresaId;
+    private UUID empresa;
 }

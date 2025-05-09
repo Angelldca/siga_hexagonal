@@ -56,7 +56,7 @@ public class PersonaService implements
 
     @Override
     public Dpersona create(CreatePersonaCommand command) {
-        Empresa empresa = this.empresaGetPort.obtenerPorId(command.getEmpresaId());
+        Empresa empresa = this.empresaGetPort.obtenerPorId(command.getEmpresa());
         Dpersona persona = new Dpersona(
                 null,
                 command.getArea(), command.getRolinstitucional(),
