@@ -27,6 +27,7 @@ public class MenuEntity {
     private Long id;
     private Double totalPrecio;
     private Boolean disponible;
+    private Boolean isDelete = false;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "menu_plato",

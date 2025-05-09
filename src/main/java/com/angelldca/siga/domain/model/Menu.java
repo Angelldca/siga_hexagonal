@@ -16,5 +16,6 @@ public class Menu {
     private Long id;
     private Double totalPrecio;
     private Boolean disponible;
+    private Boolean isDelete;
     private List<Plato> platos;
 }

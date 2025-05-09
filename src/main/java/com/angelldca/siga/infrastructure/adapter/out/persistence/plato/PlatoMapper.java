@@ -11,6 +11,7 @@ public class PlatoMapper {
         plato.setNombre(platoEntity.getNombre());
         plato.setPrecio(platoEntity.getPrecio());
         plato.setMedida(platoEntity.getMedida());
+        plato.setIsDelete(platoEntity.getIsDelete());
         plato.setEmpresa(EmpresaMapper.entityToDomain(platoEntity.getEmpresa()));
         return plato;
     }
@@ -22,6 +23,7 @@ public class PlatoMapper {
         platoEntity.setPrecio(plato.getPrecio());
         platoEntity.setMedida(plato.getMedida());
         platoEntity.setNombre(plato.getNombre());
+        platoEntity.setIsDelete(plato.getIsDelete());
         platoEntity.setEmpresa(EmpresaMapper.domainToEntity(plato.getEmpresa()));
         return platoEntity;
     }

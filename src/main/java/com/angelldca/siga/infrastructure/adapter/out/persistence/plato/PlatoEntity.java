@@ -25,6 +25,8 @@ public class PlatoEntity {
     private Double precio;
     private String medida;
     private Boolean disponible;
+
+    private Boolean isDelete = false;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "empresa_id", nullable = false)
     private EmpresaEntity empresa;

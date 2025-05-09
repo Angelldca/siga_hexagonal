@@ -2,11 +2,13 @@ package com.angelldca.siga.infrastructure.adapter.in.rest;
 
 
 import com.angelldca.siga.application.port.in.command.CreateUseCase;
+import com.angelldca.siga.application.port.in.command.DeleteListUseCase;
 import com.angelldca.siga.application.port.in.command.DeleteUseCase;
 import com.angelldca.siga.application.port.in.command.UpdateUseCase;
 import com.angelldca.siga.application.port.in.command.plato.*;
 import com.angelldca.siga.application.port.in.query.GetUseCase;
 import com.angelldca.siga.application.port.in.query.ListUseCase;
+import com.angelldca.siga.application.port.out.DeleteListCommand;
 import com.angelldca.siga.application.service.PlatoService;
 import com.angelldca.siga.common.response.IResponse;
 import com.angelldca.siga.common.anotations.WebAdapter;
@@ -30,6 +32,7 @@ public class PlatoController {
     private final DeleteUseCase<Plato,Long> deletePlatoUseCase;
     private final GetUseCase<Long> getPlatoUseCase;
     private final ListUseCase listPlatoUseCase;
+    private final DeleteListUseCase<Long> deleteListUseCase;
 
 
     public PlatoController(PlatoService platoService) {
@@ -38,6 +41,7 @@ public class PlatoController {
         this.deletePlatoUseCase = platoService;
         this.getPlatoUseCase = platoService;
         this.listPlatoUseCase = platoService;
+        this.deleteListUseCase = platoService;
     }
 
     @PostMapping
@@ -68,6 +72,12 @@ public class PlatoController {
     public ResponseEntity<?> search(@RequestBody SearchRequest request) {
         Pageable pageable = PageableUtil.createPageable(request);
         PaginatedResponse response = this.listPlatoUseCase.search(pageable, request.getFilter());
+        return ResponseEntity.ok(response);
+    }
+    @DeleteMapping(path = "/delete-list")
+    public ResponseEntity<?> deleteAll(@RequestBody DeleteListCommand<Long> command){
+        deleteListUseCase.deleteList(command);
+        IResponse response = new Message<>(null, "DELETE_LIST");
         return ResponseEntity.ok(response);
     }
 }

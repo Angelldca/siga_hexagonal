@@ -17,6 +17,6 @@ public class CreatePlatoCommand implements ICommand {
     private Double precio;
     private Boolean disponible;
     private String medida;
-    private UUID businessId;
+    private UUID empresa;
 
 }

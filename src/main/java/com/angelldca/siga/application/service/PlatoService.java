@@ -2,21 +2,19 @@ package com.angelldca.siga.application.service;
 
 
 import com.angelldca.siga.application.port.in.command.CreateUseCase;
+import com.angelldca.siga.application.port.in.command.DeleteListUseCase;
 import com.angelldca.siga.application.port.in.command.DeleteUseCase;
 import com.angelldca.siga.application.port.in.command.UpdateUseCase;
 import com.angelldca.siga.application.port.in.command.plato.*;
 import com.angelldca.siga.application.port.in.query.GetUseCase;
 import com.angelldca.siga.application.port.in.query.ListUseCase;
-import com.angelldca.siga.application.port.out.GetPort;
+import com.angelldca.siga.application.port.out.*;
 import com.angelldca.siga.common.response.PlatoResponse;
 import com.angelldca.siga.domain.model.Empresa;
 import com.angelldca.siga.domain.rule.Plato.PlatoNameNotNullRule;
 import com.angelldca.siga.domain.rule.RulesChecker;
 import com.angelldca.siga.infrastructure.adapter.out.persistence.specification.GenericSpecificationsBuilder;
 import com.angelldca.siga.common.response.PaginatedResponse;
-import com.angelldca.siga.application.port.out.DeletePort;
-import com.angelldca.siga.application.port.out.ListPort;
-import com.angelldca.siga.application.port.out.SavePort;
 import com.angelldca.siga.common.anotations.UseCase;
 import com.angelldca.siga.domain.model.Plato;
 import com.angelldca.siga.common.criteria.FilterCriteria;
@@ -35,7 +33,7 @@ import java.util.UUID;
 public class PlatoService implements
         CreateUseCase<Plato,CreatePlatoCommand>,
         UpdateUseCase<Plato,UpdatePlatoCommand,Long>,
-        DeleteUseCase<Plato,Long>,
+        DeleteUseCase<Plato,Long>, DeleteListUseCase<Long>,
         GetUseCase<Long>,
         ListUseCase {
 
@@ -44,30 +42,34 @@ public class PlatoService implements
     private final ListPort<PlatoEntity> listPlatosPort;
     private final SavePort<Plato> savePlatoPort;
     private final GetPort<Empresa, UUID> getPortEmpresa;
+    private final DeleteListPort<Long> deleteListPort;
 
     public PlatoService(
             @Qualifier("platoPersistenceAdapter") DeletePort<Plato,Long> deletePlatoPort,
             @Qualifier("platoPersistenceAdapter") GetPort<Plato,Long> getPlatoPort,
             @Qualifier("platoPersistenceAdapter") ListPort<PlatoEntity> listPlatosPort,
             @Qualifier("platoPersistenceAdapter") SavePort<Plato> savePlatoPort,
-            GetPort<Empresa, UUID> getPortEmpresa) {
+            @Qualifier("empresaPersistenceAdapter")GetPort<Empresa, UUID> getPortEmpresa,
+            @Qualifier("platoPersistenceAdapter") DeleteListPort<Long> deleteListPort) {
         this.deletePlatoPort = deletePlatoPort;
         this.getPlatoPort = getPlatoPort;
         this.listPlatosPort = listPlatosPort;
         this.savePlatoPort = savePlatoPort;
         this.getPortEmpresa = getPortEmpresa;
+        this.deleteListPort = deleteListPort;
     }
 
     @Override
     public Plato create(CreatePlatoCommand command) {
         RulesChecker.checkRule(new PlatoNameNotNullRule(command.getNombre()));
-        Empresa empresa = this.getPortEmpresa.obtenerPorId(command.getBusinessId());
+        Empresa empresa = this.getPortEmpresa.obtenerPorId(command.getEmpresa());
         Plato entity = new Plato(
                 null,
                 command.getNombre(),
                 command.getPrecio(),
                 command.getMedida(),
                 command.getDisponible(),
+                false,
                 empresa
         );
 
@@ -109,5 +111,10 @@ public class PlatoService implements
         }
         return new PaginatedResponse(platoResponses, data.getTotalPages(), data.getNumberOfElements(),
                 data.getTotalElements(), data.getSize(), data.getNumber());
+    }
+
+    @Override
+    public void deleteList(DeleteListCommand<Long> command) {
+        this.deleteListPort.deleteList(command.getIds());
     }
 }
