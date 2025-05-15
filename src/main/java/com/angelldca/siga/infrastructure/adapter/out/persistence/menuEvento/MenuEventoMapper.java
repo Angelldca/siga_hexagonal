@@ -10,6 +10,8 @@ public class MenuEventoMapper {
         domain.setId(entity.getId());
         domain.setMenu(MenuMapper.entityToDomain(entity.getMenu()));
         domain.setEvento(EventoMapper.entityToDomain(entity.getEvento()));
+        domain.setFecha(entity.getFecha());
+        domain.setIsDelete(entity.getIsDelete());
         return domain;
     }
 
@@ -18,6 +20,8 @@ public class MenuEventoMapper {
         entity.setId(domain.getId());
         entity.setMenu(MenuMapper.domainToEntity(domain.getMenu()));
         entity.setEvento(EventoMapper.domainToEntity(domain.getEvento()));
+        entity.setFecha(domain.getFecha());
+        entity.setIsDelete(domain.getIsDelete());
         return entity;
     }
 }

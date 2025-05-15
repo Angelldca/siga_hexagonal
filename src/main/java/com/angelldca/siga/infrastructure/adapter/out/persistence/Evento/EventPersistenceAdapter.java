@@ -28,7 +28,8 @@ import java.util.List;
 @Qualifier("eventPersistenceAdapter")
 public class EventPersistenceAdapter implements
         DeletePort<Evento,Long>, GetPort<Evento,Long>, GetAllEventById,
-        ListPort<EventoEntity>, SavePort<Evento>, CheckEventUniquePort, DeleteEventListPort {
+        ListPort<EventoEntity>, SavePort<Evento>,
+        CheckEventUniquePort, DeleteEventListPort {
 
     private final EventReadDataJPARepository query;
     private final EventWriteDataJPARepository command;

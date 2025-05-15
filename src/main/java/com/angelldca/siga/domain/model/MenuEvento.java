@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
 
 
@@ -17,4 +19,6 @@ public class MenuEvento {
     private UUID id;
     private Menu menu;
     private Evento evento;
+    private LocalDate fecha;
+    private Boolean isDelete;
 }

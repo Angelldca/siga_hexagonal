@@ -1,14 +1,13 @@
 package com.angelldca.siga.common.response;
 
 
-import com.angelldca.siga.domain.model.Evento;
+
 import com.angelldca.siga.domain.model.Menu;
-import com.angelldca.siga.domain.model.Plato;
+;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.math.BigDecimal;
 import java.util.List;
 
 @NoArgsConstructor
