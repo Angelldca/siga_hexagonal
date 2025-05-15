@@ -9,10 +9,10 @@ import com.angelldca.siga.application.port.in.command.menu.CreateMenuCommand;
 import com.angelldca.siga.application.port.in.command.menu.UpdateMenuCommand;
 import com.angelldca.siga.application.port.in.query.GetUseCase;
 import com.angelldca.siga.application.port.in.query.ListUseCase;
-import com.angelldca.siga.application.port.out.DeleteListCommand;
-import com.angelldca.siga.application.port.out.DeleteListPort;
-import com.angelldca.siga.application.port.out.GetPort;
+import com.angelldca.siga.application.port.out.*;
 import com.angelldca.siga.application.port.out.Menu.MenuCRUDPort;
+import com.angelldca.siga.application.port.out.evento.GetAllEventById;
+import com.angelldca.siga.application.port.out.menuEvento.GetMenuEventoByMenuIdPort;
 import com.angelldca.siga.application.port.out.menuEvento.MenuEventoCRUDPort;
 import com.angelldca.siga.application.port.out.plato.LoadPlatosPort;
 import com.angelldca.siga.common.anotations.UseCase;
@@ -20,10 +20,7 @@ import com.angelldca.siga.common.criteria.FilterCriteria;
 import com.angelldca.siga.common.response.IResponse;
 import com.angelldca.siga.common.response.MenuResponse;
 import com.angelldca.siga.common.response.PaginatedResponse;
-import com.angelldca.siga.domain.model.Evento;
-import com.angelldca.siga.domain.model.Menu;
-import com.angelldca.siga.domain.model.MenuEvento;
-import com.angelldca.siga.domain.model.Plato;
+import com.angelldca.siga.domain.model.*;
 import com.angelldca.siga.infrastructure.adapter.out.persistence.menu.MenuEntity;
 import com.angelldca.siga.infrastructure.adapter.out.persistence.menu.MenuMapper;
 import com.angelldca.siga.infrastructure.adapter.out.persistence.specification.GenericSpecificationsBuilder;
@@ -50,18 +47,21 @@ public class MenuService implements
     private final GetPort<Evento,Long> eventoGetPort;
     private final LoadPlatosPort loadPlatosPort;
     private final DeleteListPort<Long> deleteListPort;
+    private final GetMenuEventoByMenuIdPort getMenuEventoByMenuIdPort;
 
     public MenuService(
             @Qualifier("menuPersistenceAdapter")MenuCRUDPort menuCRUDPort,
-            @Qualifier("menuEventoPersistenceAdapter")MenuEventoCRUDPort menuEventoCRUDPort,
-            @Qualifier("eventPersistenceAdapter") GetPort<Evento,Long> eventoGetPort, LoadPlatosPort loadPlatosPort,
-            @Qualifier("menuPersistenceAdapter")DeleteListPort<Long> deleteListPort) {
+            MenuEventoCRUDPort menuEventoCRUDPort,
+            @Qualifier("eventPersistenceAdapter") GetPort<Evento,Long> eventoGetPort,
+            LoadPlatosPort loadPlatosPort,
+            @Qualifier("menuPersistenceAdapter")DeleteListPort<Long> deleteListPort,
+            @Qualifier("menuEventoPersistenceAdapter") GetMenuEventoByMenuIdPort getMenuEventoByMenuIdPort) {
         this.menuCRUDPort = menuCRUDPort;
         this.menuEventoCRUDPort = menuEventoCRUDPort;
         this.eventoGetPort = eventoGetPort;
         this.loadPlatosPort = loadPlatosPort;
-
         this.deleteListPort = deleteListPort;
+        this.getMenuEventoByMenuIdPort = getMenuEventoByMenuIdPort;
     }
 
 
@@ -82,7 +82,7 @@ public class MenuService implements
 
         return  this.menuEventoCRUDPort.save(new MenuEvento(
                 UUID.randomUUID(),
-                entity,evento
+                entity,evento,command.getFecha(),false
         ));
     }
 
@@ -103,6 +103,10 @@ public class MenuService implements
                 .sum();
         entity.setTotalPrecio(total);
         entity.setDisponible(command.getDisponible());
+        MenuEvento menuEvento = this.getMenuEventoByMenuIdPort.getMenuEventoByMenuId(id);
+        menuEvento.setEvento(this.eventoGetPort.obtenerPorId(command.getEventoId()));
+        menuEvento.setFecha(command.getFecha());
+        this.menuEventoCRUDPort.save(menuEvento);
         return this.menuCRUDPort.save(entity);
     }
 

@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 @NoArgsConstructor
@@ -15,12 +16,14 @@ import java.util.UUID;
 @Setter
 public class MenuEventoResponse implements IResponse{
     private UUID id;
-    private Menu menu;
-    private Evento evento;
+    private MenuResponse menu;
+    private EventoResponse evento;
+    private LocalDate fecha;
 
     public MenuEventoResponse(MenuEvento menuEvento) {
         this.id = menuEvento.getId();
-        this.menu = menuEvento.getMenu();
-        this.evento = menuEvento.getEvento();
+        this.menu = new MenuResponse(menuEvento.getMenu());
+        this.evento = new EventoResponse(menuEvento.getEvento());
+        this.fecha = menuEvento.getFecha();
     }
 }

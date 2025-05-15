@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -20,4 +22,5 @@ public class CreateMenuCommand {
     private Boolean disponible;
     private Long eventoId;
     private List<Long> platosId;
+    private LocalDate fecha;
 }

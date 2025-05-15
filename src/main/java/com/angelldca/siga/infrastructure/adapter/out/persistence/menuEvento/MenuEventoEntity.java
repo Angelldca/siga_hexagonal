@@ -12,6 +12,7 @@ import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -32,6 +33,9 @@ public class MenuEventoEntity {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "evento_id")
     private EventoEntity evento;
+
+    private LocalDate fecha;
+    private Boolean isDelete = false;
 
     @CreationTimestamp
     @Column(updatable = false)
