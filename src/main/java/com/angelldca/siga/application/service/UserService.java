@@ -21,6 +21,7 @@ import com.angelldca.siga.infrastructure.adapter.out.persistence.usuario.UserEnt
 import com.angelldca.siga.infrastructure.adapter.out.persistence.usuario.UsuarioMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -30,6 +31,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
+
+@Profile("auth")
 @UseCase
 public class UserService implements
         CreateUseCase<User, CreateUserCommand>,

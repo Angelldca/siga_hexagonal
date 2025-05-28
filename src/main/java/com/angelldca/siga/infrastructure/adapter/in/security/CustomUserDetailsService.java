@@ -6,6 +6,7 @@ import com.angelldca.siga.application.port.out.user.GetByEmailPort;
 import com.angelldca.siga.application.port.out.user_permission_business.GetAllByUserIdPort;
 import com.angelldca.siga.domain.model.User;
 import com.angelldca.siga.domain.model.UserPermissionBusiness;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
 
+
+@Profile("auth")
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 

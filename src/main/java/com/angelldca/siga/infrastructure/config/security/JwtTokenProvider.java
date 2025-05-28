@@ -4,6 +4,7 @@ package com.angelldca.siga.infrastructure.config.security;
 import com.angelldca.siga.infrastructure.adapter.in.security.CustomUserDetails;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -11,6 +12,8 @@ import org.springframework.stereotype.Component;
 import java.util.Date;
 import java.util.stream.Collectors;
 
+
+@Profile("auth")
 @Component
 public class JwtTokenProvider {
     @Value("${jwt.auth.secret.key}")

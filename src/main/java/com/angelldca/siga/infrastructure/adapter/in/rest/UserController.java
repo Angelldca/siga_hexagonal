@@ -20,12 +20,15 @@ import com.angelldca.siga.common.response.Message;
 import com.angelldca.siga.common.response.PaginatedResponse;
 import com.angelldca.siga.domain.model.Menu;
 import com.angelldca.siga.domain.model.User;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
+
+@Profile("auth")
 @WebAdapter
 @RestController
 @RequestMapping("/api/user")
