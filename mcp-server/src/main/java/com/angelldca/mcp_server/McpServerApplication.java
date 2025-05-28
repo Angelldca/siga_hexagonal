@@ -21,20 +21,20 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 
 import java.util.List;
 
 
 @SpringBootApplication
-/*
-* @EnableJpaRepositories(basePackages = "com.angelldca.siga.infrastructure.adapter.out.repository")
+@EnableJpaRepositories(basePackages = "com.angelldca.siga.infrastructure.adapter.out.repository")
 @EntityScan(basePackages = "com.angelldca.siga.infrastructure.adapter.out.persistence")
 @ComponentScan(basePackages = {
 		"com.angelldca.siga",
 		"com.angelldca.mcp_server"
 })
-* */
+
 
 public class McpServerApplication {
 	private static final Logger logger = LoggerFactory.getLogger(McpServerApplication.class);
