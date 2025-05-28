@@ -4,6 +4,7 @@ import com.angelldca.siga.application.port.out.GetPort;
 import com.angelldca.siga.domain.model.User;
 import com.angelldca.siga.domain.model.UserPermissionBusiness;
 import com.angelldca.siga.infrastructure.adapter.out.persistence.usuario.EUserType;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,6 +14,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+
+@Profile("auth")
 public class CustomUserDetails implements UserDetails {
     private final User user;
 

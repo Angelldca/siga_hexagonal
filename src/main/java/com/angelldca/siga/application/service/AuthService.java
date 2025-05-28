@@ -7,11 +7,13 @@ import com.angelldca.siga.common.response.AuthResponse;
 import com.angelldca.siga.application.port.in.command.auth.AuthRequest;
 import com.angelldca.siga.infrastructure.adapter.in.security.CustomUserDetailsService;
 import com.angelldca.siga.infrastructure.config.security.JwtTokenProvider;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 
+@Profile("auth")
 @UseCase
 public class AuthService {
     private final AuthenticationManager authenticationManager;

@@ -5,6 +5,7 @@ import com.angelldca.siga.application.port.in.command.auth.RefreshTokenRequestCo
 import com.angelldca.siga.application.service.AuthService;
 import com.angelldca.siga.common.response.AuthResponse;
 import com.angelldca.siga.application.port.in.command.auth.AuthRequest;
+import org.springframework.context.annotation.Profile;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.Duration;
 
+
+@Profile("auth")
 @RestController
 @RequestMapping("/auth")
 public class AuthController {

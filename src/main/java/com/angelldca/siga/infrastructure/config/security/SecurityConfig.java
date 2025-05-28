@@ -5,6 +5,7 @@ import com.angelldca.siga.infrastructure.adapter.in.security.CustomUserDetailsSe
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
@@ -21,6 +22,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
+
+@Profile("auth")
 @Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
