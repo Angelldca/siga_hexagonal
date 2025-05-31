@@ -32,6 +32,7 @@
 	<modules>
 		<module>siga</module>
 		<module>mcp-server</module>
+		<module>mcp-client</module>
 	</modules>
 
 	<!-- Opcional: plugins comunes (como maven-compiler-plugin) -->
